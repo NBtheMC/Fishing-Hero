@@ -6,7 +6,7 @@ class Play extends Phaser.Scene{
 
     }
     create(){
-        let pointer = scene.input.activePointer;
+        this.pointer = scene.input.activePointer;
         scene.input.on('pointerdown', function(pointer){
             let touchX = pointer.x;
             let touchY = pointer.y;
