@@ -6,18 +6,17 @@ class Play extends Phaser.Scene{
 
     }
     create(){
-        this.pointer = scene.input.activePointer;
-        scene.input.on('pointerdown', function(pointer){
-            let touchX = pointer.x;
-            let touchY = pointer.y;
-            // ...
-         });
+        this.mouseDownX;
+        this.mouseDownY;
 
-        scene.input.on('pointerup', function(pointer){
-            let touchX = pointer.x;
-            let touchY = pointer.y;
-            // ...
-        });
+        this.input.on('pointerdown', function (pointer) {
+            console.log('down');
+        }, this);
+
+        this.input.on('pointerup', function (pointer) {
+            console.log('up');
+            //calculate vector and spit it out
+        }, this);
     }
     update(){
         
