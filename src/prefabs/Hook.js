@@ -1,7 +1,11 @@
-class Hook extends Phaser.Physics.Matter.Sprite{
+class Hook extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, x, y, texture, frame){
         super(scene, x, y, texture, frame);
         //add to scene
-        scene.add.existing(this); 
+        scene.add.existing(this);     
+        scene.physics.add.existing(this);
+    }
+    launch(xPower, yPower){
+        this.setVelocity(xPower, yPower);
     }
 }

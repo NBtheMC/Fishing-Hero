@@ -3,19 +3,31 @@ class Play extends Phaser.Scene{
         super("playScene");
     }
     preload(){
-
+        this.load.image('player', 'assets/tempPlayer.png');
+        this.load.image('hook', 'assets/tempHook.png');
     }
     create(){
+        //setup player with hook
+        this.Player = new Player(this, game.config.width/2, game.config.height/2, 'player');
+        this.Hook = new Hook(this, game.config.width/2, game.config.height/2, 'hook');
+
+        //mouse stuff
         this.mouseDownX;
         this.mouseDownY;
 
         this.input.on('pointerdown', function (pointer) {
             console.log('down');
+            this.mouseDownX = pointer.x;
+            this.mouseDownY = pointer.y;
         }, this);
 
         this.input.on('pointerup', function (pointer) {
             console.log('up');
-            //calculate vector and spit it out
+            //calculate vector
+            let diffX = pointer.x - this.mouseDownX;
+            let diffY = pointer.y - this.mouseDownY;
+            console.log('diffX: '+ diffX + '\ndiffY: ' + diffY);
+            this.Hook.launch(diffX,diffY);
         }, this);
     }
     update(){

@@ -4,18 +4,18 @@ let config = {
     height: 720,
     physics: {
         default: 'arcade',
-        matter: {
-            gravity: {
-                y: 200
-            },
-            debug: true
-        },
+        // matter: {
+        //     gravity: {
+        //         y: 200
+        //     },
+        //     debug: true
+        // },
         arcade: {
             debug: true,
-             gravity: {
-                 x: 0,
-                 y: 200
-             }
+            //  gravity: {
+            //      x: 0,
+            //      y: 200
+            // }
         }
     },
     scene: [Play, Menu]
