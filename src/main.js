@@ -22,3 +22,6 @@ let config = {
 }
 
 let game = new Phaser.Game(config);
+
+// Global Variables
+let keyA, keyD;
