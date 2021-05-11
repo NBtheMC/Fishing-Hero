@@ -7,14 +7,70 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         //this.enableBody();
         this.moveSpeed = 10;
     }
+}
 
-    update() {
-        // Left and Right movement
+class IdleState extends State{
+    // enter(scene, player){
+    //     //play appropriate animation
+
+    // }
+    execute(scene, player){
+        //go into move state or cast
+        if(keyA.isDown || keyD.isDown) {
+            this.stateMachine.transition('move');
+            return;
+        }
+    }
+}
+
+class MoveState extends State{
+    enter(scene, player){
+        //play appropriate animation
+
+    }
+    execute(scene, player){
+        player.body.setVelocityX(0);
+        //tight movement
         if(keyA.isDown) {
-            this.x -= this.moveSpeed;
+            player.body.setVelocityX(-this.moveSpeed);
+            console.log("zooming");
+            return;
         }
         if(keyD.isDown) {
-            this.x += this.moveSpeed;
+            player.body.setVelocityX(this.moveSpeed);
+            console.log("zooming");
+            return;
         }
+    }
+}
+
+class CastState extends State{
+    enter(scene, player){
+        //setup arrow
+
+    }
+    execute(scene, player){
+        //tight movement
+    }
+}
+
+class ReelState extends State{
+    enter(scene, player){
+        //play appropriate animation
+
+    }
+    execute(scene, player){
+        //fly towards hook
+    }
+}
+
+class FreefallState extends State{
+    enter(scene, player){
+        //play appropriate animation
+
+        //apply gravity
+    }
+    execute(scene, player){
+        //tight movement
     }
 }

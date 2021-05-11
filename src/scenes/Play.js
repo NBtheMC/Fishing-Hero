@@ -9,8 +9,16 @@ class Play extends Phaser.Scene{
     }
 
     create(){
-        //setup player with hook
-        this.Player = new Player(this, game.config.width/2, game.config.height/2, 'player').setOrigin(0, 0);
+        //setup player with state machine
+        this.player = new Player(this, game.config.width/2, game.config.height/2, 'player').setOrigin(0, 0);
+        this.playerFSM = new StateMachine('move', {
+            idle: new IdleState(),
+            move: new MoveState(),
+            cast: new CastState(),
+            reel: new ReelState(),
+            freefall: new FreefallState(),
+        }, [this, this.player]);
+        //setup hook
         this.Hook = new Hook(this, game.config.width/2, game.config.height/2, 'hook');
 
         //mouse stuff
@@ -39,7 +47,7 @@ class Play extends Phaser.Scene{
     }
 
     update(){
-        this.Player.update();
+        this.playerFSM.step();
         this.Hook.update();
     }
 }
