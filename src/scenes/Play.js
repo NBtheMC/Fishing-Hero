@@ -11,7 +11,7 @@ class Play extends Phaser.Scene{
     create(){
         //setup player with state machine
         this.player = new Player(this, game.config.width/2, game.config.height/2, 'player').setOrigin(0, 0);
-        this.playerFSM = new StateMachine('move', {
+        this.playerFSM = new StateMachine('idle', {
             idle: new IdleState(),
             move: new MoveState(),
             cast: new CastState(),
@@ -47,6 +47,7 @@ class Play extends Phaser.Scene{
     }
 
     update(){
+        //this.player.update();
         this.playerFSM.step();
         this.Hook.update();
     }

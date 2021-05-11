@@ -5,7 +5,23 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this); 
         scene.physics.add.existing(this);
         //this.enableBody();
-        this.moveSpeed = 10;
+        this.moveSpeed = 100;
+    }
+    update(){
+        // if(keyA.isDown) {
+        //     this.body.setVelocityX(-this.moveSpeed);
+        //     console.log("zooming");
+        //     return;
+        // }
+        // if(keyD.isDown) {
+        //     this.body.setVelocityX(this.moveSpeed);
+        //     console.log("zooming");
+        //     return;
+        // }
+        //console.log(this.velocityX);
+    }
+    getMoveSpeed(){
+        return this.moveSpeed;
     }
 }
 
@@ -15,6 +31,7 @@ class IdleState extends State{
 
     // }
     execute(scene, player){
+        console.log("idling");
         //go into move state or cast
         if(keyA.isDown || keyD.isDown) {
             this.stateMachine.transition('move');
@@ -29,16 +46,19 @@ class MoveState extends State{
 
     }
     execute(scene, player){
+        console.log("moving");
         player.body.setVelocityX(0);
         //tight movement
         if(keyA.isDown) {
-            player.body.setVelocityX(-this.moveSpeed);
-            console.log("zooming");
+            player.body.setVelocityX(-player.getMoveSpeed());
+            console.log(player.getMoveSpeed());
+            this.stateMachine.transition('idle');
             return;
         }
         if(keyD.isDown) {
-            player.body.setVelocityX(this.moveSpeed);
-            console.log("zooming");
+            player.body.setVelocityX(player.getMoveSpeed());
+            console.log(player.getMoveSpeed());
+            this.stateMachine.transition('idle');
             return;
         }
     }
