@@ -6,6 +6,10 @@ class Hook extends Phaser.Physics.Arcade.Sprite{
         scene.physics.add.existing(this);
     }
     launch(xPower, yPower){
-        this.setVelocity(xPower, yPower);
+        this.setVelocity(4*xPower, 4*yPower);
+        this.setGravity(0, 800);
+    }
+    reset(){
+
     }
 }

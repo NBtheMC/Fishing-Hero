@@ -42,7 +42,7 @@ class Play extends Phaser.Scene{
             let diffX = pointer.x - this.mouseDownX;
             let diffY = pointer.y - this.mouseDownY;
             console.log('diffX: '+ diffX + '\ndiffY: ' + diffY);
-            this.Hook.launch(diffX,diffY);
+            this.Hook.launch(-diffX,-diffY);
         }, this);
     }
 
