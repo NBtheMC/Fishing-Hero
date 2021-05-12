@@ -58,9 +58,9 @@ class Play extends Phaser.Scene{
         graphics.clear();
         graphics.lineStyle(2, 0xffffff, 1);
         this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
-        this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
+        this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.Hook.y);
         this.endPoint = new Phaser.Math.Vector2(this.Hook.x, this.Hook.y);
-        this.rope = new Phaser.Curves.CubicBezier(this.startPoint, this.controlPoint, this.controlPoint, this.endPoint);
+        this.rope = new Phaser.Curves.CubicBezier(this.startPoint, this.controlPoint, this.endPoint, this.endPoint);
         this.rope.draw(graphics);
     }
 
