@@ -44,10 +44,29 @@ class Play extends Phaser.Scene{
             console.log('diffX: '+ diffX + '\ndiffY: ' + diffY);
             this.Hook.launch(-diffX,-diffY);
         }, this);
+
+        //rope
+        graphics = this.add.graphics();
+        this.rope;
+        this.startPoint;
+        this.controlPoint;
+        this.endPoint;
+    }
+
+    drawRope(){
+        //redraw the rope
+        graphics.clear();
+        graphics.lineStyle(2, 0xffffff, 1);
+        this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
+        this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
+        this.endPoint = new Phaser.Math.Vector2(this.Hook.x, this.Hook.y);
+        this.rope = new Phaser.Curves.CubicBezier(this.startPoint, this.controlPoint, this.controlPoint, this.endPoint);
+        this.rope.draw(graphics);
     }
 
     update(){
         //this.player.update();
+        this.drawRope();
         this.playerFSM.step();
         this.Hook.update();
     }
