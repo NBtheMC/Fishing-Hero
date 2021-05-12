@@ -6,19 +6,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
         //this.enableBody();
         this.moveSpeed = 100;
-    }
-    update(){
-        // if(keyA.isDown) {
-        //     this.body.setVelocityX(-this.moveSpeed);
-        //     console.log("zooming");
-        //     return;
-        // }
-        // if(keyD.isDown) {
-        //     this.body.setVelocityX(this.moveSpeed);
-        //     console.log("zooming");
-        //     return;
-        // }
-        //console.log(this.velocityX);
+        this.hook;
     }
     getMoveSpeed(){
         return this.moveSpeed;
@@ -26,12 +14,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 }
 
 class IdleState extends State{
-    // enter(scene, player){
-    //     //play appropriate animation
-
-    // }
-    execute(scene, player){
-        console.log("idling");
+    enter(scene){
+        //play appropriate animation
+        let p = scene.player;
+        p.body.setVelocityX(0);
+    }
+    execute(scene){
         //go into move state or cast
         if(keyA.isDown || keyD.isDown) {
             this.stateMachine.transition('move');
@@ -41,23 +29,22 @@ class IdleState extends State{
 }
 
 class MoveState extends State{
-    enter(scene, player){
+    enter(scene){
         //play appropriate animation
 
     }
-    execute(scene, player){
-        console.log("moving");
-        player.body.setVelocityX(0);
+    execute(scene){
+        let p = scene.player;
         //tight movement
         if(keyA.isDown) {
-            player.body.setVelocityX(-player.getMoveSpeed());
-            console.log(player.getMoveSpeed());
-            this.stateMachine.transition('idle');
+            p.body.setVelocityX(-p.getMoveSpeed());
             return;
         }
-        if(keyD.isDown) {
-            player.body.setVelocityX(player.getMoveSpeed());
-            console.log(player.getMoveSpeed());
+        else if(keyD.isDown) {
+            p.body.setVelocityX(p.getMoveSpeed());
+            return;
+        }
+        else{
             this.stateMachine.transition('idle');
             return;
         }
@@ -65,32 +52,32 @@ class MoveState extends State{
 }
 
 class CastState extends State{
-    enter(scene, player){
+    enter(scene){
         //setup arrow
 
     }
-    execute(scene, player){
+    execute(scene){
         //tight movement
     }
 }
 
 class ReelState extends State{
-    enter(scene, player){
+    enter(scene){
         //play appropriate animation
 
     }
-    execute(scene, player){
+    execute(scene){
         //fly towards hook
     }
 }
 
 class FreefallState extends State{
-    enter(scene, player){
+    enter(scene){
         //play appropriate animation
 
         //apply gravity
     }
-    execute(scene, player){
+    execute(scene){
         //tight movement
     }
 }

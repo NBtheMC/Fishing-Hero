@@ -17,7 +17,7 @@ class Play extends Phaser.Scene{
             cast: new CastState(),
             reel: new ReelState(),
             freefall: new FreefallState(),
-        }, [this, this.player]);
+        }, [this]);
         //setup hook
         this.Hook = new Hook(this, game.config.width/2, game.config.height/2, 'hook');
 
