@@ -31,18 +31,22 @@ class Play extends Phaser.Scene{
 
         // Hook shenanigans
         this.input.on('pointerdown', function (pointer) {
-            console.log('down');
-            this.mouseDownX = pointer.x;
-            this.mouseDownY = pointer.y;
+            if(this.playerFSM.state == 'idle'){
+                console.log('down');
+                this.mouseDownX = pointer.x;
+                this.mouseDownY = pointer.y;
+            }
         }, this);
 
         this.input.on('pointerup', function (pointer) {
-            console.log('up');
-            //calculate vector
-            let diffX = pointer.x - this.mouseDownX;
-            let diffY = pointer.y - this.mouseDownY;
-            console.log('diffX: '+ diffX + '\ndiffY: ' + diffY);
-            this.hook.launch(-diffX,-diffY);
+            if(this.playerFSM.state == 'idle'){
+                console.log('up');
+                //calculate vector
+                let diffX = pointer.x - this.mouseDownX;
+                let diffY = pointer.y - this.mouseDownY;
+                console.log('diffX: '+ diffX + '\ndiffY: ' + diffY);
+                this.hook.launch(-diffX,-diffY);
+            }
         }, this);
 
         //rope
