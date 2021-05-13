@@ -19,7 +19,7 @@ class Play extends Phaser.Scene{
             freefall: new FreefallState(),
         }, [this]);
         //setup hook
-        this.Hook = new Hook(this, game.config.width/2, game.config.height/2, 'hook');
+        this.hook = new Hook(this, game.config.width/2, game.config.height/2, 'hook');
 
         //mouse stuff
         this.mouseDownX;
@@ -42,7 +42,7 @@ class Play extends Phaser.Scene{
             let diffX = pointer.x - this.mouseDownX;
             let diffY = pointer.y - this.mouseDownY;
             console.log('diffX: '+ diffX + '\ndiffY: ' + diffY);
-            this.Hook.launch(-diffX,-diffY);
+            this.hook.launch(-diffX,-diffY);
         }, this);
 
         //rope
@@ -58,8 +58,8 @@ class Play extends Phaser.Scene{
         graphics.clear();
         graphics.lineStyle(2, 0xffffff, 1);
         this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
-        this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.Hook.y);
-        this.endPoint = new Phaser.Math.Vector2(this.Hook.x, this.Hook.y);
+        this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.hook.y);
+        this.endPoint = new Phaser.Math.Vector2(this.hook.x, this.hook.y);
         this.rope = new Phaser.Curves.CubicBezier(this.startPoint, this.controlPoint, this.endPoint, this.endPoint);
         this.rope.draw(graphics);
     }
@@ -68,6 +68,6 @@ class Play extends Phaser.Scene{
         //this.player.update();
         this.drawRope();
         this.playerFSM.step();
-        this.Hook.update();
+        this.hook.update();
     }
 }
