@@ -19,7 +19,7 @@ class Play extends Phaser.Scene{
             freefall: new FreefallState(),
         }, [this]);
         //setup hook
-        this.hook = new Hook(this, game.config.width/2, game.config.height/2, 'hook');
+        this.hook;
 
         //mouse stuff
         this.mouseDownX;
@@ -32,6 +32,7 @@ class Play extends Phaser.Scene{
         // Hook shenanigans
         this.input.on('pointerdown', function (pointer) {
             if(this.playerFSM.state == 'idle'){
+                this.playerFSM.transition('cast');
                 console.log('down');
                 this.mouseDownX = pointer.x;
                 this.mouseDownY = pointer.y;
@@ -39,7 +40,7 @@ class Play extends Phaser.Scene{
         }, this);
 
         this.input.on('pointerup', function (pointer) {
-            if(this.playerFSM.state == 'idle'){
+            if(this.playerFSM.state == 'cast'){
                 console.log('up');
                 //calculate vector
                 let diffX = pointer.x - this.mouseDownX;
@@ -55,6 +56,9 @@ class Play extends Phaser.Scene{
         this.startPoint;
         this.controlPoint;
         this.endPoint;
+
+        //temp platform
+        this.platform = this.physics.add.sprite(game.config.width/2, 0, game.config.height/3);
     }
 
     drawRope(){
@@ -70,8 +74,10 @@ class Play extends Phaser.Scene{
 
     update(){
         //this.player.update();
-        this.drawRope();
+        if(this.playerFSM.state == 'cast' || this.playerFSM.state == 'reel'){
+            this.drawRope();
+        }
         this.playerFSM.step();
-        this.hook.update();
+        //this.hook.update();
     }
 }

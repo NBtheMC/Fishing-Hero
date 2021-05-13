@@ -6,7 +6,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
         //this.enableBody();
         this.moveSpeed = 100;
-        this.hook;
     }
     getMoveSpeed(){
         return this.moveSpeed;
@@ -54,7 +53,7 @@ class MoveState extends State{
 class CastState extends State{
     enter(scene){
         //setup arrow
-
+        scene.hook = new Hook(scene, scene.player.x, scene.player.y, 'hook');
     }
     execute(scene){
         //tight movement
@@ -74,10 +73,11 @@ class ReelState extends State{
 class FreefallState extends State{
     enter(scene){
         //play appropriate animation
-
+        scene.hook.destroy();
         //apply gravity
     }
     execute(scene){
-        //tight movement
+        //temp move into idle
+        this.stateMachine.transition('idle');
     }
 }
