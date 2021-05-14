@@ -70,7 +70,8 @@ class Play extends Phaser.Scene{
 
         //rope
         graphics = this.add.graphics();
-        this.rope;
+        this.outerRope;
+        this.innerRope;
         this.startPoint;
         this.controlPoint;
         this.endPoint;
@@ -81,12 +82,18 @@ class Play extends Phaser.Scene{
     drawRope(){
         //redraw the rope
         graphics.clear();
-        graphics.lineStyle(2, 0xffffff, 1);
+        graphics.lineStyle(5, 0xffffff, 1);
         this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
         this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.hook.y);
         this.endPoint = new Phaser.Math.Vector2(this.hook.x, this.hook.y);
-        this.rope = new Phaser.Curves.CubicBezier(this.startPoint, this.controlPoint, this.endPoint, this.endPoint);
-        this.rope.draw(graphics);
+        this.outerRope = new Phaser.Curves.CubicBezier(this.startPoint, this.controlPoint, this.endPoint, this.endPoint);
+        this.outerRope.draw(graphics);
+        graphics.lineStyle(3, 0x808080, 1);
+        this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
+        this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.hook.y);
+        this.endPoint = new Phaser.Math.Vector2(this.hook.x, this.hook.y);
+        this.innerRope = new Phaser.Curves.CubicBezier(this.startPoint, this.controlPoint, this.endPoint, this.endPoint);
+        this.innerRope.draw(graphics);
     }
 
     update(){
