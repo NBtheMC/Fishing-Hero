@@ -16,7 +16,7 @@ class IdleState extends State{
     enter(scene){
         //play appropriate animation
         let p = scene.player;
-        p.body.setVelocityX(0);
+        p.body.setAcceleration(0,0);
     }
     execute(scene){
         //go into move state or cast
@@ -57,14 +57,14 @@ class AimState extends State{
         scene.hook.body.setAllowGravity(false);
     }
     execute(scene){
-        //scene.hook.body.allowGravity = false;
+        //draw arrow
     }
 }
 
 class CastState extends State{
     enter(scene){
-        //setup arrow
         scene.hook.body.setAllowGravity(true);
+        //setup arrow
     }
     execute(scene){
         
@@ -89,6 +89,8 @@ class FreefallState extends State{
         scene.player.body.setAllowGravity(true);
     }
     execute(scene){
-        scene.player.body.setAcceleration(0,0);
+        if(scene.physics.overlap(scene.player, scene.worldLayer)){
+            scene.playerFSM.transition('idle');
+        }
     }
 }
