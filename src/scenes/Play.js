@@ -6,11 +6,29 @@ class Play extends Phaser.Scene{
     preload(){
         this.load.image('player', 'assets/tempPlayer.png');
         this.load.image('hook', 'assets/tempHook.png');
+        this.load.image('base_tiles', 'assets/tilemap/gridTile_tile1.png');
+        this.load.tilemapTiledJSON('tilemap', 'assets/tilemap/FishingHero_TileMap.json');
     }
 
     create(){
+        // Sanity Check:
+        //this.add.image(0, 0, 'base_tiles').setOrigin(0, 0);
+
+        // Create the Tilemap
+        const map = this.make.tilemap({key: 'tilemap' });
+        
+        // add the tileset image we are using
+        const tileset = map.addTilesetImage('tower', 'base_tiles');
+
+        // Create the layers we want
+        this.worldLayer = map.createLayer('friday', tileset);
+
+        this.worldLayer.setCollisionByProperty({ collides: true });
+
+
         //setup player with state machine
-        this.player = new Player(this, game.config.width/2, game.config.height/2, 'player').setOrigin(0, 0);
+        this.player = new Player(this, game.config.width/16, game.config.height/2, 'player').setOrigin(0, 0);
+
         this.playerFSM = new StateMachine('idle', {
             idle: new IdleState(),
             move: new MoveState(),
@@ -59,6 +77,9 @@ class Play extends Phaser.Scene{
 
         //temp platform
         this.platform = this.physics.add.sprite(game.config.width/2, 0, game.config.height/3);
+
+        this.physics.add.collider(this.player, this.worldLayer);
+
     }
 
     drawRope(){
