@@ -80,12 +80,12 @@ class Play extends Phaser.Scene{
         this.controlPoint;
         this.endPoint;
 
-        this.physics.add.collider(this.player, this.worldLayer);
-        // this.physics.add.collider(this.player, this.worldLayer, function(p,g){
-        //     if(this.playerFSM.state == 'freefall'){
-        //         this.playerFSM.transition('idle');
-        //     }
-        // });
+        //this.physics.add.collider(this.player, this.worldLayer);
+        this.physics.add.collider(this.player, this.worldLayer, function(p,g){
+            if(this.playerFSM.state == 'freefall'){
+                this.playerFSM.transition('idle');
+            }
+        });
     }
 
     drawRope(){
@@ -105,16 +105,15 @@ class Play extends Phaser.Scene{
     }
 
     update(){
-        //this.player.update();
         graphics.clear();
         if(this.playerFSM.state == 'cast' || this.playerFSM.state == 'reel'){
             this.drawRope();
         }
         this.playerFSM.step();
-        this.physics.add.collider(this.player, this.worldLayer, function(p,g){
-            if(this.playerFSM.state == 'freefall'){
-                this.playerFSM.transition('idle');
-            }
-        });
+        // this.physics.add.collider(this.player, this.worldLayer, function(p,g){
+        //     if(this.playerFSM.state == 'freefall'){
+        //         this.playerFSM.transition('idle');
+        //     }
+        // });
     }
 }
