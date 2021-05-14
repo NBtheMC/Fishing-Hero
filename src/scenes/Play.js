@@ -22,9 +22,7 @@ class Play extends Phaser.Scene{
 
         // Create the layers we want
         this.worldLayer = map.createLayer('friday', tileset);
-
         this.worldLayer.setCollisionByProperty({ collides: true });
-
 
         //setup player with state machine
         this.player = new Player(this, game.config.width/16, game.config.height/2, 'player').setOrigin(0, 0);
@@ -32,6 +30,7 @@ class Play extends Phaser.Scene{
         this.playerFSM = new StateMachine('idle', {
             idle: new IdleState(),
             move: new MoveState(),
+            aim: new AimState(),
             cast: new CastState(),
             reel: new ReelState(),
             freefall: new FreefallState(),
@@ -50,7 +49,7 @@ class Play extends Phaser.Scene{
         // Hook shenanigans
         this.input.on('pointerdown', function (pointer) {
             if(this.playerFSM.state == 'idle'){
-                this.playerFSM.transition('cast');
+                this.playerFSM.transition('aim');
                 console.log('down');
                 this.mouseDownX = pointer.x;
                 this.mouseDownY = pointer.y;
@@ -58,13 +57,14 @@ class Play extends Phaser.Scene{
         }, this);
 
         this.input.on('pointerup', function (pointer) {
-            if(this.playerFSM.state == 'cast'){
+            if(this.playerFSM.state == 'aim'){
                 console.log('up');
                 //calculate vector
                 let diffX = pointer.x - this.mouseDownX;
                 let diffY = pointer.y - this.mouseDownY;
                 console.log('diffX: '+ diffX + '\ndiffY: ' + diffY);
                 this.hook.launch(-diffX,-diffY);
+                this.playerFSM.transition('cast');
             }
         }, this);
 
@@ -75,11 +75,7 @@ class Play extends Phaser.Scene{
         this.controlPoint;
         this.endPoint;
 
-        //temp platform
-        this.platform = this.physics.add.sprite(game.config.width/2, 0, game.config.height/3);
-
         this.physics.add.collider(this.player, this.worldLayer);
-
     }
 
     drawRope(){
