@@ -54,6 +54,10 @@ class Play extends Phaser.Scene{
                 this.mouseDownX = pointer.x;
                 this.mouseDownY = pointer.y;
             }
+            else if(this.playerFSM.state == 'reel'){
+                this.playerFSM.transition('freefall');
+                this.hook.destroy();
+            }
         }, this);
 
         this.input.on('pointerup', function (pointer) {
@@ -77,11 +81,15 @@ class Play extends Phaser.Scene{
         this.endPoint;
 
         this.physics.add.collider(this.player, this.worldLayer);
+        // this.physics.add.collider(this.player, this.worldLayer, function(p,g){
+        //     if(this.playerFSM.state == 'freefall'){
+        //         this.playerFSM.transition('idle');
+        //     }
+        // });
     }
 
     drawRope(){
         //redraw the rope
-        graphics.clear();
         graphics.lineStyle(5, 0xffffff, 1);
         this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
         this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.hook.y);
@@ -98,10 +106,15 @@ class Play extends Phaser.Scene{
 
     update(){
         //this.player.update();
+        graphics.clear();
         if(this.playerFSM.state == 'cast' || this.playerFSM.state == 'reel'){
             this.drawRope();
         }
         this.playerFSM.step();
-        //this.hook.update();
+        this.physics.add.collider(this.player, this.worldLayer, function(p,g){
+            if(this.playerFSM.state == 'freefall'){
+                this.playerFSM.transition('idle');
+            }
+        });
     }
 }

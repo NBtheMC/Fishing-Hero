@@ -17,6 +17,7 @@ class IdleState extends State{
         //play appropriate animation
         let p = scene.player;
         p.body.setVelocityX(0);
+        scene.player.body.setAcceleration(0,0);
     }
     execute(scene){
         //go into move state or cast
