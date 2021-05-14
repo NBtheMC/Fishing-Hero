@@ -65,7 +65,6 @@ class CastState extends State{
     enter(scene){
         //setup arrow
         scene.hook.body.setAllowGravity(true);
-        
     }
     execute(scene){
         
@@ -75,10 +74,11 @@ class CastState extends State{
 class ReelState extends State{
     enter(scene){
         //play appropriate animation
-
+        scene.player.body.setAllowGravity(false);
     }
     execute(scene){
         //fly towards hook
+        scene.player.body.setAcceleration(scene.hook.x - scene.player.x, scene.hook.y - scene.player.y);
     }
 }
 
@@ -86,6 +86,7 @@ class FreefallState extends State{
     enter(scene){
         //play appropriate animation
         scene.hook.destroy();
+        scene.player.body.setAllowGravity(true);
     }
     execute(scene){
         //temp move into idle
