@@ -8,12 +8,11 @@ class Play extends Phaser.Scene{
         this.load.image('hook', 'assets/tempHook.png');
         this.load.image('base_tiles', 'assets/tilemap/gridTile_tile1.png');
         this.load.tilemapTiledJSON('tilemap', 'assets/tilemap/FishingHero_TileMap.json');
+
+        this.load.audio('jump','assets/jump.wav');
     }
 
     create(){
-        // Sanity Check:
-        //this.add.image(0, 0, 'base_tiles').setOrigin(0, 0);
-
         // Create the Tilemap
         const map = this.make.tilemap({key: 'tilemap' });
         
@@ -47,6 +46,8 @@ class Play extends Phaser.Scene{
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
+        this.jumpSound = this.sound.add('jump');
+
         // Hook shenanigans
         this.input.on('pointerdown', function (pointer) {
             if(this.playerFSM.state == 'idle'){
@@ -69,6 +70,7 @@ class Play extends Phaser.Scene{
                 let diffY = pointer.y - this.mouseDownY;
                 console.log('diffX: '+ diffX + '\ndiffY: ' + diffY);
                 this.hook.launch(-diffX,-diffY);
+                this.jumpSound.play();
                 this.playerFSM.transition('cast');
             }
         }, this);
@@ -82,11 +84,6 @@ class Play extends Phaser.Scene{
         this.endPoint;
 
         this.physics.add.collider(this.player, this.worldLayer);
-        // this.physics.add.collider(this.player, this.worldLayer, function(p,g){
-        //     if(this.playerFSM.state == 'freefall'){
-        //         this.playerFSM.transition('idle');
-        //     }
-        // });d
     }
 
     drawRope(){
