@@ -7,7 +7,7 @@ class Play extends Phaser.Scene{
         this.load.image('player', 'assets/tempPlayer.png');
         this.load.image('hook', 'assets/tempHook.png');
         this.load.image('base_tiles', 'assets/tilemap/gridTile_tile1.png');
-        this.load.tilemapTiledJSON('tilemap', 'assets/tilemap/FishingHero_TileMap.json');
+        this.load.tilemapTiledJSON('tilemap', 'assets/tilemap/FishingHero_TileMap_test.json');
     }
 
     create(){
