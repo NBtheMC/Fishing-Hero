@@ -87,6 +87,7 @@ class FreefallState extends State{
         //play appropriate animation
         scene.hook.destroy();
         scene.player.body.setAllowGravity(true);
+        scene.click.pause();
     }
     execute(scene){
         if(scene.physics.overlap(scene.player, scene.worldLayer)){

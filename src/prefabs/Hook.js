@@ -8,6 +8,7 @@ class Hook extends Phaser.Physics.Arcade.Sprite{
             h.body.setImmovable(true);
             h.body.setVelocity(0,0);
             h.body.setAllowGravity(false);
+            scene.click.play();
             scene.playerFSM.transition('reel');
         });
         // scene.physics.add.collider(this, scene.bouncyLayer, function(h,g){
