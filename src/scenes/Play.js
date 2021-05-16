@@ -15,13 +15,13 @@ class Play extends Phaser.Scene{
         //this.add.image(0, 0, 'base_tiles').setOrigin(0, 0);
 
         // Create the Tilemap
-        const map = this.make.tilemap({key: 'tilemap' });
+        this.map = this.make.tilemap({key: 'tilemap' });
         
         // add the tileset image we are using
-        const tileset = map.addTilesetImage('tower', 'base_tiles');
+        this.tileset = this.map.addTilesetImage('tower', 'base_tiles');
 
         // Create the layers we want
-        this.worldLayer = map.createLayer('friday', tileset);
+        this.worldLayer = this.map.createLayer('friday', this.tileset);
         this.worldLayer.setCollisionByProperty({ collides: true });
 
         //setup player with state machine
