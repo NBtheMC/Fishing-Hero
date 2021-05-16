@@ -22,7 +22,7 @@ class Play extends Phaser.Scene{
 
         // Create the layers we want
         this.worldLayer = this.map.createLayer('friday', this.tileset);
-        this.worldLayer.setCollisionByProperty({ collides: true });
+        //this.worldLayer.setCollisionByProperty({ collides: true });
 
         //setup player with state machine
         this.player = new Player(this, game.config.width/16, game.config.height/2, 'player').setOrigin(0, 0);
