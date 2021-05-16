@@ -17,6 +17,7 @@ class IdleState extends State{
         //play appropriate animation
         let p = scene.player;
         p.body.setAcceleration(0,0);
+        p.setVelocityX(0);
     }
     execute(scene){
         //go into move state or cast
@@ -90,7 +91,7 @@ class FreefallState extends State{
         scene.click.pause();
     }
     execute(scene){
-        if(scene.physics.overlap(scene.player, scene.worldLayer)){
+        if(scene.player.body.velocity.y == 0){
             scene.playerFSM.transition('idle');
         }
     }
