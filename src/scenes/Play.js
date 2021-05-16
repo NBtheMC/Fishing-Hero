@@ -4,13 +4,17 @@ class Play extends Phaser.Scene{
     }
 
     preload(){
-        this.load.image('player', 'assets/tempPlayer.png');
-        this.load.image('hook', 'assets/tempHook.png');
         this.load.image('base_tiles', 'assets/tilemap/gridTile_tile1.png');
         this.load.tilemapTiledJSON('tilemap', 'assets/tilemap/FishingHero_TileMap_Test.json');
     }
 
     create(){
+        //sounds
+        this.click = this.sound.add('click');
+        this.click.setLoop(true);
+
+        this.throw = this.sound.add('throw');
+        
         // Sanity Check:
         //this.add.image(0, 0, 'base_tiles').setOrigin(0, 0);
 
@@ -69,6 +73,7 @@ class Play extends Phaser.Scene{
                 let diffY = pointer.y - this.mouseDownY;
                 console.log('diffX: '+ diffX + '\ndiffY: ' + diffY);
                 this.hook.launch(-diffX,-diffY);
+                this.throw.play();
                 this.playerFSM.transition('cast');
             }
         }, this);

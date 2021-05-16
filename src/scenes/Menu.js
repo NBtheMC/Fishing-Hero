@@ -3,7 +3,10 @@ class Menu extends Phaser.Scene{
         super("menuScene");
     }
     preload(){
-
+        this.load.image('player', 'assets/tempPlayer.png');
+        this.load.image('hook', 'assets/tempHook.png');
+        this.load.audio('click', 'assets/click.wav');
+        this.load.audio('throw', 'assets/throw.wav');
     }
     create(){
         let menuConfig = {
