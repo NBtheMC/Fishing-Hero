@@ -19,12 +19,12 @@ let config = {
             // }
         }
     },
-    scene: [Play, Menu]
+    scene: [Menu, Play]
 }
 
 let game = new Phaser.Game(config);
 
 // Global Variables
-let keyA, keyD;
+let keyA, keyD, keySpace;
 
 let graphics;
