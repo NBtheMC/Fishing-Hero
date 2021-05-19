@@ -95,23 +95,33 @@ class Play extends Phaser.Scene{
     }
 
     drawRope(){
-        //redraw the rope
-        graphics.lineStyle(5, 0xffffff, 1);
-        this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
-        this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.hook.y);
-        this.endPoint = new Phaser.Math.Vector2(this.hook.x, this.hook.y);
-        this.outerRope = new Phaser.Curves.CubicBezier(this.startPoint, this.controlPoint, this.endPoint, this.endPoint);
-        this.outerRope.draw(graphics);
-        graphics.lineStyle(3, 0x808080, 1);
-        this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
-        this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.hook.y);
-        this.endPoint = new Phaser.Math.Vector2(this.hook.x, this.hook.y);
-        this.innerRope = new Phaser.Curves.CubicBezier(this.startPoint, this.controlPoint, this.endPoint, this.endPoint);
-        this.innerRope.draw(graphics);
+        //curved rope when throwing
+        if(this.playerFSM.state == 'cast'){
+            graphics.lineStyle(5, 0xffffff, 1);
+            this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
+            this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.hook.y);
+            this.endPoint = new Phaser.Math.Vector2(this.hook.x, this.hook.y);
+            this.outerRope = new Phaser.Curves.CubicBezier(this.startPoint, this.controlPoint, this.endPoint, this.endPoint);
+            this.outerRope.draw(graphics);
+            graphics.lineStyle(3, 0x808080, 1);
+            this.innerRope = new Phaser.Curves.CubicBezier(this.startPoint, this.controlPoint, this.endPoint, this.endPoint);
+            this.innerRope.draw(graphics);
+        }
+        else if(this.playerFSM.state == 'reel'){
+            graphics.lineStyle(5, 0xffffff, 1);
+            this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
+            this.endPoint = new Phaser.Math.Vector2(this.hook.x, this.hook.y);
+            this.outerRope = new Phaser.Curves.CubicBezier(this.startPoint, this.startPoint, this.endPoint, this.endPoint);
+            this.outerRope.draw(graphics);
+            graphics.lineStyle(3, 0x808080, 1);
+            this.innerRope = new Phaser.Curves.CubicBezier(this.startPoint, this.startPoint, this.endPoint, this.endPoint);
+            this.innerRope.draw(graphics);
+        }
     }
 
     update(){
         graphics.clear();
+        //redraw the rope
         if(this.playerFSM.state == 'cast' || this.playerFSM.state == 'reel'){
             this.drawRope();
         }
