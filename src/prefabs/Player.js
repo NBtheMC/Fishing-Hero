@@ -6,6 +6,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
         //this.enableBody();
         this.moveSpeed = 500;
+        this.isFlying = false;
     }
     getMoveSpeed(){
         return this.moveSpeed;
@@ -68,7 +69,8 @@ class CastState extends State{
         //setup arrow
     }
     execute(scene){
-        
+        //clamp hook velocity
+
     }
 }
 
@@ -76,9 +78,13 @@ class ReelState extends State{
     enter(scene){
         //play appropriate animation
         scene.player.body.setAllowGravity(false);
+        scene.player.isFlying = false;
     }
     execute(scene){
         //fly towards hook
+        if(scene.player.body.onCeiling()){
+            scene.playerFSM.transition('freefall');
+        }
         scene.player.body.setAcceleration(scene.hook.x - scene.player.x, scene.hook.y - scene.player.y);
     }
 }

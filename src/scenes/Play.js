@@ -88,10 +88,10 @@ class Play extends Phaser.Scene{
 
         this.physics.add.collider(this.player, this.worldLayer);
         // this.physics.add.collider(this.player, this.worldLayer, function(p,g){
-        //     if(this.playerFSM.state == 'freefall'){
-        //         this.playerFSM.transition('idle');
+        //     if(this.playerFSM.state == 'reel'){
+        //         this.playerFSM.transition('freefall');
         //     }
-        // });d
+        // })
     }
 
     drawRope(){
