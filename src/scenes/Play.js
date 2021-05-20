@@ -6,7 +6,7 @@ class Play extends Phaser.Scene{
     preload(){
         this.load.image('base_tiles', 'assets/tilemap/gridTile_tile1.png');
         this.load.tilemapTiledJSON('tilemap', 'assets/tilemap/FishingHero_TileMap_Test.json');
-    }
+    }   
 
     create(){
         //sounds
@@ -30,7 +30,7 @@ class Play extends Phaser.Scene{
 
         //setup player with state machine
         this.player = new Player(this, game.config.width/16, game.config.height/2, 'player').setOrigin(0, 0);
-
+        this.player.body.collideWorldBounds=true;
         this.playerFSM = new StateMachine('idle', {
             idle: new IdleState(),
             move: new MoveState(),
@@ -58,6 +58,10 @@ class Play extends Phaser.Scene{
                 console.log('down');
                 this.mouseDownX = pointer.x;
                 this.mouseDownY = pointer.y;
+            }
+            else if(this.playerFSM.state == 'cast'){
+                this.playerFSM.transition('idle');
+                this.hook.destroy();
             }
             else if(this.playerFSM.state == 'reel'){
                 this.playerFSM.transition('freefall');
@@ -87,11 +91,11 @@ class Play extends Phaser.Scene{
         this.endPoint;
 
         this.physics.add.collider(this.player, this.worldLayer);
-        // this.physics.add.collider(this.player, this.worldLayer, function(p,g){
-        //     if(this.playerFSM.state == 'reel'){
-        //         this.playerFSM.transition('freefall');
-        //     }
-        // })
+        this.physics.add.collider(this.player, this.worldLayer, function(p,g){
+            if(this.playerFSM.state == 'reel'){
+                this.playerFSM.transition('freefall');
+            }
+        })
     }
 
     drawRope(){

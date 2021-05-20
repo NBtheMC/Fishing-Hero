@@ -7,20 +7,33 @@ class Menu extends Phaser.Scene{
         this.load.image('hook', 'assets/tempHook.png');
         this.load.audio('click', 'assets/click.wav');
         this.load.audio('throw', 'assets/throw.wav');
+
+        this.load.image('base_tiles_menu', 'assets/tilemap/gridTile_tile1.png');
+        this.load.tilemapTiledJSON('tilemap_menu', 'assets/tilemap/FishingHero_TileMap.json');
     }
     create(){
         //sounds
-        this.click = this.sound.add('click');
+        this.click = this.sound.add('click'); 
         this.click.setLoop(true);
 
         this.throw = this.sound.add('throw');
+
+        // Create the Tilemap
+        this.map = this.make.tilemap({key: 'tilemap_menu' });
         
-        // Sanity Check:
-        //this.add.image(0, 0, 'base_tiles').setOrigin(0, 0);
+        // // add the tileset image we are using
+        this.tileset = this.map.addTilesetImage('tower', 'base_tiles_menu');
+
+        // Create the layers we want
+        this.platformLayer = this.map.createLayer('platform', this.tileset);
+        this.platformLayer.setCollisionByProperty({ collides: true });
+        this.groundLayer = this.map.createLayer('ground', this.tileset);
+        this.groundLayer.setCollisionByProperty({ collides: true });
 
         //setup player with state machine
         this.player = new Player(this, game.config.width/16, game.config.height/2, 'player').setOrigin(0, 0);
         this.player.body.collideWorldBounds=true;
+
         this.playerFSM = new StateMachine('idle', {
             idle: new IdleState(),
             move: new MoveState(),
@@ -48,6 +61,10 @@ class Menu extends Phaser.Scene{
                 console.log('down');
                 this.mouseDownX = pointer.x;
                 this.mouseDownY = pointer.y;
+            }
+            else if(this.playerFSM.state == 'cast'){
+                this.playerFSM.transition('idle');
+                this.hook.destroy();
             }
             else if(this.playerFSM.state == 'reel'){
                 this.playerFSM.transition('freefall');
@@ -92,6 +109,8 @@ class Menu extends Phaser.Scene{
         let customHeight = 50;
         this.add.text(game.config.width/2, game.config.height/2, 'Press Space to start!', menuConfig).setOrigin(0.5);
         keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        this.cameras.main.startFollow(this.player);
     }
 
     drawRope(){
@@ -118,7 +137,7 @@ class Menu extends Phaser.Scene{
             this.innerRope.draw(graphics);
         }
     }
-    
+
     update(){
         graphics.clear();
         //redraw the rope
