@@ -5,6 +5,7 @@ class Menu extends Phaser.Scene{
     preload(){
         this.load.image('player', 'assets/tempPlayer.png');
         this.load.image('hook', 'assets/tempHook.png');
+        this.load.image('arrow', 'assets/arrow.png');
         this.load.audio('click', 'assets/click.wav');
         this.load.audio('throw', 'assets/throw.wav');
 
@@ -43,8 +44,9 @@ class Menu extends Phaser.Scene{
             freefall: new FreefallState(),
         }, [this]);
         
-        //setup hook
+        //setup hook and arrow
         this.hook;
+        this.arrow;
 
         //mouse stuff
         this.mouseDownX;
@@ -72,6 +74,13 @@ class Menu extends Phaser.Scene{
             }
         }, this);
 
+        this.input.on('pointermove', function(pointer) {
+            if(this.playerFSM.state == 'aim'){
+                this.mousePosition.set(mouseDownX,mouseDownY);
+                this.arrowAngle = Phaser.Math.Angle.BetweenPoints(this.rope, pointer);
+            }
+        });
+        
         this.input.on('pointerup', function (pointer) {
             if(this.playerFSM.state == 'aim'){
                 console.log('up');

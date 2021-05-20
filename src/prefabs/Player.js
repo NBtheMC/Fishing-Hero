@@ -54,12 +54,15 @@ class MoveState extends State{
 
 class AimState extends State{
     enter(scene){
-        //setup arrow
+        //setup hook and arrow
         scene.hook = new Hook(scene, scene.player.x, scene.player.y, 'hook');
         scene.hook.body.setAllowGravity(false);
+        scene.arrow = scene.add.image(scene.player.x, scene.player.y, 'arrow');
     }
     execute(scene){
-        //draw arrow
+        //move arrow towards mouse
+        scene.arrow.rotation = scene.arrowAngle;
+        //scale arrow base on original mouse down
     }
 }
 

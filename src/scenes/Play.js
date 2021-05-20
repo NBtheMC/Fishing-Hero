@@ -46,6 +46,8 @@ class Play extends Phaser.Scene{
         //mouse stuff
         this.mouseDownX;
         this.mouseDownY;
+        this.mousePosition;
+        this.arrowAngle;
 
         // Keyboard keys
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -67,7 +69,14 @@ class Play extends Phaser.Scene{
                 this.playerFSM.transition('freefall');
                 this.hook.destroy();
             }
-        }, this);
+        }, this); 
+
+        this.input.on('pointermove', function(pointer) {
+            if(this.playerFSM.state == 'aim'){
+                this.mousePosition.set(mouseDownX,mouseDownY);
+                this.arrowAngle = Phaser.Math.Angle.BetweenPoints(this.rope, pointer);
+            }
+        });
 
         this.input.on('pointerup', function (pointer) {
             if(this.playerFSM.state == 'aim'){
