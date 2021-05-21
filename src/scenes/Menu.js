@@ -53,7 +53,10 @@ class Menu extends Phaser.Scene{
         //mouse stuff
         this.mouseDownX;
         this.mouseDownY;
-        this.mousePosition = new Phaser.Math.Vector2(this.mouseDownX, this.mouseDownY);
+        this.mouseDownPosition = new Phaser.Math.Vector2();
+        this.mouseUpX;
+        this.mouseUpY;
+        this.mouseUpPosition = new Phaser.Math.Vector2();
 
         // Keyboard keys
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -66,6 +69,7 @@ class Menu extends Phaser.Scene{
                 console.log('down');
                 this.mouseDownX = pointer.x;
                 this.mouseDownY = pointer.y;
+                this.mouseDownPosition.set(this.mouseDownX,this.mouseDownY);
             }
             else if(this.playerFSM.state == 'cast'){
                 this.playerFSM.transition('idle');
@@ -79,9 +83,10 @@ class Menu extends Phaser.Scene{
 
         this.input.on('pointermove', function (pointer) {
             if(this.playerFSM.state == 'aim'){
-                this.mouseDownX = pointer.x
-                this.mousePosition.set(this.mouseDownX,this.mouseDownY);
-                this.arrowAngle = Phaser.Math.Angle.BetweenPoints(this.player, this.mousePosition);
+                this.mouseUpX = pointer.x;
+                this.mouseUpY = pointer.y;
+                this.mouseUpPosition.set(this.mouseUpX,this.mouseUpY);
+                this.arrowAngle = Phaser.Math.Angle.BetweenPoints(this.mouseDownPosition, this.mouseUpPosition);
             }
         }, this);
 
@@ -95,6 +100,7 @@ class Menu extends Phaser.Scene{
                 this.hook.launch(-diffX,-diffY);
                 this.throw.play();
                 this.playerFSM.transition('cast');
+                this.arrow.destroy();
             }
         }, this);
 
