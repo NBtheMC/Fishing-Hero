@@ -6,6 +6,8 @@ class Menu extends Phaser.Scene{
         this.load.image('player', 'assets/tempPlayer.png');
         this.load.image('hook', 'assets/tempHook.png');
         this.load.image('arrow', 'assets/arrow.png');
+        this.load.image('background', 'assets/background.png');
+
         this.load.audio('click', 'assets/click.wav');
         this.load.audio('throw', 'assets/throw.wav');
 
@@ -13,6 +15,7 @@ class Menu extends Phaser.Scene{
         this.load.tilemapTiledJSON('tilemap_menu', 'assets/tilemap/FishingHero_TileMap.json');
     }
     create(){
+        this.background = this.add.image(0,0, 'background');
         //sounds
         this.click = this.sound.add('click'); 
         this.click.setLoop(true);
@@ -34,7 +37,6 @@ class Menu extends Phaser.Scene{
         //setup player with state machine
         this.player = new Player(this, game.config.width/16, game.config.height/2, 'player').setOrigin(0, 0);
         this.player.body.collideWorldBounds=true;
-
         this.playerFSM = new StateMachine('idle', {
             idle: new IdleState(),
             move: new MoveState(),
@@ -51,6 +53,7 @@ class Menu extends Phaser.Scene{
         //mouse stuff
         this.mouseDownX;
         this.mouseDownY;
+        this.mousePosition = new Phaser.Math.Vector2(this.mouseDownX, this.mouseDownY);
 
         // Keyboard keys
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -74,13 +77,14 @@ class Menu extends Phaser.Scene{
             }
         }, this);
 
-        this.input.on('pointermove', function(pointer) {
+        this.input.on('pointermove', function (pointer) {
             if(this.playerFSM.state == 'aim'){
-                this.mousePosition.set(mouseDownX,mouseDownY);
-                this.arrowAngle = Phaser.Math.Angle.BetweenPoints(this.rope, pointer);
+                this.mouseDownX = pointer.x
+                this.mousePosition.set(this.mouseDownX,this.mouseDownY);
+                this.arrowAngle = Phaser.Math.Angle.BetweenPoints(this.player, this.mousePosition);
             }
-        });
-        
+        }, this);
+
         this.input.on('pointerup', function (pointer) {
             if(this.playerFSM.state == 'aim'){
                 console.log('up');
@@ -118,8 +122,6 @@ class Menu extends Phaser.Scene{
         let customHeight = 50;
         this.add.text(game.config.width/2, game.config.height/2, 'Press Space to start!', menuConfig).setOrigin(0.5);
         keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
-        this.cameras.main.startFollow(this.player);
     }
 
     drawRope(){

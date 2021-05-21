@@ -4,8 +4,8 @@ class Play extends Phaser.Scene{
     }
 
     preload(){
-        this.load.image('base_tiles', 'assets/tilemap/gridTile_tile1.png');
-        this.load.tilemapTiledJSON('tilemap', 'assets/tilemap/FishingHero_TileMap_Test.json');
+        this.load.image('base_tiles', 'assets/tilemap/gridTile_tile2.png');
+        this.load.tilemapTiledJSON('tilemap', 'assets/tilemap/FishingHero_TileMap_FullLevel.json');
     }   
 
     create(){
@@ -25,9 +25,10 @@ class Play extends Phaser.Scene{
         this.tileset = this.map.addTilesetImage('tower', 'base_tiles');
 
         // Create the layers we want
-        this.worldLayer = this.map.createLayer('friday', this.tileset);
-        this.worldLayer.setCollisionByProperty({ collides: true });
+        this.platform1Layer = this.map.createLayer('Wall_level_1', this.tileset);
+        this.platform1Layer.setCollisionByProperty({ collides: true });
 
+        //const spikeObjects = map.getObjectLayer('Spikes')['objects'];
         //setup player with state machine
         this.player = new Player(this, game.config.width/16, game.config.height/2, 'player').setOrigin(0, 0);
         this.player.body.collideWorldBounds=true;
@@ -39,6 +40,7 @@ class Play extends Phaser.Scene{
             reel: new ReelState(),
             freefall: new FreefallState(),
         }, [this]);
+        this.player.body.collideWorldBounds=false;
         
         //setup hook
         this.hook;
@@ -72,10 +74,10 @@ class Play extends Phaser.Scene{
         }, this); 
 
         this.input.on('pointermove', function(pointer) {
-            if(this.playerFSM.state == 'aim'){
-                this.mousePosition.set(mouseDownX,mouseDownY);
-                this.arrowAngle = Phaser.Math.Angle.BetweenPoints(this.rope, pointer);
-            }
+            //if(this.playerFSM.state == 'aim'){
+            this.mousePosition.set(mouseDownX,mouseDownY);
+            this.arrowAngle = Phaser.Math.Angle.BetweenPoints(this.rope, pointer);
+            //}
         });
 
         this.input.on('pointerup', function (pointer) {
@@ -104,7 +106,8 @@ class Play extends Phaser.Scene{
             if(this.playerFSM.state == 'reel'){
                 this.playerFSM.transition('freefall');
             }
-        })
+        });
+        this.cameras.main.startFollow(this.player);
     }
 
     drawRope(){
