@@ -58,13 +58,14 @@ class AimState extends State{
         scene.hook = new Hook(scene, scene.player.x, scene.player.y, 'hook');
         scene.hook.body.setAllowGravity(false);
         scene.arrow = scene.add.image(scene.player.x, scene.player.y, 'arrow').setOrigin(.5,1);
+        scene.arrow.scaleY = 0;
     }
     execute(scene){
         //move arrow towards mouse
         scene.arrow.rotation = scene.arrowAngle - Math.PI/2;
-        scene.arrow.scaleY = Phaser.Math.Distance.BetweenPoints(scene.mouseDownPosition, scene.mouseUpPosition)/200;
-        scene.arrow.scaleY = Phaser.Math.Clamp(scene.arrow.scaleY, 0, 2);
         //scale arrow base on original mouse down
+        scene.arrow.scaleY = Phaser.Math.Distance.BetweenPoints(scene.mouseDownPosition, scene.mouseUpPosition)/200;
+        scene.arrow.scaleY = Phaser.Math.Clamp(scene.arrow.scaleY, 0, 1);
     }
 }
 

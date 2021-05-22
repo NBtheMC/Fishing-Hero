@@ -28,9 +28,13 @@ class Play extends Phaser.Scene{
         this.platform1Layer = this.map.createLayer('Wall_level_1', this.tileset);
         this.platform1Layer.setCollisionByProperty({ collides: true });
 
+        this.wallLayer = this.map.createLayer('Wall', this.tileset);
+        this.wallLayer.setCollisionByProperty({ collides: true });
+
         //const spikeObjects = map.getObjectLayer('Spikes')['objects'];
         //setup player with state machine
-        this.player = new Player(this, game.config.width/16, game.config.height/2, 'player').setOrigin(0, 0);
+        this.player = new Player(this, 504, 1880, 'player').setOrigin(0, 0); //change to accept spawn poitn later
+        console.log(this.player.x,this.player.y);
         this.player.body.collideWorldBounds=true;
         this.playerFSM = new StateMachine('idle', {
             idle: new IdleState(),
@@ -73,12 +77,12 @@ class Play extends Phaser.Scene{
             }
         }, this); 
 
-        this.input.on('pointermove', function(pointer) {
-            //if(this.playerFSM.state == 'aim'){
-            this.mousePosition.set(mouseDownX,mouseDownY);
-            this.arrowAngle = Phaser.Math.Angle.BetweenPoints(this.rope, pointer);
-            //}
-        });
+        // this.input.on('pointermove', function(pointer) {
+        //     //if(this.playerFSM.state == 'aim'){
+        //     this.mousePosition.set(mouseDownX,mouseDownY);
+        //     this.arrowAngle = Phaser.Math.Angle.BetweenPoints(this.rope, pointer);
+        //     //}
+        // });
 
         this.input.on('pointerup', function (pointer) {
             if(this.playerFSM.state == 'aim'){
