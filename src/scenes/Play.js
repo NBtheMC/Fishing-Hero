@@ -106,6 +106,7 @@ class Play extends Phaser.Scene{
         this.endPoint;
 
         this.physics.add.collider(this.player, this.platformLayer);
+        this.physics.add.collider(this.player, this.wallLayer);
         this.physics.add.collider(this.player, this.platformLayer, function(p,g){
             if(this.playerFSM.state == 'reel'){
                 this.playerFSM.transition('freefall');
