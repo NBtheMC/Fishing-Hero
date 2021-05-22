@@ -25,13 +25,13 @@ class Play extends Phaser.Scene{
         this.tileset = this.map.addTilesetImage('tower', 'base_tiles');
 
         // Create the layers we want
-        this.platform1Layer = this.map.createLayer('Wall_level_1', this.tileset);
-        this.platform1Layer.setCollisionByProperty({ collides: true });
-
         this.wallLayer = this.map.createLayer('Wall', this.tileset);
         this.wallLayer.setCollisionByProperty({ collides: true });
-
-        //const spikeObjects = map.getObjectLayer('Spikes')['objects'];
+        this.backgroundLayer = this.map.createLayer('Background', this.tileset);
+        this.backgroundLayer.setCollisionByProperty({ collides: true });
+        this.platformLayer = this.map.createLayer('Platforms', this.tileset);
+        this.platformLayer.setCollisionByProperty({ collides: true });
+        
         //setup player with state machine
         this.player = new Player(this, 504, 1880, 'player').setOrigin(0, 0); //change to accept spawn poitn later
         console.log(this.player.x,this.player.y);
@@ -82,7 +82,7 @@ class Play extends Phaser.Scene{
         //     this.mousePosition.set(mouseDownX,mouseDownY);
         //     this.arrowAngle = Phaser.Math.Angle.BetweenPoints(this.rope, pointer);
         //     //}
-        // });
+        // }, this);
 
         this.input.on('pointerup', function (pointer) {
             if(this.playerFSM.state == 'aim'){
