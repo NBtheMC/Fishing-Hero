@@ -22,7 +22,7 @@ class Play extends Phaser.Scene{
         this.map = this.make.tilemap({key: 'tilemap' });
         
         // add the tileset image we are using
-        this.tileset = this.map.addTilesetImage('tower', 'base_tiles');
+        this.tileset = this.map.addTilesetImage('Tower_new', 'base_tiles');
 
         // Create the layers we want
         this.wallLayer = this.map.createLayer('Wall', this.tileset);
@@ -33,8 +33,8 @@ class Play extends Phaser.Scene{
         this.platformLayer.setCollisionByProperty({ collides: true });
         
         //setup player with state machine
-        this.player = new Player(this, 504, 1880, 'player').setOrigin(0, 0); //change to accept spawn poitn later
-        console.log(this.player.x,this.player.y);
+        this.player = new Player(this, 400, 1500, 'player').setOrigin(0, 0); //change to accept spawn point later
+        console.log(this.player.x, this.player.y);
         this.player.body.collideWorldBounds=true;
         this.playerFSM = new StateMachine('idle', {
             idle: new IdleState(),
@@ -105,8 +105,8 @@ class Play extends Phaser.Scene{
         this.controlPoint;
         this.endPoint;
 
-        this.physics.add.collider(this.player, this.worldLayer);
-        this.physics.add.collider(this.player, this.worldLayer, function(p,g){
+        this.physics.add.collider(this.player, this.platformLayer);
+        this.physics.add.collider(this.player, this.platformLayer, function(p,g){
             if(this.playerFSM.state == 'reel'){
                 this.playerFSM.transition('freefall');
             }
