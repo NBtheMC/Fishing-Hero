@@ -48,12 +48,15 @@ class Play extends Phaser.Scene{
         
         //setup hook
         this.hook;
+        this.arrow;
 
         //mouse stuff
         this.mouseDownX;
         this.mouseDownY;
-        this.mousePosition;
-        this.arrowAngle;
+        this.mouseDownPosition = new Phaser.Math.Vector2();
+        this.mouseUpX;
+        this.mouseUpY;
+        this.mouseUpPosition = new Phaser.Math.Vector2();
 
         // Keyboard keys
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -77,12 +80,14 @@ class Play extends Phaser.Scene{
             }
         }, this); 
 
-        // this.input.on('pointermove', function(pointer) {
-        //     //if(this.playerFSM.state == 'aim'){
-        //     this.mousePosition.set(mouseDownX,mouseDownY);
-        //     this.arrowAngle = Phaser.Math.Angle.BetweenPoints(this.rope, pointer);
-        //     //}
-        // }, this);
+        this.input.on('pointermove', function (pointer) {
+            if(this.playerFSM.state == 'aim'){
+                this.mouseUpX = pointer.x;
+                this.mouseUpY = pointer.y;
+                this.mouseUpPosition.set(this.mouseUpX,this.mouseUpY);
+                this.arrowAngle = Phaser.Math.Angle.BetweenPoints(this.mouseDownPosition, this.mouseUpPosition);
+            }
+        }, this);
 
         this.input.on('pointerup', function (pointer) {
             if(this.playerFSM.state == 'aim'){
