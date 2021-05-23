@@ -84,7 +84,7 @@ class Menu extends Phaser.Scene{
                 this.playerFSM.transition('freefall');
                 this.hook.destroy();
             }
-        }, this);
+        }, this); 
 
         this.input.on('pointermove', function (pointer) {
             if(this.playerFSM.state == 'aim'){

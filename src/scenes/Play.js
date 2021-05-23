@@ -48,7 +48,7 @@ class Play extends Phaser.Scene{
         
         //setup hook
         this.hook;
-        this.arrow;
+        
 
         //mouse stuff
         this.mouseDownX;
@@ -69,6 +69,7 @@ class Play extends Phaser.Scene{
                 console.log('down');
                 this.mouseDownX = pointer.x;
                 this.mouseDownY = pointer.y;
+                this.mouseDownPosition.set(this.mouseDownX,this.mouseDownY);
             }
             else if(this.playerFSM.state == 'cast'){
                 this.playerFSM.transition('idle');
@@ -99,6 +100,7 @@ class Play extends Phaser.Scene{
                 this.hook.launch(-diffX,-diffY);
                 this.throw.play();
                 this.playerFSM.transition('cast');
+                this.arrow.destroy();
             }
         }, this);
 

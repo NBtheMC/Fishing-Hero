@@ -58,7 +58,7 @@ class AimState extends State{
         scene.hook = new Hook(scene, scene.player.x, scene.player.y, 'hook');
         scene.hook.body.setAllowGravity(false);
         scene.arrow = scene.add.image(scene.player.x, scene.player.y, 'arrow').setOrigin(.5,1);
-        scene.arrow.scaleY = 0;
+        //scene.arrow.scaleY = 0;
     }
     execute(scene){
         //move arrow towards mouse
