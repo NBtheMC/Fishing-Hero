@@ -120,6 +120,8 @@ class Play extends Phaser.Scene{
             }
         });
         this.cameras.main.startFollow(this.player);
+        this.cameras.main.setBounds(275, 0, 1280,10000, true);
+        this.cameras.main.setZoom(.9,.9);
     }
 
     drawRope(){
