@@ -44,6 +44,7 @@ class Play extends Phaser.Scene{
             cast: new CastState(),
             reel: new ReelState(),
             freefall: new FreefallState(),
+            hurt: new HurtState(),
         }, [this]);
         this.player.body.collideWorldBounds=false;
         

@@ -108,3 +108,12 @@ class FreefallState extends State{
         }
     }
 }
+
+class HurtState extends State{
+    enter(scene){
+        //setup arrow
+    }
+    execute(scene){
+        //clamp hook velocity
+    }
+}

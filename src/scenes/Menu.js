@@ -49,6 +49,7 @@ class Menu extends Phaser.Scene{
             cast: new CastState(),
             reel: new ReelState(),
             freefall: new FreefallState(),
+            hurt: new HurtState(),
         }, [this]);
         
         //setup hook and arrow
