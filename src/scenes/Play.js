@@ -33,7 +33,8 @@ class Play extends Phaser.Scene{
         this.platformLayer.setCollisionByProperty({ collides: true });
         
         //setup player with state machine
-        this.player = new Player(this, 400, 1500, 'player').setOrigin(0, 0); //change to accept spawn point later
+        const playerSpawn = this.map.findObject("Points", obj => obj.name === "spawnPoint");
+        this.player = new Player(this, playerSpawn.x, playerSpawn.y, 'player').setOrigin(0, 0); //change to accept spawn point later
         console.log(this.player.x, this.player.y);
         this.player.body.collideWorldBounds=true;
         this.playerFSM = new StateMachine('idle', {
