@@ -6,16 +6,11 @@ class Menu extends Phaser.Scene{
         this.load.image('player', 'assets/tempPlayer.png');
         this.load.image('hook', 'assets/tempHook.png');
         this.load.image('arrow', 'assets/arrow.png');
+        this.load.image('enemy', 'assets/tempSlime.png');
         this.load.image('background', 'assets/background.png');
 
         this.load.audio('click', 'assets/click.wav');
         this.load.audio('throw', 'assets/throw.wav');
-
-        // this.load.image('base_tiles_menu', 'assets/tilemap/gridTile_tile1.png');
-        // this.load.tilemapTiledJSON('tilemap_menu', 'assets/tilemap/FishingHero_TileMap.json');
-
-        this.load.image('base_tiles', 'assets/tilemap/gridTile_tile2.png');
-        this.load.tilemapTiledJSON('tilemap', 'assets/tilemap/FishingHero_TileMap_FullLevel.json');
     }
     create(){
         //this.background = this.add.image(0,0, 'background');
@@ -24,20 +19,6 @@ class Menu extends Phaser.Scene{
         this.click.setLoop(true);
 
         this.throw = this.sound.add('throw');
-
-        // Create the Tilemap
-        this.map = this.make.tilemap({key: 'tilemap' });
-        
-        // // add the tileset image we are using
-        this.tileset = this.map.addTilesetImage('tower', 'base_tiles');
-
-        // Create the layers we want
-        this.platformLayer = this.map.createLayer('Platforms', this.tileset);
-        this.platformLayer.setCollisionByProperty({ collides: true });
-        this.wallLayer = this.map.createLayer('Wall', this.tileset);
-        this.wallLayer.setCollisionByProperty({ collides: true });
-        this.backgroundLayer = this.map.createLayer('Background', this.tileset);
-        this.backgroundLayer.setCollisionByProperty({ collides: true });
 
         //setup player with state machine
         this.player = new Player(this, 504, 1880, 'player').setOrigin(0, 0);
@@ -55,6 +36,10 @@ class Menu extends Phaser.Scene{
         //setup hook and arrow
         this.hook;
         this.arrow;
+
+        //test enemy
+        this.enemy = new Enemy(this, 704, 1880, 'enemy', false).setOrigin(0, 0);
+        this.enemy.body.collideWorldBounds=true;
 
         //mouse stuff
         this.mouseDownX;
