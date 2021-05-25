@@ -19,12 +19,18 @@ let config = {
             // }
         }
     },
-    scene: [Menu, Play]
+    scene: [Menu, Play, Dialogue]
 }
 
 let game = new Phaser.Game(config);
 
 // Global Variables
-let keyA, keyD, keySpace;
+let keyA, keyD, keySpace, keyF;
+let dialogueCounter = 0;
 
 let graphics;
+
+// Dialogue stuff
+const centerX = game.config.width / 2;
+const centerY = game.config.height / 2;
+let cursors = null;

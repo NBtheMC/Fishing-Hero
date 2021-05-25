@@ -63,6 +63,7 @@ class Play extends Phaser.Scene{
         // Keyboard keys
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 
         // Hook shenanigans
         this.input.on('pointerdown', function (pointer) {
@@ -158,5 +159,10 @@ class Play extends Phaser.Scene{
             this.drawRope();
         }
         this.playerFSM.step();
+        if(Phaser.Input.Keyboard.JustDown(keyF)){
+            if(dialogueCounter < 1) {
+                this.scene.launch('dialogueScene');
+            }
+        }
     }
 }

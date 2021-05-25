@@ -16,6 +16,23 @@ class Menu extends Phaser.Scene{
 
         this.load.image('base_tiles', 'assets/tilemap/gridTile_tile2.png');
         this.load.tilemapTiledJSON('tilemap', 'assets/tilemap/FishingHero_TileMap_FullLevel.json');
+
+        // Preload Dialogue stuff
+        // load assets
+        this.load.path = "./assets/";
+
+        // load JSON (dialog)
+        this.load.json('dialog', 'json/dialog.json');
+
+        // load images
+        this.load.image('dialogbox', 'dialogue/dialogbox.png');
+        this.load.image('homer', 'tempPlayer.png');
+        this.load.image('minerva', 'dialogue/minerva.png');
+        this.load.image('jove', 'dialogue/jove.png');
+        this.load.image('neptune', 'dialogue/neptune.png');
+
+        // load bitmap font
+        this.load.bitmapFont('gem_font', 'font/gem.png', 'font/gem.xml');
     }
     create(){
         //this.background = this.add.image(0,0, 'background');
@@ -134,6 +151,10 @@ class Menu extends Phaser.Scene{
         let customHeight = 50;
         this.add.text(game.config.width/2, game.config.height/2, 'Move left and right with A and D\nClick and drag to throw the hook\nClick again to retract it\nPress Space to start!', menuConfig).setOrigin(0.5);
         keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        // Dialogue stuff
+        // create input
+        cursors = this.input.keyboard.createCursorKeys();
     }
 
     drawRope(){
