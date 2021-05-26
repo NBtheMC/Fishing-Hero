@@ -26,24 +26,25 @@ class Menu extends Phaser.Scene{
         this.map = this.make.tilemap({key: 'tilemap_menu' });
         
         // add the tileset image we are using
-        this.tileset = this.map.addTilesetImage('Tower_new', 'base_tiles_menu');
+        this.tileset = this.map.addTilesetImage('gridTile_3', 'base_tiles_menu');
 
         // Create the layers we want: platform, door, tower, bridge, grass, water
-        this.platformLayer = this.map.createLayer('platform', this.tileset);
-        this.platformLayer.setCollisionByProperty({ collides: true });
-        this.doorLayer = this.map.createLayer('door', this.tileset);
-        this.doorLayer.setCollisionByProperty({ collides: true });
-        this.towerLayer = this.map.createLayer('tower', this.tileset);
-        this.towerLayer.setCollisionByProperty({ collides: true });
-        this.bridgeLayer = this.map.createLayer('bridge', this.tileset);
-        this.bridgeLayer.setCollisionByProperty({ collides: true });
-        this.grassLayer = this.map.createLayer('grass', this.tileset);
-        this.grassLayer.setCollisionByProperty({ collides: true });
         this.waterLayer = this.map.createLayer('water', this.tileset);
         this.waterLayer.setCollisionByProperty({ collides: true });
+        this.grassLayer = this.map.createLayer('grass', this.tileset);
+        this.grassLayer.setCollisionByProperty({ collides: true });
+        this.platformLayer = this.map.createLayer('platform', this.tileset);
+        this.platformLayer.setCollisionByProperty({ collides: true });
+        this.towerLayer = this.map.createLayer('tower', this.tileset);
+        this.towerLayer.setCollisionByProperty({ collides: true });
+        this.doorLayer = this.map.createLayer('door', this.tileset);
+        this.doorLayer.setCollisionByProperty({ collides: true });
+        this.bridgeLayer = this.map.createLayer('bridge', this.tileset);
+        this.bridgeLayer.setCollisionByProperty({ collides: true });
+
 
         //setup player with state machine
-        const playerSpawn = this.map.findObject("points", obj => obj.name === "spawnPoint");
+        const playerSpawn = this.map.findObject("Points", obj => obj.name === "spawnPoint");
         this.player = new Player(this, playerSpawn.x, playerSpawn.y, 'player').setOrigin(0, 0);
         //this.player.body.collideWorldBounds=true;
         this.playerFSM = new StateMachine('idle', {
@@ -126,11 +127,11 @@ class Menu extends Phaser.Scene{
         this.controlPoint;
         this.endPoint;
 
-        // this.physics.add.collider(this.player, this.platformLayer);
-        // this.physics.add.collider(this.player, this.doorLayer);
-        // this.physics.add.collider(this.player, this.bridgeLayer);
-        // this.physics.add.collider(this.player, this.grassLayer);
-        // this.physics.add.collider(this.player, this.waterLayer);
+        this.physics.add.collider(this.player, this.platformLayer);
+        this.physics.add.collider(this.player, this.doorLayer);
+        this.physics.add.collider(this.player, this.bridgeLayer);
+        this.physics.add.collider(this.player, this.grassLayer);
+        this.physics.add.collider(this.player, this.waterLayer);
 
         let menuConfig = {
             fontFamily: 'Verdana',

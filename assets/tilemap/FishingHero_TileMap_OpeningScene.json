@@ -3,12 +3,23 @@
     {
      "export":
         {
-         "format":"tmx"
+         "format":"json",
+         "target":"FishingHero_TileMap_OpeningScene.json"
         }
     },
  "height":34,
  "infinite":true,
  "layers":[
+        {
+         "id":17,
+         "layers":[],
+         "name":"OpeningScene",
+         "opacity":1,
+         "type":"group",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
         {
          "chunks":[
                 {
@@ -188,8 +199,8 @@
         }, 
         {
          "draworder":"topdown",
-         "id":24,
-         "name":"points",
+         "id":25,
+         "name":"Points",
          "objects":[
                 {
                  "height":0,
@@ -200,8 +211,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":615.030303030303,
-                 "y":1938.78787878788
+                 "x":597.333666666667,
+                 "y":1728.00333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -209,7 +220,7 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":25,
+ "nextlayerid":26,
  "nextobjectid":2,
  "orientation":"orthogonal",
  "renderorder":"right-down",
@@ -240,6 +251,43 @@
          "spacing":0,
          "tilecount":144,
          "tileheight":64,
+         "tiles":[
+                {
+                 "id":106,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":107,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":108,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":119,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }],
          "tilewidth":64
         }],
  "tilewidth":64,
