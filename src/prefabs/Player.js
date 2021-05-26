@@ -112,21 +112,21 @@ class FreefallState extends State{
 class HurtState extends State{
     enter(scene){
         //knockback
-        let knockbackX = -500;
-        let knockbackY = 450;
-        // if(scene.player.body.touching.left){
-        //     knockbackX = -500000000;
-        // }
-        // else if(scene.player.body.touching.right){
-        //     knockbackX = -500000000;
-        // }
-        // else if(scene.player.body.touching.up){
-        //     knockbackY = -1;
-        // }
-        // else if(scene.player.body.touching.down){
-        //     knockbackY = -1;
-        // }
+        let knockbackX, knockbackY;
+        if(scene.player.body.touching.left){
+            knockbackX = 500;
+        }
+        else if(scene.player.body.touching.right){
+            knockbackX = -500;
+        }
+        else if(scene.player.body.touching.up){
+            knockbackY = -450;
+        }
+        else if(scene.player.body.touching.down){
+            knockbackY = 450;
+        }
         scene.player.body.setVelocity(knockbackX, knockbackY);
+        //scene.cameras.main.shake(100, .05, true);
         scene.player.body.setBounce(.75,.75);
         //scene.playerFSM.transition('idle');
     }
