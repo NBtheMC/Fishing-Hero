@@ -3,18 +3,18 @@ class Dialogue extends Phaser.Scene {
         super("dialogueScene");
 
         // dialog constants
-        this.DBOX_X = 0;			    // dialog box x-position
-        this.DBOX_Y = 400;			    // dialog box y-position
+        this.DBOX_X = 200;			    // dialog box x-position
+        this.DBOX_Y = 175;			    // dialog box y-position
         this.DBOX_FONT = 'gem_font';	// dialog box font key
 
-        this.TEXT_X = 50;			// text w/in dialog box x-position
-        this.TEXT_Y = 445;			// text w/in dialog box y-position
+        this.TEXT_X = this.DBOX_X + 20;			// text w/in dialog box x-position
+        this.TEXT_Y = this.DBOX_Y + 20;			// text w/in dialog box y-position
         this.TEXT_SIZE = 24;		// text font size (in pixels)
-        this.TEXT_MAX_WIDTH = 715;	// max width of text within box
+        this.TEXT_MAX_WIDTH = 350 ;	// max width of text within box
 
         this.NEXT_TEXT = '[SPACE]';	// text to display for next prompt
-        this.NEXT_X = 775;			// next text prompt x-position
-        this.NEXT_Y = 574;			// next text prompt y-position
+        this.NEXT_X = this.DBOX_X + 300;			// next text prompt x-position
+        this.NEXT_Y = this.DBOX_Y + 140;			// next text prompt y-position
 
         this.LETTER_TIMER = 10;		// # ms each letter takes to "type" onscreen
 
