@@ -1,9 +1,14 @@
 class Enemy extends Phaser.Physics.Arcade.Sprite{
-    constructor(scene, x, y, texture, frame, isPeaceful){
+    constructor(scene, x, y, texture, frame){
         super(scene, x, y, texture, frame);
         //add to scene
         scene.add.existing(this);     
         scene.physics.add.existing(this);
-        this.isPeaceful; //is it the fish at the beginning of game
+        this.isPeaceful = false; //is it the fish at the beginning of game
+        this.isThrown = false; //true when enemy has been reeled
+        //hits player
+        this.body.setImmovable(true);
+        this.setBodySize(190, 190);
+        this.setOffset(0,0);
     }
 }

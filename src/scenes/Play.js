@@ -15,9 +15,6 @@ class Play extends Phaser.Scene{
 
         this.throw = this.sound.add('throw');
         
-        // Sanity Check:
-        //this.add.image(0, 0, 'base_tiles').setOrigin(0, 0);
-
         // Create the Tilemap
         this.map = this.make.tilemap({key: 'tilemap' });
         
@@ -34,7 +31,7 @@ class Play extends Phaser.Scene{
         
         //setup player with state machine
         const playerSpawn = this.map.findObject("Points", obj => obj.name === "spawnPoint");
-        this.player = new Player(this, playerSpawn.x, playerSpawn.y, 'player').setOrigin(0, 0); //change to accept spawn point later
+        this.player = new Player(this, playerSpawn.x, playerSpawn.y, 'player').setOrigin(0, 0);
         console.log(this.player.x, this.player.y);
         this.player.body.collideWorldBounds=true;
         this.playerFSM = new StateMachine('idle', {
@@ -47,10 +44,24 @@ class Play extends Phaser.Scene{
             hurt: new HurtState(),
         }, [this]);
         this.player.body.collideWorldBounds=false;
-        
+        this.bounces = 0;
+
         //setup hook
         this.hook;
         
+        // enemies
+        this.enemiesGroup = this.add.group(
+            this.map.createFromObjects("Enemies", {
+                classType: Enemy,
+                key: 'enemy'
+            })
+        );
+
+        this.physics.add.collider(this.enemiesGroup, this.player, (e, p)=>{
+            this.playerFSM.transition('hurt');
+        });
+        this.physics.add.collider(this.enemiesGroup, this.platformLayer);
+        this.physics.add.collider(this.enemiesGroup, this.wallLayer);
 
         //mouse stuff
         this.mouseDownX;
@@ -116,9 +127,13 @@ class Play extends Phaser.Scene{
 
         this.physics.add.collider(this.player, this.platformLayer);
         this.physics.add.collider(this.player, this.wallLayer);
-        this.physics.add.collider(this.player, this.platformLayer, function(p,g){
+        this.physics.add.collider(this.player, this.platformLayer, (p,g)=>{
             if(this.playerFSM.state == 'reel'){
                 this.playerFSM.transition('freefall');
+            }
+            if(this.playerFSM.state == 'hurt'){
+                this.bounces++;
+                console.log(this.bounces);
             }
         });
         this.cameras.main.startFollow(this.player);
