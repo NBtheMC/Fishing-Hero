@@ -22,30 +22,30 @@ class Menu extends Phaser.Scene{
 
         this.throw = this.sound.add('throw');
 
-        // // Create the Tilemap
-        // this.map = this.make.tilemap({key: 'tilemap_menu' });
+        // Create the Tilemap
+        this.map = this.make.tilemap({key: 'tilemap_menu' });
         
-        // // add the tileset image we are using
-        // this.tileset = this.map.addTilesetImage('Tower_new', 'base_tiles_menu');
+        // add the tileset image we are using
+        this.tileset = this.map.addTilesetImage('Tower_new', 'base_tiles_menu');
 
-        // // Create the layers we want: platform, door, tower, bridge, grass, water
-        // this.platformLayer = this.map.createLayer('platform', this.tileset);
-        // this.platformLayer.setCollisionByProperty({ collides: true });
-        // this.doorLayer = this.map.createLayer('door', this.tileset);
-        // this.doorLayer.setCollisionByProperty({ collides: true });
-        // this.towerLayer = this.map.createLayer('tower', this.tileset);
-        // this.towerLayer.setCollisionByProperty({ collides: true });
-        // this.bridgeLayer = this.map.createLayer('bridge', this.tileset);
-        // this.bridgeLayer.setCollisionByProperty({ collides: true });
-        // this.grassLayer = this.map.createLayer('grass', this.tileset);
-        // this.grassLayer.setCollisionByProperty({ collides: true });
-        // this.waterLayer = this.map.createLayer('water', this.tileset);
-        // this.waterLayer.setCollisionByProperty({ collides: true });
+        // Create the layers we want: platform, door, tower, bridge, grass, water
+        this.platformLayer = this.map.createLayer('platform', this.tileset);
+        this.platformLayer.setCollisionByProperty({ collides: true });
+        this.doorLayer = this.map.createLayer('door', this.tileset);
+        this.doorLayer.setCollisionByProperty({ collides: true });
+        this.towerLayer = this.map.createLayer('tower', this.tileset);
+        this.towerLayer.setCollisionByProperty({ collides: true });
+        this.bridgeLayer = this.map.createLayer('bridge', this.tileset);
+        this.bridgeLayer.setCollisionByProperty({ collides: true });
+        this.grassLayer = this.map.createLayer('grass', this.tileset);
+        this.grassLayer.setCollisionByProperty({ collides: true });
+        this.waterLayer = this.map.createLayer('water', this.tileset);
+        this.waterLayer.setCollisionByProperty({ collides: true });
 
         //setup player with state machine
-        //const playerSpawn = this.map.findObject("points", obj => obj.name === "spawnPoint");
-        this.player = new Player(this, 300, 1880, 'player').setOrigin(0, 0);
-        this.player.body.collideWorldBounds=true;
+        const playerSpawn = this.map.findObject("points", obj => obj.name === "spawnPoint");
+        this.player = new Player(this, playerSpawn.x, playerSpawn.y, 'player').setOrigin(0, 0);
+        //this.player.body.collideWorldBounds=true;
         this.playerFSM = new StateMachine('idle', {
             idle: new IdleState(),
             move: new MoveState(),
@@ -148,6 +148,7 @@ class Menu extends Phaser.Scene{
         let customHeight = 50;
         this.add.text(game.config.width/2, game.config.height/2, 'Move left and right with A and D\nClick and drag to throw the hook\nClick again to retract it\nPress Space to start!', menuConfig).setOrigin(0.5);
         keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.cameras.main.startFollow(this.player);
     }
 
     drawRope(){

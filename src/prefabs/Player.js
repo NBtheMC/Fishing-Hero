@@ -112,7 +112,8 @@ class FreefallState extends State{
 class HurtState extends State{
     enter(scene){
         //knockback
-        let knockbackX, knockbackY;
+        let knockbackX = 350;
+        let knockbackY = 350;
         if(scene.player.body.touching.left){
             knockbackX = 500;
         }
@@ -120,19 +121,21 @@ class HurtState extends State{
             knockbackX = -500;
         }
         else if(scene.player.body.touching.up){
-            knockbackY = -450;
-        }
-        else if(scene.player.body.touching.down){
             knockbackY = 450;
         }
+        if(scene.player.body.touching.down){
+            knockbackY = -450;
+        }
         scene.player.body.setVelocity(knockbackX, knockbackY);
-        //scene.cameras.main.shake(100, .05, true);
+        scene.cameras.main.shake(100, .05);
         scene.player.body.setBounce(.75,.75);
-        //scene.playerFSM.transition('idle');
     }
     execute(scene){
         //record bounces
-        if(scene.bounces == 3){
+        console.log(scene.player.body.velocity);
+        if(scene.bounces == 6){
+            scene.player.body.setBounce(0, 0);
+            scene.bounces = 0;
             scene.playerFSM.transition('idle');
         }
     }

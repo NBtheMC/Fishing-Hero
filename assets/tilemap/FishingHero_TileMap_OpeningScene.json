@@ -194,14 +194,14 @@
                 {
                  "height":0,
                  "id":1,
-                 "name":"spawnpoint",
+                 "name":"spawnPoint",
                  "point":true,
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":236,
-                 "y":2012
+                 "x":615.030303030303,
+                 "y":1938.78787878788
                 }],
          "opacity":1,
          "type":"objectgroup",
