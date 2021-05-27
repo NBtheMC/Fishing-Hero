@@ -4,8 +4,8 @@ class Play extends Phaser.Scene{
     }
 
     preload(){
-        this.load.image('base_tiles', 'assets/tilemap/gridTile_tile2.png');
-        this.load.tilemapTiledJSON('tilemap', 'assets/tilemap/FishingHero_TileMap_FullLevel.json');
+        this.load.image('base_tiles', 'assets/tilemap/tilemap.png');
+        this.load.tilemapTiledJSON('tilemap', 'assets/tilemap/FishingHero_TileMap_Level1.json');
     }   
 
     create(){

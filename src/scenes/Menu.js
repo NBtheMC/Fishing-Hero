@@ -12,7 +12,7 @@ class Menu extends Phaser.Scene{
         this.load.audio('click', 'assets/click.wav');
         this.load.audio('throw', 'assets/throw.wav');
 
-        this.load.image('base_tiles_menu', 'assets/tilemap/gridTile_3.png');
+        this.load.image('base_tiles_menu', 'assets/tilemap/tilemap.png');
         this.load.tilemapTiledJSON('tilemap_menu', 'assets/tilemap/FishingHero_TileMap_OpeningScene.json');
     }
     create(){
