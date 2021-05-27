@@ -4,7 +4,7 @@ class Hook extends Phaser.Physics.Arcade.Sprite{
         //add to scene
         scene.add.existing(this);     
         scene.physics.add.existing(this);
-        scene.physics.add.collider(this, scene.platformLayer, function(h,g){
+        scene.physics.add.collider(this, scene.platformLayer, (h,g) => {
             h.body.setImmovable(true);
             h.body.setVelocity(0,0);
             h.body.setAllowGravity(false);
@@ -18,9 +18,9 @@ class Hook extends Phaser.Physics.Arcade.Sprite{
             }
         });
         //reeling enemy
-        scene.physics.add.overlap(this, scene.enemy, function(h, e){
+        // scene.physics.add.overlap(this, scene.enemy, function(h, e){
 
-        });
+        // });
         this.setScale(.25);
         this.allowGravity = false;
     }
