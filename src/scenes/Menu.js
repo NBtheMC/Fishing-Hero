@@ -12,7 +12,7 @@ class Menu extends Phaser.Scene{
         this.load.audio('click', 'assets/click.wav');
         this.load.audio('throw', 'assets/throw.wav');
 
-        this.load.image('base_tiles_menu', 'assets/tilemap/tilemap.png');
+        this.load.image('base_tiles', 'assets/tilemap/tilemap.png');
         this.load.tilemapTiledJSON('tilemap_menu', 'assets/tilemap/FishingHero_TileMap_OpeningScene.json');
     }
     create(){
@@ -22,11 +22,15 @@ class Menu extends Phaser.Scene{
 
         this.throw = this.sound.add('throw');
 
-        // Create the Tilemap
-        this.map = this.make.tilemap({key: 'tilemap_menu' });
-        
+        //Create the Tilemap
+        this.mapConfig = {
+            key: 'tilemap_menu',
+            tileWidth: 64,
+            tileHeight: 64
+        }
+        this.map = this.make.tilemap(this.mapConfig);
         // add the tileset image we are using
-        this.tileset = this.map.addTilesetImage('gridTile_3', 'base_tiles_menu');
+        this.tileset = this.map.addTilesetImage('tilemap', 'base_tiles', 64, 64);
 
         // Create the layers we want: platform, door, tower, bridge, grass, water
         this.waterLayer = this.map.createLayer('water', this.tileset);
@@ -46,6 +50,7 @@ class Menu extends Phaser.Scene{
         //setup player with state machine
         const playerSpawn = this.map.findObject("Points", obj => obj.name === "spawnPoint");
         this.player = new Player(this, playerSpawn.x, playerSpawn.y, 'player').setOrigin(0, 0);
+        this.player.setScale(.5, .5);
         //this.player.body.collideWorldBounds=true;
         this.playerFSM = new StateMachine('idle', {
             idle: new IdleState(),
