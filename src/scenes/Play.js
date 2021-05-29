@@ -27,12 +27,12 @@ class Play extends Phaser.Scene{
         this.tileset = this.map.addTilesetImage('Tower_new', 'base_tiles', 64, 64);
 
         // Create the layers we want
-        this.wallLayer = this.map.createLayer('Wall', this.tileset);
-        this.wallLayer.setCollisionByProperty({ collides: true });
         this.backgroundLayer = this.map.createLayer('Background', this.tileset);
         this.backgroundLayer.setCollisionByProperty({ collides: true });
         this.platformLayer = this.map.createLayer('Platforms', this.tileset);
         this.platformLayer.setCollisionByProperty({ collides: true });
+        this.wallLayer = this.map.createLayer('Wall', this.tileset);
+        this.wallLayer.setCollisionByProperty({ collides: true });
         
         //setup player with state machine
         const playerSpawn = this.map.findObject("Points", obj => obj.name === "spawnPoint");
