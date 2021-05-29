@@ -99,6 +99,7 @@ class FreefallState extends State{
     enter(scene){
         //play appropriate animation
         scene.hook.destroy();
+        activeHook = 0;
         scene.player.body.setAllowGravity(true);
         scene.click.pause();
     }
@@ -111,6 +112,12 @@ class FreefallState extends State{
 
 class HurtState extends State{
     enter(scene){
+        if(activeHook == 1) {
+            scene.hook.destroy();
+            activeHook = 0;
+            scene.player.body.setAllowGravity(true);
+            scene.click.pause();
+        }
         //knockback
         let knockbackX = 350;
         let knockbackY = 350;
@@ -132,7 +139,6 @@ class HurtState extends State{
     }
     execute(scene){
         //record bounces
-        console.log(scene.player.body.velocity);
         if(scene.bounces == 6){
             scene.player.body.setBounce(0, 0);
             scene.bounces = 0;

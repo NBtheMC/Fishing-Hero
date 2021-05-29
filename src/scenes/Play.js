@@ -12,7 +12,6 @@ class Play extends Phaser.Scene{
         //sounds
         this.click = this.sound.add('click');
         this.click.setLoop(true);
-
         this.throw = this.sound.add('throw');
         
         // Create the Tilemap
@@ -37,7 +36,7 @@ class Play extends Phaser.Scene{
         //setup player with state machine
         const playerSpawn = this.map.findObject("Points", obj => obj.name === "spawnPoint");
         this.player = new Player(this, playerSpawn.x, playerSpawn.y, 'player').setOrigin(0, 0);
-        console.log(this.player.x, this.player.y);
+        //console.log(this.player.x, this.player.y);
         this.player.body.collideWorldBounds=true;
         this.playerFSM = new StateMachine('idle', {
             idle: new IdleState(),
@@ -62,13 +61,15 @@ class Play extends Phaser.Scene{
             })
         );
 
+        // enemy colliders
         this.physics.add.collider(this.enemiesGroup, this.player, (e, p)=>{
             this.playerFSM.transition('hurt');
         });
         this.physics.add.collider(this.enemiesGroup, this.platformLayer);
         this.physics.add.collider(this.enemiesGroup, this.wallLayer);
 
-        //mouse stuff
+        // INPUTS:
+        // mouse stuff
         this.mouseDownX;
         this.mouseDownY;
         this.mouseDownPosition = new Phaser.Math.Vector2();
@@ -76,11 +77,11 @@ class Play extends Phaser.Scene{
         this.mouseUpY;
         this.mouseUpPosition = new Phaser.Math.Vector2();
 
-        // Keyboard keys
+        // keyboard keys
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
-        // Hook shenanigans
+        // hook shenanigans
         this.input.on('pointerdown', function (pointer) {
             if(this.playerFSM.state == 'idle'){
                 this.playerFSM.transition('aim');
@@ -92,10 +93,12 @@ class Play extends Phaser.Scene{
             else if(this.playerFSM.state == 'cast'){
                 this.playerFSM.transition('idle');
                 this.hook.destroy();
+                activeHook = 0;
             }
             else if(this.playerFSM.state == 'reel'){
                 this.playerFSM.transition('freefall');
                 this.hook.destroy();
+                activeHook = 0;
             }
         }, this); 
 
@@ -116,6 +119,7 @@ class Play extends Phaser.Scene{
                 let diffY = pointer.y - this.mouseDownY;
                 console.log('diffX: '+ diffX + '\ndiffY: ' + diffY);
                 this.hook.launch(-diffX,-diffY);
+                activeHook = 1;
                 this.throw.play();
                 this.playerFSM.transition('cast');
                 this.arrow.destroy();
@@ -131,14 +135,17 @@ class Play extends Phaser.Scene{
         this.endPoint;
 
         //this.physics.add.collider(this.player, this.platformLayer);
-        this.physics.add.collider(this.player, this.wallLayer);
+        this.physics.add.collider(this.player, this.wallLayer, (p,g)=>{
+            if(this.playerFSM.state == 'hurt'){
+                this.bounces++;
+            }
+        }); 
         this.physics.add.collider(this.player, this.platformLayer, (p,g)=>{
             if(this.playerFSM.state == 'reel'){
                 this.playerFSM.transition('freefall');
             }
             else if(this.playerFSM.state == 'hurt'){
                 this.bounces++;
-                console.log(this.bounces);
             }
         });
         this.cameras.main.startFollow(this.player);

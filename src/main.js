@@ -26,5 +26,5 @@ let game = new Phaser.Game(config);
 
 // Global Variables
 let keyA, keyD, keySpace;
-
+let activeHook;
 let graphics;
