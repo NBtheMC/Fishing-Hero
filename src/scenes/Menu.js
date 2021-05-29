@@ -135,6 +135,7 @@ class Menu extends Phaser.Scene{
         this.physics.add.collider(this.player, this.platformLayer);
         this.physics.add.collider(this.player, this.doorLayer);
         this.physics.add.collider(this.player, this.bridgeLayer);
+        this.physics.add.collider(this.player, this.towerLayer);
         this.physics.add.collider(this.player, this.grassLayer);
         this.physics.add.collider(this.player, this.waterLayer);
 
