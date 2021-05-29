@@ -4,6 +4,7 @@ class Play extends Phaser.Scene{
     }
 
     preload(){
+        this.load.image('base_tiles', 'assets/tilemap/tilemap.png');
         this.load.tilemapTiledJSON('tilemap_full', 'assets/tilemap/FishingHero_TileMap_FullLevel.json');
     }   
 
@@ -23,7 +24,7 @@ class Play extends Phaser.Scene{
         this.map = this.make.tilemap(this.mapConfig);
         
         // add the tileset image we are using
-        this.tileset = this.map.addTilesetImage('tilemap', 'base_tiles', 64, 64);
+        this.tileset = this.map.addTilesetImage('Tower_new', 'base_tiles', 64, 64);
 
         // Create the layers we want
         this.wallLayer = this.map.createLayer('Wall', this.tileset);
