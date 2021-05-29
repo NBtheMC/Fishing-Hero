@@ -149,8 +149,9 @@ class Play extends Phaser.Scene{
             }
         });
         this.cameras.main.startFollow(this.player);
-        this.cameras.main.setBounds(275, 0, 1280,10000, true);
+        this.cameras.main.setBounds(275, -10000, 1280,200000, true);
         this.cameras.main.setZoom(.9,.9);
+        keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
     drawRope(){
@@ -185,5 +186,8 @@ class Play extends Phaser.Scene{
             this.drawRope();
         }
         this.playerFSM.step();
+        if(keySpace.isDown){
+            this.player.body.setVelocityY(-1000);
+        }
     }
 }
