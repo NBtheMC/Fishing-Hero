@@ -193,5 +193,8 @@ class Menu extends Phaser.Scene{
         if(Phaser.Input.Keyboard.JustDown(keySpace)){
             this.scene.start('playScene');
         }
+        if(this.player.x > 1391.5 && this.player.y < 2033) {
+            this.scene.start('playScene');
+        }
     }
 }
