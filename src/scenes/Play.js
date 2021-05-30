@@ -4,11 +4,16 @@ class Play extends Phaser.Scene{
     }
 
     preload(){
+        this.load.image('player', 'assets/knight_idle_in.png');
+        this.load.image('player_reel', 'assets/knight_reel_in.png');
+        this.load.image('background', 'assets/skyWide.png');
+
         this.load.image('base_tiles', 'assets/tilemap/tilemap.png');
         this.load.tilemapTiledJSON('tilemap_full', 'assets/tilemap/FishingHero_TileMap_FullLevel.json');
     }   
 
     create(){
+        this.add.image(400, 300, 'background');
         //sounds
         this.click = this.sound.add('click');
         this.click.setLoop(true);

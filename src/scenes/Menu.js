@@ -3,11 +3,11 @@ class Menu extends Phaser.Scene{
         super("menuScene");
     }
     preload(){
-        this.load.image('player', 'assets/tempPlayer.png');
+        this.load.image('player', 'assets/knight_idle_out.png');
+        this.load.image('player_reel', 'assets/knight_reel_out.png');
         this.load.image('hook', 'assets/tempHook.png');
         this.load.image('arrow', 'assets/arrow.png');
-        this.load.image('enemy', 'assets/tempSlime.png');
-        this.load.image('background', 'assets/background.png');
+        this.load.image('enemy', 'assets/slime_enemy.png');
 
         this.load.audio('click', 'assets/click.wav');
         this.load.audio('throw', 'assets/throw.wav');
