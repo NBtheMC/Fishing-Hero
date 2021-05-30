@@ -39,10 +39,12 @@ class MoveState extends State{
         //tight movement
         if(keyA.isDown) {
             p.body.setVelocityX(-p.getMoveSpeed());
+            p.setFlipX(true);
             return;
         }
         else if(keyD.isDown) {
             p.body.setVelocityX(p.getMoveSpeed());
+            p.setFlipX(false);
             return;
         }
         else{
@@ -55,9 +57,15 @@ class MoveState extends State{
 class AimState extends State{
     enter(scene){
         //setup hook and arrow
-        scene.hook = new Hook(scene, scene.player.x, scene.player.y, 'hook');
+        if(!scene.player.flipX){
+            scene.hook = new Hook(scene, scene.player.x, scene.player.y, 'hook');
+            scene.arrow = scene.add.image(scene.player.x, scene.player.y, 'arrow').setOrigin(.5,1);
+        }
+        if(scene.player.flipX){
+            scene.hook = new Hook(scene, scene.player.x + scene.player.width, scene.player.y, 'hook');
+            scene.arrow = scene.add.image(scene.player.x + scene.player.width, scene.player.y, 'arrow').setOrigin(.5,1);
+        }
         scene.hook.body.setAllowGravity(false);
-        scene.arrow = scene.add.image(scene.player.x, scene.player.y, 'arrow').setOrigin(.5,1);
         //scene.arrow.scaleY = 0;
     }
     execute(scene){
@@ -91,7 +99,7 @@ class ReelState extends State{
         if(scene.player.body.onCeiling()){
             scene.playerFSM.transition('freefall');
         }
-        scene.player.body.setAcceleration(scene.hook.x - scene.player.x, scene.hook.y - scene.player.y);
+        scene.player.body.setAcceleration(2*(scene.hook.x - scene.player.x), 2*(scene.hook.y - scene.player.y));
     }
 }
 

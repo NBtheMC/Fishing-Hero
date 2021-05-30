@@ -8,7 +8,12 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{
         this.isThrown = false; //true when enemy has been reeled
         //hits player
         this.body.setImmovable(true);
-        this.setBodySize(190, 190);
+        this.setBodySize(90, 90);
         this.setOffset(0,0);
+    }
+
+    setPeaceful(isPeaceful){
+        this.isPeaceful = isPeaceful;
+        this.body.setAllowGravity(false);
     }
 }

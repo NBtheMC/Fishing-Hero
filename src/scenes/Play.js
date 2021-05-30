@@ -160,14 +160,21 @@ class Play extends Phaser.Scene{
         this.cameras.main.setBounds(275, -10000, 1280,20000, true);
         this.cameras.main.setZoom(.9,.9);
         keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.player.body.setMaxSpeed(2000);
     }
 
     drawRope(){
         //curved rope when throwing
         if(this.playerFSM.state == 'cast'){
             graphics.lineStyle(5, 0xffffff, 1);
-            this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
-            this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.hook.y);
+            if(!this.player.flipX){
+                this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
+                this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.hook.y);
+            }
+            else{
+                this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
+                this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.hook.y);
+            }
             this.endPoint = new Phaser.Math.Vector2(this.hook.x, this.hook.y);
             this.outerRope = new Phaser.Curves.CubicBezier(this.startPoint, this.controlPoint, this.endPoint, this.endPoint);
             this.outerRope.draw(graphics);

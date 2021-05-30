@@ -10,6 +10,10 @@ class Menu extends Phaser.Scene{
         this.load.image('enemy', 'assets/slime_enemy.png');
         this.load.image('background', 'assets/background.png');
         this.load.image('title', 'assets/titlescreen.png');
+        this.load.image('gear', 'assets/gear_pile.png');
+        this.load.image('fish1', 'assets/fish_1.png');
+        this.load.image('fish2', 'assets/fish_2.png');
+        this.load.image('fish3', 'assets/fish_3.png');
 
         this.load.audio('click', 'assets/click.wav');
         this.load.audio('throw', 'assets/throw.wav');
@@ -68,9 +72,20 @@ class Menu extends Phaser.Scene{
         this.hook;
         this.arrow;
 
-        //test enemy
-        // this.enemy = new Enemy(this, 704, 1880, 'enemy', false).setOrigin(0, 0);
-        // this.enemy.body.collideWorldBounds=true;
+        //fish enemies
+        let fishSpawn = this.map.findObject("Points", obj => obj.name === "fish1");
+        this.fish1 = new Enemy(this, fishSpawn.x, fishSpawn.y, 'fish1').setOrigin(0, 0);
+        this.fish1.setPeaceful(true);
+        fishSpawn = this.map.findObject("Points", obj => obj.name === "fish2");
+        this.fish2 = new Enemy(this, fishSpawn.x, fishSpawn.y, 'fish2').setOrigin(0, 0);
+        this.fish2.setPeaceful(true);
+        fishSpawn = this.map.findObject("Points", obj => obj.name === "fish3");
+        this.fish3 = new Enemy(this, fishSpawn.x, fishSpawn.y, 'fish3').setOrigin(0, 0);
+        this.fish3.setPeaceful(true);
+
+        //gear
+        const gearSpawn = this.map.findObject("Points", obj => obj.name === "gear");
+        this.gear = this.add.image(gearSpawn.x, gearSpawn.y, 'gear');
 
         //mouse stuff
         this.mouseDownX;
@@ -164,8 +179,14 @@ class Menu extends Phaser.Scene{
         //curved rope when throwing
         if(this.playerFSM.state == 'cast'){
             graphics.lineStyle(5, 0xffffff, 1);
-            this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
-            this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.hook.y);
+            if(!this.player.flipX){
+                this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
+                this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.hook.y);
+            }
+            else{
+                this.startPoint = new Phaser.Math.Vector2(this.player.x + this.player.width/2, this.player.y);
+                this.controlPoint = new Phaser.Math.Vector2(this.player.x + this.player.width/2, this.hook.y);
+            }
             this.endPoint = new Phaser.Math.Vector2(this.hook.x, this.hook.y);
             this.outerRope = new Phaser.Curves.CubicBezier(this.startPoint, this.controlPoint, this.endPoint, this.endPoint);
             this.outerRope.draw(graphics);
@@ -175,7 +196,12 @@ class Menu extends Phaser.Scene{
         }
         else if(this.playerFSM.state == 'reel'){
             graphics.lineStyle(5, 0xffffff, 1);
-            this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
+            if(!this.player.flipX){
+                this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
+            }
+            else{
+                this.startPoint = new Phaser.Math.Vector2(this.player.x + this.player.width/2, this.player.y);
+            }
             this.endPoint = new Phaser.Math.Vector2(this.hook.x, this.hook.y);
             this.outerRope = new Phaser.Curves.CubicBezier(this.startPoint, this.startPoint, this.endPoint, this.endPoint);
             this.outerRope.draw(graphics);
