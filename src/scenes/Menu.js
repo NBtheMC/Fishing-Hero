@@ -8,6 +8,7 @@ class Menu extends Phaser.Scene{
         this.load.image('arrow', 'assets/arrow.png');
         this.load.image('enemy', 'assets/tempSlime.png');
         this.load.image('background', 'assets/background.png');
+        this.load.image('title', 'assets/titlescreen.png');
 
         this.load.audio('click', 'assets/click.wav');
         this.load.audio('throw', 'assets/throw.wav');
@@ -196,5 +197,42 @@ class Menu extends Phaser.Scene{
         if(this.player.x > 1391.5 && this.player.y < 2033) {
             this.titleScreen();
         }
+    }
+    titleScreen(){
+        this.player.x = 1390;
+        this.player.y = 2033;
+        keyA.enabled = false;
+        keyD.enabled = false;
+        this.cameras.main.stopFollow(this.player);
+        this.cameras.main.pan(1392, 1033, 2000);
+        this.timer = this.time.addEvent({
+            delay: 2000,
+            callback: this.showTitle,
+            callbackScope: this
+        });
+        this.timer2 = this.time.addEvent({
+            delay: 3000,
+            callback: this.transition,
+            callbackScope: this
+        });
+        this.timer3 = this.time.addEvent({
+            delay: 7000,
+            callback: this.changeScene,
+            callbackScope: this
+        });
+    }
+
+    showTitle(){
+        this.image = this.add.image(1392,1033,'title')
+
+    }
+
+    transition(){
+        this.cameras.main.pan(1500, 2020, 2000)
+        this.cameras.main.zoomTo(4, 3000);
+    }
+
+    changeScene(){
+        this.scene.start('playScene')
     }
 }
