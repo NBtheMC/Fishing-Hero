@@ -155,8 +155,9 @@ class Play extends Phaser.Scene{
                 this.bounces++;
             }
         });
-        this.cameras.main.startFollow(this.player);
-        this.cameras.main.setBounds(275, -10000, 1280,200000, true);
+        this.cameras.main.startFollow(this.player, false, .5, .5, 0, 100);
+        //this.cameras.main.startFollow(this.player);
+        this.cameras.main.setBounds(275, -10000, 1280,20000, true);
         this.cameras.main.setZoom(.9,.9);
         keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
