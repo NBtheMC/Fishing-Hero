@@ -13,8 +13,8 @@ class Play extends Phaser.Scene{
     }   
 
     create(){
-        this.background = this.add.image(400, 300, 'background');
-        this.background.setScale(10, 10);
+        this.background = this.add.image(625, -2500, 'background');
+        this.background.setScale(3, 5);
 
         //sounds
         this.click = this.sound.add('click');
@@ -194,7 +194,7 @@ class Play extends Phaser.Scene{
         }
         this.playerFSM.step();
         if(keySpace.isDown){
-            this.player.body.setVelocityY(-1000);
+            this.player.body.setVelocityY(-2000);
         }
     }
 }
