@@ -13,7 +13,9 @@ class Play extends Phaser.Scene{
     }   
 
     create(){
-        this.add.image(400, 300, 'background');
+        this.background = this.add.image(400, 300, 'background');
+        this.background.setScale(10, 10);
+
         //sounds
         this.click = this.sound.add('click');
         this.click.setLoop(true);
