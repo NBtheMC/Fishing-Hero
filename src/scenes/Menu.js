@@ -71,6 +71,7 @@ class Menu extends Phaser.Scene{
         //setup hook and arrow
         this.hook;
         this.arrow;
+        this.throwPosition = new Phaser.Math.Vector2();
 
         //fish enemies
         let fishSpawn = this.map.findObject("Points", obj => obj.name === "fish1");
@@ -102,6 +103,12 @@ class Menu extends Phaser.Scene{
         // Hook shenanigans
         this.input.on('pointerdown', function (pointer) {
             if(this.playerFSM.state == 'idle'){
+                if(!this.player.flipX){
+                    this.throwPosition.set(this.player.x, this.player.y);
+                }
+                else{
+                    this.throwPosition.set(this.player.x + this.player.width/2, this.player.y);
+                }
                 this.playerFSM.transition('aim');
                 console.log('down');
                 this.mouseDownX = pointer.x;
@@ -173,6 +180,7 @@ class Menu extends Phaser.Scene{
         this.add.text(playerSpawn.x, playerSpawn.y, 'Move left and right with A and D\nClick and drag to throw the hook\nClick again to retract it\nPress Space to start!', menuConfig).setOrigin(0.5);
         keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.cameras.main.startFollow(this.player);
+        this.cameras.main.setZoom(1.5,1.5);
     }
 
     drawRope(){

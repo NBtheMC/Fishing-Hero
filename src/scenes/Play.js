@@ -59,7 +59,9 @@ class Play extends Phaser.Scene{
 
         //setup hook
         this.hook;
-        
+        this.arrow;
+        this.throwPosition = new Phaser.Math.Vector2();
+
         // enemies
         this.enemiesGroup = this.add.group(
             this.map.createFromObjects("Enemies", {
@@ -91,6 +93,12 @@ class Play extends Phaser.Scene{
         // hook shenanigans
         this.input.on('pointerdown', function (pointer) {
             if(this.playerFSM.state == 'idle'){
+                if(!this.player.flipX){
+                    this.throwPosition.set(this.player.x, this.player.y);
+                }
+                else{
+                    this.throwPosition.set(this.player.x + this.player.width, this.player.y);
+                }
                 this.playerFSM.transition('aim');
                 console.log('down');
                 this.mouseDownX = pointer.x;
@@ -172,8 +180,8 @@ class Play extends Phaser.Scene{
                 this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.hook.y);
             }
             else{
-                this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
-                this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.hook.y);
+                this.startPoint = new Phaser.Math.Vector2(this.player.x + this.player.width, this.player.y);
+                this.controlPoint = new Phaser.Math.Vector2(this.player.x + this.player.width, this.hook.y);
             }
             this.endPoint = new Phaser.Math.Vector2(this.hook.x, this.hook.y);
             this.outerRope = new Phaser.Curves.CubicBezier(this.startPoint, this.controlPoint, this.endPoint, this.endPoint);
@@ -184,7 +192,12 @@ class Play extends Phaser.Scene{
         }
         else if(this.playerFSM.state == 'reel'){
             graphics.lineStyle(5, 0xffffff, 1);
-            this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
+            if(!this.player.flipX){
+                this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
+            }
+            else{
+                this.startPoint = new Phaser.Math.Vector2(this.player.x + this.player.width, this.player.y);
+            }
             this.endPoint = new Phaser.Math.Vector2(this.hook.x, this.hook.y);
             this.outerRope = new Phaser.Curves.CubicBezier(this.startPoint, this.startPoint, this.endPoint, this.endPoint);
             this.outerRope.draw(graphics);

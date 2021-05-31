@@ -57,14 +57,8 @@ class MoveState extends State{
 class AimState extends State{
     enter(scene){
         //setup hook and arrow
-        if(!scene.player.flipX){
-            scene.hook = new Hook(scene, scene.player.x, scene.player.y, 'hook');
-            scene.arrow = scene.add.image(scene.player.x, scene.player.y, 'arrow').setOrigin(.5,1);
-        }
-        if(scene.player.flipX){
-            scene.hook = new Hook(scene, scene.player.x + scene.player.width, scene.player.y, 'hook');
-            scene.arrow = scene.add.image(scene.player.x + scene.player.width, scene.player.y, 'arrow').setOrigin(.5,1);
-        }
+        scene.hook = new Hook(scene, scene.throwPosition.x, scene.throwPosition.y, 'hook');
+        scene.arrow = scene.add.image(scene.throwPosition.x, scene.throwPosition.y, 'arrow').setOrigin(.5,1);
         scene.hook.body.setAllowGravity(false);
         //scene.arrow.scaleY = 0;
     }
