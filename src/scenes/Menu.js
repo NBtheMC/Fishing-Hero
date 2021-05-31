@@ -20,6 +20,19 @@ class Menu extends Phaser.Scene{
 
         this.load.image('base_tiles', 'assets/tilemap/tilemap.png');
         this.load.tilemapTiledJSON('tilemap_menu', 'assets/tilemap/FishingHero_TileMap_OpeningScene.json');
+
+        // Preload Dialogue stuff
+        // load assets
+        this.load.path = "./assets/";
+
+        // load JSON (dialog)
+        this.load.json('dialog', 'json/dialog.json');
+
+        // load images
+        this.load.image('dialogbox', 'dialogue/dialogbox.png');
+
+        // load bitmap font
+        this.load.bitmapFont('gem_font', 'font/gem.png', 'font/gem.xml');
     }
     create(){
         //sounds

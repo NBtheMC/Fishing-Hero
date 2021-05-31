@@ -1,0 +1,33 @@
+[
+	[
+		{
+			"speaker" : "Player",
+			"dialog" : "Conversation 1 Part 1",
+			"newSpeaker" : "true"
+		},
+		{
+			"speaker" : "Player",
+			"dialog" : "Conversation 1 Part 2"
+		}
+	],
+	[
+		{
+			"speaker" : "Player",
+			"dialog" : "Conversation 2 Part 1"
+		},
+		{
+			"speaker" : "Player",
+			"dialog" : "Conversation 2 Part 2"
+		}
+	],
+	[
+		{
+			"speaker" : "Player",
+			"dialog" : "Conversation 3 Part 1"
+		},
+		{
+			"speaker" : "Player",
+			"dialog" : "Conversation 3 Part 2"
+		}
+	]
+]

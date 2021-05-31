@@ -4,7 +4,7 @@
      "export":
         {
          "format":"json",
-         "target":"FishingHero_TileMap_OpeningScene.json"
+         "target":"FishingHero_TileMap_FullLevel.json"
         }
     },
  "height":34,
@@ -406,7 +406,18 @@
          "draworder":"topdown",
          "id":21,
          "name":"Storypoints",
-         "objects":[],
+         "objects":[
+                {
+                 "height":64,
+                 "id":16,
+                 "name":"storypoint",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":192,
+                 "x":704.75,
+                 "y":1664.16666666667
+                }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
@@ -451,7 +462,7 @@
                  "visible":true,
                  "width":0,
                  "x":502.73,
-                 "y":-377.8182
+                 "y":-377.818
                 }, 
                 {
                  "height":0,
@@ -462,7 +473,7 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":1437.69666666667,
+                 "x":1437.7,
                  "y":582.91
                 }],
          "opacity":1,
@@ -471,8 +482,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":22,
- "nextobjectid":13,
+ "nextlayerid":23,
+ "nextobjectid":17,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.6.0",

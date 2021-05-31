@@ -35,8 +35,10 @@ class Play extends Phaser.Scene{
         // Create the layers we want
         this.backgroundLayer = this.map.createLayer('Background', this.tileset);
         this.backgroundLayer.setCollisionByProperty({ collides: true });
+
         this.platformLayer = this.map.createLayer('Platforms', this.tileset);
         this.platformLayer.setCollisionByProperty({ collides: true });
+
         this.wallLayer = this.map.createLayer('Wall', this.tileset);
         this.wallLayer.setCollisionByProperty({ collides: true });
         
@@ -89,6 +91,7 @@ class Play extends Phaser.Scene{
         // keyboard keys
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 
         // hook shenanigans
         this.input.on('pointerdown', function (pointer) {
@@ -153,6 +156,23 @@ class Play extends Phaser.Scene{
         this.physics.add.collider(this.player, this.wallLayer, (p,g)=>{
             if(this.playerFSM.state == 'hurt'){
                 this.bounces++;
+            } else if (this.playerFSM.state == 'idle'){
+                if(this.player.x > 604 && this.player.x < 996 && this.player.y < 1628 && convoCounter == -1) {
+                    if(this.player.x <= game.config.width / 2) {
+                        dialogueSide = 0;
+                    } else {
+                        dialogueSide = 1;
+                    }
+                    playerX = this.player.x;
+                    playerY = this.player.y;
+                    if(convoCounter < 3) {
+                        if(convoCounter == -1) {
+                            convoCounter++;
+                        }
+                        this.scene.pause();
+                        this.scene.launch('dialogueScene');
+                    }
+                }
             }
         }); 
         this.physics.add.collider(this.player, this.platformLayer, (p,g)=>{
@@ -163,12 +183,14 @@ class Play extends Phaser.Scene{
                 this.bounces++;
             }
         });
-        this.cameras.main.startFollow(this.player, false, .5, .5, 0, 100);
+        this.cameras.main.startFollow(this.player, false, .5, .5, 0, 50);
         //this.cameras.main.startFollow(this.player);
-        this.cameras.main.setBounds(275, -10000, 1280,20000, true);
+        this.cameras.main.setBounds(275, -10000, 1280, 20000, true);
         this.cameras.main.setZoom(.9,.9);
         keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.player.body.setMaxSpeed(2000);
+
+        //this.dialoguePoint = this.map.findObject("Storypoints", obj => obj.name === "storypoint");
     }
 
     drawRope(){
@@ -216,6 +238,23 @@ class Play extends Phaser.Scene{
         this.playerFSM.step();
         if(keySpace.isDown){
             this.player.body.setVelocityY(-2000);
+        }
+        if(Phaser.Input.Keyboard.JustDown(keyF)){
+            
+            if(this.player.x <= game.config.width / 2) {
+                dialogueSide = 0;
+            } else {
+                dialogueSide = 1;
+            }
+            playerX = this.player.x;
+            playerY = this.player.y;
+            if(convoCounter < 3) {
+                if(convoCounter == -1) {
+                    convoCounter++;
+                }
+                this.scene.pause();
+                this.scene.launch('dialogueScene');
+            }
         }
     }
 }
