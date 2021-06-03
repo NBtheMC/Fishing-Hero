@@ -45,6 +45,7 @@ class Play extends Phaser.Scene{
         //setup player with state machine
         const playerSpawn = this.map.findObject("Points", obj => obj.name === "spawnPoint");
         this.player = new Player(this, playerSpawn.x, playerSpawn.y, 'player').setOrigin(0, 0);
+        this.resetPos = playerSpawn.y;
         //console.log(this.player.x, this.player.y);
         this.player.body.collideWorldBounds=true;
         this.playerFSM = new StateMachine('idle', {
@@ -255,6 +256,13 @@ class Play extends Phaser.Scene{
                 this.scene.pause();
                 this.scene.launch('dialogueScene');
             }
+        }
+        if(this.player.body.velocity.y > 1000) {
+            this.player.body.velocity.y = 1000;
+        }
+        if(this.player.y > 1950) {
+            this.player.body.setVelocityY(0);
+            this.player.y = this.resetPos - 50;
         }
     }
 }
