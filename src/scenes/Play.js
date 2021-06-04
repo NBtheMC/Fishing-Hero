@@ -237,9 +237,10 @@ class Play extends Phaser.Scene{
             this.drawRope();
         }
         this.playerFSM.step();
+        /*
         if(keySpace.isDown){
             this.player.body.setVelocityY(-2000);
-        }
+        }*/
         if(Phaser.Input.Keyboard.JustDown(keyF)){
             
             if(this.player.x <= game.config.width / 2) {
