@@ -158,6 +158,14 @@ class Play extends Phaser.Scene{
         this.physics.add.collider(this.player, this.wallLayer, (p,g)=>{
             if(this.playerFSM.state == 'hurt'){
                 this.bounces++;
+                this.dust = this.add.particles('dust').createEmitter({
+                    speed: 100,
+                    gravity: { x: 0, y: -200 },
+                    scale: { start: .5, end: .1 },
+                    x: this.player.x,
+                    y: this.player.y,
+                    lifespan: 750
+                });
             } else if (this.playerFSM.state == 'idle'){
                 if(this.player.x > 604 && this.player.x < 996 && this.player.y < 1628 && convoCounter == -1) {
                     if(this.player.x <= game.config.width / 2) {
