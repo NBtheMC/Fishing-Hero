@@ -25,6 +25,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{
         console.log("hello");
     }
     setPeaceful(scene, isPeaceful){
+        this.setVelocityX(0);
         this.isPeaceful = isPeaceful;
         this.setBodySize(75, 40);
         this.body.setAllowGravity(false);
