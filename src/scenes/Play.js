@@ -48,6 +48,7 @@ class Play extends Phaser.Scene{
         this.resetPos = playerSpawn.y;
         //console.log(this.player.x, this.player.y);
         this.player.body.collideWorldBounds=true;
+        this.canMove = true;
         this.playerFSM = new StateMachine('idle', {
             idle: new IdleState(),
             move: new MoveState(),

@@ -70,6 +70,7 @@ class Menu extends Phaser.Scene{
         const playerSpawn = this.map.findObject("Points", obj => obj.name === "spawnPoint");
         this.player = new Player(this, playerSpawn.x, playerSpawn.y, 'player').setOrigin(0, 0);
         this.player.setScale(.5, .5);
+        this.canMove = false;
         //this.player.body.collideWorldBounds=true;
         this.playerFSM = new StateMachine('idle', {
             idle: new IdleState(),
@@ -96,6 +97,7 @@ class Menu extends Phaser.Scene{
         fishSpawn = this.map.findObject("Points", obj => obj.name === "fish3");
         this.fish3 = new Enemy(this, fishSpawn.x, fishSpawn.y, 'fish3').setOrigin(0, 0);
         this.fish3.setPeaceful(this, true);
+        this.fishCaught = 0;
 
         //gear
         const gearSpawn = this.map.findObject("Points", obj => obj.name === "gear");
@@ -233,6 +235,10 @@ class Menu extends Phaser.Scene{
     }
 
     update(){
+        //caught all fish so enable character movement
+        if(this.fishCaught ==3){
+            this.canMove = true;
+        }
         graphics.clear();
         //redraw the rope
         if(this.playerFSM.state == 'cast' || this.playerFSM.state == 'reel'){

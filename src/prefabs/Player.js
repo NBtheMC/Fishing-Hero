@@ -23,7 +23,7 @@ class IdleState extends State{
     }
     execute(scene){
         //go into move state or cast
-        if(keyA.isDown || keyD.isDown) {
+        if((keyA.isDown || keyD.isDown) && scene.canMove) {
             this.stateMachine.transition('move');
             return;
         }

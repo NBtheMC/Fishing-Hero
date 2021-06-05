@@ -17,7 +17,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{
         this.setBodySize(75, 40);
         this.body.setAllowGravity(false);
         scene.physics.add.overlap(this, scene.player, function(e,p){
-            e.eat();
+            e.eat(scene);
             scene.playerFSM.transition('freefall');
         });
     }
@@ -30,10 +30,11 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{
         this.body.setVelocity(player.x - this.x, player.y - this.y);
     }
 
-    eat(){
+    eat(scene){
         //destroy  hook
         //play sound
         //destroy fish
+        scene.fishCaught++;
         this.destroy();
     }
 }
