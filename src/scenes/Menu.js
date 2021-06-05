@@ -9,13 +9,15 @@ class Menu extends Phaser.Scene{
         this.load.image('arrow', 'assets/arrow.png');
         this.load.image('enemy', 'assets/slime_enemy.png');
         this.load.image('background', 'assets/background.png');
+        this.load.image('menuBackground', 'assets/menuBackground.png');
         this.load.image('title', 'assets/titlescreen.png');
         this.load.image('gear', 'assets/gear_pile.png');
         this.load.image('fish1', 'assets/fish_1.png');
         this.load.image('fish2', 'assets/fish_2.png');
         this.load.image('fish3', 'assets/fish_3.png');
+        this.load.image('dustParticle', 'assets/dust.png');
 
-        this.load.audio('click', 'assets/click.wav');
+        this.load.audio('click', 'assets/click2.wav');
         this.load.audio('throw', 'assets/throw.wav');
 
         this.load.image('base_tiles', 'assets/tilemap/tilemap.png');
@@ -51,7 +53,9 @@ class Menu extends Phaser.Scene{
         // add the tileset image we are using
         this.tileset = this.map.addTilesetImage('tilemap', 'base_tiles', 64, 64);
 
-        // Create the layers we want: platform, door, tower, bridge, grass, water
+        // Create the layers we want: background, platform, door, tower, bridge, grass, water
+        this.background = this.add.image(230, 1600, 'menuBackground');
+        this.background.setScale(3, 1);
         this.waterLayer = this.map.createLayer('water', this.tileset);
         this.waterLayer.setCollisionByProperty({ collides: true });
         this.grassLayer = this.map.createLayer('grass', this.tileset);
