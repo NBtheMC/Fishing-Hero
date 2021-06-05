@@ -13,6 +13,7 @@ class Play extends Phaser.Scene{
     }   
 
     create(){
+        this.physics.world.TILE_BIAS = 64;
         this.background = this.add.image(625, -2500, 'background');
         this.background.setScale(3, 5);
 
@@ -41,6 +42,9 @@ class Play extends Phaser.Scene{
 
         this.wallLayer = this.map.createLayer('Wall', this.tileset);
         this.wallLayer.setCollisionByProperty({ collides: true });
+
+        this.enemyWallLayer = this.map.createLayer('EnemyWall', this.tileset);
+        this.enemyWallLayer.setCollisionByProperty({ collides: true });
         
         //setup player with state machine
         const playerSpawn = this.map.findObject("Points", obj => obj.name === "spawnPoint");
@@ -78,8 +82,9 @@ class Play extends Phaser.Scene{
         this.physics.add.collider(this.enemiesGroup, this.player, (e, p)=>{
             this.playerFSM.transition('hurt');
         });
-        this.physics.add.collider(this.enemiesGroup, this.platformLayer);
-        this.physics.add.collider(this.enemiesGroup, this.wallLayer);
+        this.physics.add.collider(this.enemiesGroup, this.enemyWallLayer)
+
+
 
         // INPUTS:
         // mouse stuff
@@ -268,7 +273,7 @@ class Play extends Phaser.Scene{
             }
         }
         if(this.player.body.velocity.y > 1000) {
-            this.player.body.velocity.y = 1000;
+            this.player.body.setVelocityY(1000);
         }
         if(this.player.y > 1950) {
             this.player.body.setVelocityY(0);
