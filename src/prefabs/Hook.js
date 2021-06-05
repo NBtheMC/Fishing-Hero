@@ -25,9 +25,18 @@ class Hook extends Phaser.Physics.Arcade.Sprite{
             }
         });*/ 
         //reeling enemy
-        // scene.physics.add.overlap(this, scene.enemy, function(h, e){
-
-        // });
+        scene.physics.add.overlap(this, scene.fish1, (h, e)=>{
+            h.moveToPlayer(scene.player);
+            e.moveToPlayer(scene.player);
+        });
+        scene.physics.add.overlap(this, scene.fish2, (h, e)=>{
+            h.moveToPlayer(scene.player);
+            e.moveToPlayer(scene.player);
+        });
+        scene.physics.add.overlap(this, scene.fish3, (h, e)=>{
+            h.moveToPlayer(scene.player);
+            e.moveToPlayer(scene.player);
+        });
         this.setScale(.25);
         this.allowGravity = false;
     }
@@ -36,5 +45,9 @@ class Hook extends Phaser.Physics.Arcade.Sprite{
         xPower = Phaser.Math.Clamp(xPower, -250, 250);
         yPower = Phaser.Math.Clamp(yPower, -250, 250);
         this.setVelocity(4*xPower, 4*yPower);
+    }
+
+    moveToPlayer(player){
+       this.body.setVelocity(player.x - this.x, player.y - this.y);
     }
 }

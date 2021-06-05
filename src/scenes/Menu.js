@@ -89,13 +89,13 @@ class Menu extends Phaser.Scene{
         //fish enemies
         let fishSpawn = this.map.findObject("Points", obj => obj.name === "fish1");
         this.fish1 = new Enemy(this, fishSpawn.x, fishSpawn.y, 'fish1').setOrigin(0, 0);
-        this.fish1.setPeaceful(true);
+        this.fish1.setPeaceful(this, true);
         fishSpawn = this.map.findObject("Points", obj => obj.name === "fish2");
         this.fish2 = new Enemy(this, fishSpawn.x, fishSpawn.y, 'fish2').setOrigin(0, 0);
-        this.fish2.setPeaceful(true);
+        this.fish2.setPeaceful(this, true);
         fishSpawn = this.map.findObject("Points", obj => obj.name === "fish3");
         this.fish3 = new Enemy(this, fishSpawn.x, fishSpawn.y, 'fish3').setOrigin(0, 0);
-        this.fish3.setPeaceful(true);
+        this.fish3.setPeaceful(this, true);
 
         //gear
         const gearSpawn = this.map.findObject("Points", obj => obj.name === "gear");

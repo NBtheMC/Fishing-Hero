@@ -12,9 +12,28 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{
         this.setOffset(0,0);
     }
 
-    setPeaceful(isPeaceful){
+    setPeaceful(scene, isPeaceful){
         this.isPeaceful = isPeaceful;
         this.setBodySize(75, 40);
         this.body.setAllowGravity(false);
+        scene.physics.add.overlap(this, scene.player, function(e,p){
+            e.eat();
+            scene.playerFSM.transition('freefall');
+        });
+    }
+
+    getPeaceful(){
+        return this.isPeaceful;
+    }
+
+    moveToPlayer(player){
+        this.body.setVelocity(player.x - this.x, player.y - this.y);
+    }
+
+    eat(){
+        //destroy  hook
+        //play sound
+        //destroy fish
+        this.destroy();
     }
 }
