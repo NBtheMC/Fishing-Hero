@@ -269,13 +269,8 @@ class Menu extends Phaser.Scene{
             callback: this.showTitle,
             callbackScope: this
         });
-        this.timer2 = this.time.addEvent({
-            delay: 3000,
-            callback: this.transition,
-            callbackScope: this
-        });
-        this.timer3 = this.time.addEvent({
-            delay: 7000,
+        this.timer = this.time.addEvent({
+            delay: 5000,
             callback: this.changeScene,
             callbackScope: this
         });
@@ -286,10 +281,10 @@ class Menu extends Phaser.Scene{
         this.image = this.add.image(1392,1033,'title').setScale(.75, .75);
     }
 
-    transition(){
-        this.cameras.main.pan(1390, 2020, 2000)
-        //this.cameras.main.zoomTo(4, 3000);
-    }
+    // transition(){
+    //     this.cameras.main.pan(1390, 2020, 2000)
+    //     //this.cameras.main.zoomTo(4, 3000);
+    // }
 
     changeScene(){
         this.scene.start('playScene')

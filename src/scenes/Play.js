@@ -170,14 +170,13 @@ class Play extends Phaser.Scene{
         this.physics.add.collider(this.player, this.wallLayer, (p,g)=>{
             if(this.playerFSM.state == 'hurt'){
                 this.bounces++;
-                this.dust = this.add.particles('dust').createEmitter({
-                    speed: 100,
-                    gravity: { x: 0, y: -200 },
-                    scale: { start: .5, end: .1 },
-                    x: this.player.x,
-                    y: this.player.y,
-                    lifespan: 750
-                });
+                // this.dust = this.add.particles('dustParticle').createEmitter({
+                //     speed: 100,
+                //     gravityY: 200,
+                //     x: this.player.x,
+                //     y: this.player.y + this.player.height/2,
+                //     lifespan: 150
+                // });
             } 
             else if (this.playerFSM.state == 'idle'){
                 // Trigger Dialogue 1
@@ -201,7 +200,7 @@ class Play extends Phaser.Scene{
                     this.scene.pause();
                     this.scene.launch('dialogueScene');
                 }
-            }
+            } 
         }); 
         this.physics.add.collider(this.player, this.platformLayer, (p,g)=>{
             if(this.playerFSM.state == 'reel'){
@@ -211,13 +210,12 @@ class Play extends Phaser.Scene{
                 this.bounces++;
             }
         });
-        this.cameras.main.startFollow(this.player, false, .5, .5, 0, 50);
-        //this.cameras.main.startFollow(this.player);
+        //this.cameras.main.startFollow(this.player, false, .5, .5, 0, 50);
         this.cameras.main.setBounds(275, -10000, 1280, 20000, true);
         this.cameras.main.setZoom(.9,.9);
         keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.player.body.setMaxSpeed(2000);
-
+        this.titleScreen();
         //this.dialoguePoint = this.map.findObject("Storypoints", obj => obj.name === "storypoint");
     }
 
@@ -286,5 +284,37 @@ class Play extends Phaser.Scene{
         }
         //console.log(this.player.body.width, this.player.body.height);
         console.log(this.player.x, this.player.y);
+    }
+
+    titleScreen(){
+        keyA.enabled = false;
+        keyD.enabled = false;
+        this.cameras.main.stopFollow(this.player);
+        //this.cameras.main.pan(1390, 1033, 2000);
+        this.backgroundImage = this.add.image(950,0,'titleBackground').setScale(1/.75,1/.75);
+        this.image = this.add.image(950,0,'title').setScale(1/.75,1/.75);
+        this.timer2 = this.time.addEvent({
+            delay: 2000,
+            callback: this.transition,
+            callbackScope: this
+        });
+        this.timer3 = this.time.addEvent({
+            delay: 4000,
+            callback: this.startMove,
+            callbackScope: this
+        });
+    }
+
+    transition(){
+        this.cameras.main.pan(1390, 1800, 2000)
+    }
+    startMove(){
+        this.image.destroy();
+        this.backgroundImage.destroy();
+        keyA.enabled = true;
+        keyD.enabled = true;
+        this.cameras.main.startFollow(this.player);
+        this.cameras.main.startFollow(this.player, false, .5, .5, 0, 50);
+        this.cameras.main.setBounds(275, -10000, 1280, 20000, true);
     }
 }
