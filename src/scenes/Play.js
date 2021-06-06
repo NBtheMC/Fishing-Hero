@@ -272,9 +272,9 @@ class Play extends Phaser.Scene{
         }
         this.playerFSM.step();
         
-        // if(keySpace.isDown){
-        //     this.player.body.setVelocityY(-2000);
-        // }
+        if(keySpace.isDown){
+            this.player.body.setVelocityY(-2000);
+        }
         if(this.player.body.velocity.y > 1000) {
             this.player.body.setVelocityY(1000);
         }
