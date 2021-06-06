@@ -94,7 +94,7 @@ class ReelState extends State{
         if(scene.player.body.onCeiling()){
             scene.playerFSM.transition('freefall');
         }
-        scene.player.body.setVelocity((scene.hook.x - scene.player.x), (scene.hook.y - scene.player.y));
+        scene.player.body.setAcceleration(2*(scene.hook.x - scene.player.x), 2*(scene.hook.y - scene.player.y));
     }
 }
 
