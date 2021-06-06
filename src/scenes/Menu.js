@@ -183,10 +183,10 @@ class Menu extends Phaser.Scene{
         this.physics.add.collider(this.player, this.grassLayer);
         this.physics.add.collider(this.player, this.waterLayer);
 
-        let menuConfig = {
+        let tutorialConfig = {
             fontFamily: 'Verdana',
             fontSize: '45px',
-            color: 'white',
+            color: 'black',
             align: 'center',
             padding: {
             top: 5,
@@ -197,7 +197,7 @@ class Menu extends Phaser.Scene{
             fixedWidth: 0
         }
         let customHeight = 50;
-        this.add.text(playerSpawn.x, playerSpawn.y, 'Move left and right with A and D\nClick and drag to throw the hook\nClick again to retract it\nPress Space to start!', menuConfig).setOrigin(0.5);
+        this.tutorialText = this.add.text(playerSpawn.x, playerSpawn.y, 'Click and drag to throw the hook\nClick again to retract it', tutorialConfig).setOrigin(0.5);
         keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.cameras.main.startFollow(this.player);
         this.cameras.main.setZoom(1.5,1.5);
@@ -243,6 +243,7 @@ class Menu extends Phaser.Scene{
         //caught all fish so enable character movement
         if(this.fishCaught ==3){
             this.canMove = true;
+            this.tutorialText.setText('Move left and right with A and D');
         }
         graphics.clear();
         //redraw the rope
@@ -256,10 +257,15 @@ class Menu extends Phaser.Scene{
         if(this.player.x > 1391.5 && this.player.y < 2033) {
             this.titleScreen();
         }
+        //falls in water
+        if(this.player.y > 2400) {
+            let checkpoint = this.map.findObject("Points", obj => obj.name === "checkPoint");
+            this.player.setPosition(checkpoint.x, checkpoint.y);
+        }
     }
     titleScreen(){
-        this.player.x = 1390;
-        this.player.y = 2033;
+        // this.player.x = 1390;
+        // this.player.y = 2033;
         keyA.enabled = false;
         keyD.enabled = false;
         this.cameras.main.stopFollow(this.player);
