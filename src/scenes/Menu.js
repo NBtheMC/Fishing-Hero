@@ -11,6 +11,7 @@ class Menu extends Phaser.Scene{
         this.load.image('background', 'assets/background.png');
         this.load.image('menuBackground', 'assets/menuBackground.png');
         this.load.image('title', 'assets/titlescreen.png');
+        this.load.image('titleBackground', 'assets/titlescreenBackground.png');
         this.load.image('gear', 'assets/gear_pile.png');
         this.load.image('fish1', 'assets/fish_1.png');
         this.load.image('fish2', 'assets/fish_2.png');
@@ -262,7 +263,7 @@ class Menu extends Phaser.Scene{
         keyA.enabled = false;
         keyD.enabled = false;
         this.cameras.main.stopFollow(this.player);
-        this.cameras.main.pan(1392, 1033, 2000);
+        this.cameras.main.pan(1390, 1033, 2000);
         this.timer = this.time.addEvent({
             delay: 2000,
             callback: this.showTitle,
@@ -281,13 +282,13 @@ class Menu extends Phaser.Scene{
     }
 
     showTitle(){
-        this.image = this.add.image(1392,1033,'title')
-
+        this.backgroundImage = this.add.image(1392,1033,'titleBackground').setScale(.75, .75);
+        this.image = this.add.image(1392,1033,'title').setScale(.75, .75);
     }
 
     transition(){
-        this.cameras.main.pan(1500, 2020, 2000)
-        this.cameras.main.zoomTo(4, 3000);
+        this.cameras.main.pan(1390, 2020, 2000)
+        //this.cameras.main.zoomTo(4, 3000);
     }
 
     changeScene(){
