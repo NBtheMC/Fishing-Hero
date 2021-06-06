@@ -110,7 +110,7 @@ class Dialogue extends Phaser.Scene {
                 this.NEXT_X = this.DBOX_X + 150;			// next text prompt x-position
                 this.NEXT_Y = this.DBOX_Y + 50;			// next text prompt y-position
             }
-            if(this.dialogSpeaker == "Viola" && convoCounter == -1) {
+            if((this.dialogSpeaker == "Viola" || this.dialogSpeaker == "???") && convoCounter == -1) {
                 this.dialogbox.x = 900;
                 this.dialogbox.y = 120;
                 this.dialogText.x = 900-140;
@@ -119,7 +119,7 @@ class Dialogue extends Phaser.Scene {
                 this.NEXT_Y = 120+50;
                 violaFlag = 1;
             }
-            if(this.dialogSpeaker == "Viola" && convoCounter == 0) {
+            if((this.dialogSpeaker == "Viola" || this.dialogSpeaker == "???")  && convoCounter == 0) {
                 this.dialogbox.x = 530;
                 this.dialogbox.y = 120;
                 this.dialogText.x = 530-140;
@@ -128,7 +128,7 @@ class Dialogue extends Phaser.Scene {
                 this.NEXT_Y = 120+50;
                 violaFlag = 2;
             }
-            if(this.dialogSpeaker == "Viola" && convoCounter == 1) {
+            if((this.dialogSpeaker == "Viola" || this.dialogSpeaker == "???")  && convoCounter == 1) {
                 this.dialogbox.x = 900;
                 this.dialogbox.y = 350;
                 this.dialogText.x = 900-140;

@@ -272,9 +272,9 @@ class Play extends Phaser.Scene{
         }
         this.playerFSM.step();
         
-        if(keySpace.isDown){
-            this.player.body.setVelocityY(-2000);
-        }
+        // if(keySpace.isDown){
+        //     this.player.body.setVelocityY(-2000);
+        // }
         if(this.player.body.velocity.y > 1000) {
             this.player.body.setVelocityY(1000);
         }
@@ -291,8 +291,8 @@ class Play extends Phaser.Scene{
         keyD.enabled = false;
         this.cameras.main.stopFollow(this.player);
         //this.cameras.main.pan(1390, 1033, 2000);
-        this.backgroundImage = this.add.image(950,0,'titleBackground').setScale(1/.75,1/.75);
-        this.image = this.add.image(950,0,'title').setScale(1/.75,1/.75);
+        this.backgroundImage = this.add.image(1050,0,'titleBackground').setScale(1/.75,1/.75);
+        this.image = this.add.image(1050,0,'title').setScale(1/.75,1/.75);
         this.timer2 = this.time.addEvent({
             delay: 2000,
             callback: this.transition,

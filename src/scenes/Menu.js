@@ -196,8 +196,7 @@ class Menu extends Phaser.Scene{
             },
             fixedWidth: 0
         }
-        let customHeight = 50;
-        this.tutorialText = this.add.text(playerSpawn.x, playerSpawn.y, 'Click and drag to throw the hook\nClick again to retract it', tutorialConfig).setOrigin(0.5);
+        this.tutorialText = this.add.text(playerSpawn.x, playerSpawn.y - 50, 'Click and drag to throw the hook\nClick again to retract it', tutorialConfig).setOrigin(0.5);
         keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.cameras.main.startFollow(this.player);
         this.cameras.main.setZoom(1.5,1.5);

@@ -6,12 +6,12 @@
 			"newSpeaker" : "true"
 		},
 		{
-			"speaker" : "Viola",
+			"speaker" : "???",
 			"dialog" : "Ohohoho… So you've actually come. Good..",
 			"newSpeaker" : "true"
 		},
 		{
-			"speaker" : "Viola",
+			"speaker" : "???",
 			"dialog" : "If you want your gear back you'll have to come to me! See you at the top, darling."
 		},
 		{
@@ -25,11 +25,11 @@
 	],
 	[
 		{
-			"speaker" : "Viola",
+			"speaker" : "???",
 			"dialog" : "You're doing better than I thought, Cassian."
 		},
 		{
-			"speaker" : "Viola",
+			"speaker" : "???",
 			"dialog" : "Still have a while to the top though, ahahaha!"
 		},
 		{
