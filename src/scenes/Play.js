@@ -7,6 +7,7 @@ class Play extends Phaser.Scene{
         this.load.image('player', 'assets/knight_idle_in.png');
         this.load.image('player_reel', 'assets/knight_reel_in.png');
         this.load.image('background', 'assets/skyWide.png');
+        this.load.image('viola', 'assets/viola_idle_in.png');
 
         this.load.image('base_tiles', 'assets/tilemap/tilemap.png');
         this.load.tilemapTiledJSON('tilemap_full', 'assets/tilemap/FishingHero_TileMap_FullLevel.json');
@@ -49,8 +50,14 @@ class Play extends Phaser.Scene{
         //setup player with state machine
         const playerSpawn = this.map.findObject("Points", obj => obj.name === "spawnPoint");
         this.player = new Player(this, playerSpawn.x, playerSpawn.y, 'player').setOrigin(0, 0);
+
+        this.viola = this.add.image(1250, 1371, 'viola');
+        this.physics.add.existing(this.viola);
+        this.physics.add.collider(this.viola, this.platformLayer);
+        this.physics.add.collider(this.viola, this.wallLayer);
+
         this.resetPos = playerSpawn.y;
-        //console.log(this.player.x, this.player.y);
+
         this.player.body.collideWorldBounds=true;
         this.canMove = true;
         this.playerFSM = new StateMachine('idle', {
@@ -171,22 +178,28 @@ class Play extends Phaser.Scene{
                     y: this.player.y,
                     lifespan: 750
                 });
-            } else if (this.playerFSM.state == 'idle'){
-                if(this.player.x > 604 && this.player.x < 996 && this.player.y < 1628 && convoCounter == -1) {
-                    if(this.player.x <= game.config.width / 2) {
-                        dialogueSide = 0;
-                    } else {
-                        dialogueSide = 1;
-                    }
+            } 
+            else if (this.playerFSM.state == 'idle'){
+                // Trigger Dialogue 1
+                if(this.player.x > 600 && this.player.x < 830 && this.player.y == 1568 && convoCounter == -1) {
                     playerX = this.player.x;
                     playerY = this.player.y;
-                    if(convoCounter < 3) {
-                        if(convoCounter == -1) {
-                            convoCounter++;
-                        }
-                        this.scene.pause();
-                        this.scene.launch('dialogueScene');
-                    }
+                    this.scene.pause();
+                    this.scene.launch('dialogueScene');
+                }
+                // Trigger Dialogue 2
+                if(this.player.x > 1290 && this.player.x < 1481 && this.player.y == -3232 && convoCounter == 0) {
+                    playerX = this.player.x - 200;
+                    playerY = this.player.y
+                    this.scene.pause();
+                    this.scene.launch('dialogueScene');
+                }
+                // Trigger Dialogue 3
+                if(this.player.x > 655 && this.player.x < 850 && this.player.y == -5984 && convoCounter == 1) {
+                    playerX = this.player.x;
+                    playerY = this.player.y
+                    this.scene.pause();
+                    this.scene.launch('dialogueScene');
                 }
             }
         }); 
@@ -245,6 +258,15 @@ class Play extends Phaser.Scene{
     }
 
     update(){
+        if(convoCounter == 0 && violaFlag == 1) {
+            this.viola.x = 530;
+            this.viola.y = -3563;
+            violaFlag = 2;
+        } else if (convoCounter == 1 && violaFlag == 2) {
+            this.viola.x = 1281;
+            this.viola.y = -5953
+            violaFlag = 3;
+        }
         graphics.clear();
         //redraw the rope
         if(this.playerFSM.state == 'cast' || this.playerFSM.state == 'reel'){
@@ -255,23 +277,6 @@ class Play extends Phaser.Scene{
         if(keySpace.isDown){
             this.player.body.setVelocityY(-2000);
         }
-        if(Phaser.Input.Keyboard.JustDown(keyF)){
-            
-            if(this.player.x <= game.config.width / 2) {
-                dialogueSide = 0;
-            } else {
-                dialogueSide = 1;
-            }
-            playerX = this.player.x;
-            playerY = this.player.y;
-            if(convoCounter < 3) {
-                if(convoCounter == -1) {
-                    convoCounter++;
-                }
-                this.scene.pause();
-                this.scene.launch('dialogueScene');
-            }
-        }
         if(this.player.body.velocity.y > 1000) {
             this.player.body.setVelocityY(1000);
         }
@@ -279,5 +284,7 @@ class Play extends Phaser.Scene{
             this.player.body.setVelocityY(0);
             this.player.y = this.resetPos - 50;
         }
+        //console.log(this.player.body.width, this.player.body.height);
+        console.log(this.player.x, this.player.y);
     }
 }

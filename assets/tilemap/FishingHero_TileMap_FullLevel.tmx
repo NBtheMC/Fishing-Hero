@@ -1146,7 +1146,7 @@
  <objectgroup id="21" name="Storypoints">
   <object id="16" name="storypoint1Cassian" x="704.75" y="1664.17" width="192" height="64"/>
   <object id="17" name="storyPoint1Viola" x="1163.64" y="1351.52" width="260.606" height="109.091"/>
-  <object id="18" x="87.33" y="1693.33"/>
+  <object id="18" x="714.58" y="1674.08"/>
   <object id="24" name="storypoint2Cassian" x="1412" y="-3212" width="156" height="124"/>
   <object id="25" name="storypoint2Viola" x="464" y="-3590" width="156" height="124"/>
   <object id="26" name="storypoint3Viola" x="1222" y="-5958" width="156" height="124"/>

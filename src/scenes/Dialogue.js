@@ -34,14 +34,12 @@ class Dialogue extends Phaser.Scene {
         //console.log(this.dialog);
 
         this.DBOX_X = playerX - 200;			    // dialog box x-position
-        //this.DBOX_Y = playerY - playerY ;			    // dialog box y-position
         this.TEXT_X = this.DBOX_X - 140;			// text w/in dialog box x-position
         this.TEXT_Y = this.DBOX_Y - 75;			// text w/in dialog box y-position
 
         this.NEXT_X = this.DBOX_X + 150;			// next text prompt x-position
         this.NEXT_Y = this.DBOX_Y + 50;			// next text prompt y-position
 
-        console.log("DBOX_X is " + this.DBOX_X + " + DBOX_Y is " + this.DBOX_Y);
         // add dialog box sprite
         this.dialogbox = this.add.sprite(this.DBOX_X, this.DBOX_Y, 'dialogbox');
         //this.dialogbox = this.add.sprite(playerX, playerY, 'dialogbox');
@@ -66,9 +64,6 @@ class Dialogue extends Phaser.Scene {
     }
 
     typeText() {
-        console.log("dialogueSide is " + dialogueSide);
-        console.log("playerX is " + playerX + " + playerY is " + playerY);
-
         // If there are no conversations left and a conversation is triggered
         // lock input while typing
         this.dialogTyping = true;
@@ -100,16 +95,48 @@ class Dialogue extends Phaser.Scene {
             this.flag = 0;
             // here I'm simply "exiting" the last speaker and removing the dialog box,
             // but you could build other logic to change game states here
-            console.log('End of Conversations');
             // make text box invisible
             this.dialogbox.visible = false;
             this.scene.stop()
             this.scene.resume('playScene');
         } else {
-
             // if not, set current speaker
             this.dialogSpeaker = this.dialog[this.dialogConvo][this.dialogLine]['speaker'];
-
+            if(this.dialogSpeaker == "Cassian") {
+                this.dialogbox.x = playerX-200;
+                this.dialogbox.y = 350;
+                this.dialogText.x = this.DBOX_X - 140;			// text w/in dialog box x-position
+                this.dialogText.y = this.DBOX_Y - 75;			// text w/in dialog box y-position
+                this.NEXT_X = this.DBOX_X + 150;			// next text prompt x-position
+                this.NEXT_Y = this.DBOX_Y + 50;			// next text prompt y-position
+            }
+            if(this.dialogSpeaker == "Viola" && convoCounter == -1) {
+                this.dialogbox.x = 900;
+                this.dialogbox.y = 120;
+                this.dialogText.x = 900-140;
+                this.dialogText.y = 120-75;
+                this.NEXT_X = 900+150;
+                this.NEXT_Y = 120+50;
+                violaFlag = 1;
+            }
+            if(this.dialogSpeaker == "Viola" && convoCounter == 0) {
+                this.dialogbox.x = 530;
+                this.dialogbox.y = 120;
+                this.dialogText.x = 530-140;
+                this.dialogText.y = 120-75;
+                this.NEXT_X = 530+150;
+                this.NEXT_Y = 120+50;
+                violaFlag = 2;
+            }
+            if(this.dialogSpeaker == "Viola" && convoCounter == 1) {
+                this.dialogbox.x = 900;
+                this.dialogbox.y = 350;
+                this.dialogText.x = 900-140;
+                this.dialogText.y = 350-75;
+                this.NEXT_X = 900+150;
+                this.NEXT_Y = 350+50;
+                violaFlag = 2;
+            }
             // build dialog (concatenate speaker + line of text)
             this.dialogLines = this.dialog[this.dialogConvo][this.dialogLine]['speaker'].toUpperCase() + ': ' + this.dialog[this.dialogConvo][this.dialogLine]['dialog'];
             // create a timer to iterate through each letter in the dialog text
