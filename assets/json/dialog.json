@@ -1,33 +1,174 @@
 [
 	[
 		{
-			"speaker" : "Player",
-			"dialog" : "Conversation 1 Part 1",
+			"speaker" : "Cassian",
+			"dialog" : "!",
 			"newSpeaker" : "true"
 		},
 		{
-			"speaker" : "Player",
-			"dialog" : "Conversation 1 Part 2"
+			"speaker" : "Viola",
+			"dialog" : "Ohohoho… So you've actually come. Good..",
+			"newSpeaker" : "true"
+		},
+		{
+			"speaker" : "Viola",
+			"dialog" : "If you want your gear back you'll have to come to me! See you at the top, darling."
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "That woman must've gotten that bandit to steal my gear!"
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "Ugh, no choice then. "
 		}
 	],
 	[
 		{
-			"speaker" : "Player",
-			"dialog" : "Conversation 2 Part 1"
+			"speaker" : "Viola",
+			"dialog" : "You're doing better than I thought, Cassian."
 		},
 		{
-			"speaker" : "Player",
-			"dialog" : "Conversation 2 Part 2"
+			"speaker" : "Viola",
+			"dialog" : "Still have a while to the top though, ahahaha!"
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "She knows my name, is that why her smug face looks so familiar…"
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "Hey wait! Aren’t you… Viola? Why are you doing all this?"
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "We haven't spoken since the break-up…"
+		},
+		{
+			"speaker" : "Viola",
+			"dialog" : "He actually remembers me? Wow! Wait, this isn’t the time."
+		},
+		{
+			"speaker" : "Viola",
+			"dialog" : "Quick! Think of something, me!"
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "Are you just being petty over the breakup or something?"
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "Didn't we talk this through already? I thought we agreed to be adults about this."
+		},
+		{
+			"speaker" : "Viola",
+			"dialog" : "Um.. I- Uh- It-it doesn’t matter!"
+		},
+		{
+			"speaker" : "Viola",
+			"dialog" : "You obviously need something from me now don’t you? Just meet me at the top!"
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "What was that... Our breakup didn’t end that badly did it?"
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "I don’t remember doing anything. Guess it doesn't matter now."
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "To the top I go."
 		}
 	],
 	[
 		{
-			"speaker" : "Player",
-			"dialog" : "Conversation 3 Part 1"
+			"speaker" : "Cassian",
+			"dialog" : "*Huff.. Huff..* THERE! I made it, Viola. Can I get my gear back now?"
 		},
 		{
-			"speaker" : "Player",
-			"dialog" : "Conversation 3 Part 2"
+			"speaker" : "Viola",
+			"dialog" : "Hmph! I guess."
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "You never answered my questions back there."
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "Why'd you do all this in the first place?"
+		},
+		{
+			"speaker" : "Viola",
+			"dialog" : "...You're so unapproachable."
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "..."
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "What?"
+		},
+		{
+			"speaker" : "Viola",
+			"dialog" : "You're always alone! You never hang out with anyone, you're always sneaking off somewhere"
+		},
+		{
+			"speaker" : "Viola",
+			"dialog" : "(now I know it's here), and, well, I don't know! It’s just weird!"
+		},
+		{
+			"speaker" : "Viola",
+			"dialog" : "I had to figure out some way to talk to you again, even if it meant doing all this."
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "Huh. You really do still care about me through all this mess, huh."
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "Well, you could've just come up and talked to me, you know."
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "I come out here because I just really like fishing, and it’s quiet out here."
+		},
+		{
+			"speaker" : "Viola",
+			"dialog" : "Of course I still care! It’s not like I hate you or anything.. I mean, if you don’t either,"
+		},
+		{
+			"speaker" : "Viola",
+			"dialog" : "maybe we can..hang out more often? Try again? We could go out somewhere ni-"
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "Yeaaah, no. Honestly, after all this, I really don’t want to hang out with you."
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "Climbing this tower was a lot of work, I was freaking out about my gear the whole time, "
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "and I know you hired that guy to steal it."
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "That was really weird and kinda creepy to be honest, and now I just want to get my stuff and go. "
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "So I’m going to do that."
+		},
+		{
+			"speaker" : "Cassian",
+			"dialog" : "Bye."
+		},
+		{
+			"speaker" : "Viola",
+			"dialog" : "W-wait hold on bu-"
 		}
 	]
 ]
