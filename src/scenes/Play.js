@@ -16,11 +16,14 @@ class Play extends Phaser.Scene{
     }   
 
     create(){
+        // This stopped the player from moving through collisions
         this.physics.world.TILE_BIAS = 64;
+
+        // Background Image
         this.background = this.add.image(625, -2500, 'background');
         this.background.setScale(3, 5);
 
-        //sounds
+        // Sounds
         this.click = this.sound.add('click');
         this.click.setLoop(true);
         this.throw = this.sound.add('throw');
@@ -33,32 +36,22 @@ class Play extends Phaser.Scene{
         }
         this.map = this.make.tilemap(this.mapConfig);
         
-        // add the tileset image we are using
+        // Add the tileset image we are using
         this.tileset = this.map.addTilesetImage('Tower_new', 'base_tiles', 64, 64);
 
-        // Create the layers we want
+        // Create the layers we want, and add collision by property as indicated in the tilemap
         this.backgroundLayer = this.map.createLayer('Background', this.tileset);
         this.backgroundLayer.setCollisionByProperty({ collides: true });
-
         this.platformLayer = this.map.createLayer('Platforms', this.tileset);
         this.platformLayer.setCollisionByProperty({ collides: true });
-
         this.wallLayer = this.map.createLayer('Wall', this.tileset);
         this.wallLayer.setCollisionByProperty({ collides: true });
-
         this.enemyWallLayer = this.map.createLayer('EnemyWall', this.tileset);
         this.enemyWallLayer.setCollisionByProperty({ collides: true });
         
-        //setup player with state machine
+        // Setup player with state machine
         const playerSpawn = this.map.findObject("Points", obj => obj.name === "spawnPoint");
         this.player = new Player(this, playerSpawn.x, playerSpawn.y, 'player').setOrigin(0, 0);
-
-        this.viola = this.add.image(1250, 1371, 'viola');
-        this.physics.add.existing(this.viola);
-        this.physics.add.collider(this.viola, this.platformLayer);
-        this.physics.add.collider(this.viola, this.wallLayer);
-
-        this.resetPos = playerSpawn.y;
 
         this.player.body.collideWorldBounds=true;
         this.canMove = true;
@@ -121,12 +114,22 @@ class Play extends Phaser.Scene{
             frameRate: 5,
         });
 
-        //setup hook
+        // Set up reset position
+        this.resetX = playerSpawn.x
+        this.resetY = playerSpawn.y
+
+        // Add Viola sprite & colliders
+        this.viola = this.add.image(1250, 1371, 'viola');
+        this.physics.add.existing(this.viola);
+        this.physics.add.collider(this.viola, this.platformLayer);
+        this.physics.add.collider(this.viola, this.wallLayer);
+
+        // Set up the hook
         this.hook;
         this.arrow;
         this.throwPosition = new Phaser.Math.Vector2();
 
-        // enemies
+        // Set up the enemies (slimes)
         this.enemiesGroup = this.add.group(
             this.map.createFromObjects("Enemies", {
                 classType: Enemy,
@@ -134,85 +137,82 @@ class Play extends Phaser.Scene{
             })
         );
 
-        // enemy colliders
+        // Enemy colliders
         this.physics.add.collider(this.enemiesGroup, this.player, (e, p)=>{
             this.playerFSM.transition('hurt');
         });
         this.physics.add.collider(this.enemiesGroup, this.enemyWallLayer)
 
-
-
         // INPUTS:
-        // mouse stuff
+        // Mouse stuff
         this.mouseDownX;
         this.mouseDownY;
         this.mouseDownPosition = new Phaser.Math.Vector2();
         this.mouseUpX;
         this.mouseUpY;
         this.mouseUpPosition = new Phaser.Math.Vector2();
-
-        // keyboard keys
+        // Keyboard keys
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 
-       // Hook shenanigans
-       this.input.on('pointerdown', function (pointer) {
-        if(this.playerFSM.state == 'idle'){
-            if(!this.player.flipX){
-                this.throwPosition.set(this.player.x, this.player.y);
+        // Hook mechanics
+        this.input.on('pointerdown', function (pointer) {
+            if(this.playerFSM.state == 'idle'){
+                if(!this.player.flipX){
+                    this.throwPosition.set(this.player.x, this.player.y);
+                }
+                else{
+                    this.throwPosition.set(this.player.x + this.player.width/2, this.player.y);
+                }
+                this.playerFSM.transition('aim');
+                console.log('down');
+                this.mouseDownX = pointer.x;
+                this.mouseDownY = pointer.y;
+                this.mouseDownPosition.set(this.mouseDownX,this.mouseDownY);
             }
-            else{
-                this.throwPosition.set(this.player.x + this.player.width/2, this.player.y);
+            else if(this.playerFSM.state == 'cast'){
+                this.playerFSM.transition('idle');
+                this.hook.destroy();
             }
-            this.playerFSM.transition('aim');
-            console.log('down');
-            this.mouseDownX = pointer.x;
-            this.mouseDownY = pointer.y;
-            this.mouseDownPosition.set(this.mouseDownX,this.mouseDownY);
-        }
-        else if(this.playerFSM.state == 'cast'){
-            this.playerFSM.transition('idle');
-            this.hook.destroy();
-        }
-        else if(this.playerFSM.state == 'reel'){
-            this.playerFSM.transition('freefall');
-            this.hook.destroy();
-        }
-    }, this); 
+            else if(this.playerFSM.state == 'reel'){
+                this.playerFSM.transition('freefall');
+                this.hook.destroy();
+            }
+        }, this); 
 
-    this.input.on('pointermove', function (pointer) {
-        if(this.playerFSM.state == 'aim'){
-            this.mouseUpX = pointer.x;
-            if(this.mouseUpX < this.player.x && this.player.flipX){
-                this.player.setFlipX(true);
+        this.input.on('pointermove', function (pointer) {
+            if(this.playerFSM.state == 'aim'){
+                this.mouseUpX = pointer.x;
+                if(this.mouseUpX < this.player.x && this.player.flipX){
+                    this.player.setFlipX(true);
+                }
+                else if(this.mouseUpX >= this.player.x && !this.player.flipX){
+                    this.player.setFlipX(false);
+                }
+                this.mouseUpY = pointer.y;
+                this.mouseUpPosition.set(this.mouseUpX,this.mouseUpY);
+                this.arrowAngle = Phaser.Math.Angle.BetweenPoints(this.mouseDownPosition, this.mouseUpPosition);
             }
-            else if(this.mouseUpX >= this.player.x && !this.player.flipX){
-                this.player.setFlipX(false);
+        }, this);
+
+        this.input.on('pointerup', function (pointer) {
+            if(this.playerFSM.state == 'aim'){
+                console.log('up');
+                //calculate vector
+                let diffX = pointer.x - this.mouseDownX;
+                let diffY = pointer.y - this.mouseDownY;
+                console.log('diffX: '+ diffX + '\ndiffY: ' + diffY);
+                this.throw.play();
+                this.hook = new Hook(this, this.throwPosition.x, this.throwPosition.y, 'hook');
+                this.hook.body.setAllowGravity(false);
+                this.hook.launch(-diffX,-diffY);
+                this.playerFSM.transition('cast');
+                this.arrow.destroy();
             }
-            this.mouseUpY = pointer.y;
-            this.mouseUpPosition.set(this.mouseUpX,this.mouseUpY);
-            this.arrowAngle = Phaser.Math.Angle.BetweenPoints(this.mouseDownPosition, this.mouseUpPosition);
-        }
-    }, this);
+        }, this);
 
-    this.input.on('pointerup', function (pointer) {
-        if(this.playerFSM.state == 'aim'){
-            console.log('up');
-            //calculate vector
-            let diffX = pointer.x - this.mouseDownX;
-            let diffY = pointer.y - this.mouseDownY;
-            console.log('diffX: '+ diffX + '\ndiffY: ' + diffY);
-            this.throw.play();
-            this.hook = new Hook(this, this.throwPosition.x, this.throwPosition.y, 'hook');
-            this.hook.body.setAllowGravity(false);
-            this.hook.launch(-diffX,-diffY);
-            this.playerFSM.transition('cast');
-            this.arrow.destroy();
-        }
-    }, this);
-
-        //rope
+        // Set up the rope
         graphics = this.add.graphics();
         this.outerRope;
         this.innerRope;
@@ -220,7 +220,6 @@ class Play extends Phaser.Scene{
         this.controlPoint;
         this.endPoint;
 
-        //this.physics.add.collider(this.player, this.platformLayer);
         this.physics.add.collider(this.player, this.wallLayer, (p,g)=>{
             if(this.playerFSM.state == 'hurt'){
                 this.bounces++;
@@ -255,7 +254,9 @@ class Play extends Phaser.Scene{
                     this.scene.launch('dialogueScene');
                 }
             } 
-        }); 
+        });
+
+        // Collider between player and platforms
         this.physics.add.collider(this.player, this.platformLayer, (p,g)=>{
             if(this.playerFSM.state == 'reel'){
                 this.playerFSM.transition('freefall');
@@ -264,16 +265,51 @@ class Play extends Phaser.Scene{
                 this.bounces++;
             }
         });
-        //this.cameras.main.startFollow(this.player, false, .5, .5, 0, 50);
+
         this.cameras.main.setBounds(275, -10000, 1280, 20000, true);
         this.cameras.main.setZoom(.9,.9);
         this.player.body.setMaxSpeed(2000);
         this.titleScreen();
-        //this.dialoguePoint = this.map.findObject("Storypoints", obj => obj.name === "storypoint");
+    }
+
+    update(){
+        // Move Viola at the end of every conversation
+        if(convoCounter == 0 && violaFlag == 1) {
+            this.viola.x = 530;
+            this.viola.y = -3563;
+            violaFlag = 2;
+        } else if (convoCounter == 1 && violaFlag == 2) {
+            this.viola.x = 1281;
+            this.viola.y = -5953
+            violaFlag = 3;
+        }
+
+        // Redraw the rope
+        graphics.clear();
+        if(this.playerFSM.state == 'cast' || this.playerFSM.state == 'reel'){
+            this.drawRope();
+        }
+        this.playerFSM.step();
+        
+        // Cheat for graders/debugging
+        if(keySpace.isDown){
+            this.player.body.setVelocityY(-2000);
+        }
+
+        // Prevent player's falling velocity from becoming too high
+        if(this.player.body.velocity.y > 1000) {
+            this.player.body.setVelocityY(1000);
+        }
+        // If player falls out of map, reset the player back to the start
+        if(this.player.y > 1950) {
+            this.player.body.setVelocityY(0);
+            this.player.x = this.resetX;
+            this.player.y = this.resetY;
+        }
     }
 
     drawRope(){
-        //curved rope when throwing
+        // Curved rope when throwing
         if(this.playerFSM.state == 'cast'){
             graphics.lineStyle(5, 0xffffff, 1);
             if(!this.player.flipX){
@@ -363,6 +399,7 @@ class Play extends Phaser.Scene{
     transition(){
         this.cameras.main.pan(1390, 1800, 2000)
     }
+
     startMove(){
         this.image.destroy();
         this.backgroundImage.destroy();

@@ -32,7 +32,8 @@ class Menu extends Phaser.Scene{
         this.load.json('dialog', 'json/dialog.json');
 
         // load images
-        this.load.image('dialogbox', 'dialogue/dialogbox.png');
+        this.load.image('dialogbox', 'dialogue/dialogueBoxRight.png');
+        this.load.image('dialogbox2', 'dialogue/Speech4.png');
 
         // load bitmap font
         this.load.bitmapFont('gem_font', 'font/gem.png', 'font/gem.xml');
