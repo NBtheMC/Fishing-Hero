@@ -60,9 +60,7 @@ class AimState extends State{
     enter(scene){
         //setup hook and arrow
         scene.player.play('aim');
-        scene.hook = new Hook(scene, scene.throwPosition.x, scene.throwPosition.y, 'hook');
         scene.arrow = scene.add.image(scene.throwPosition.x, scene.throwPosition.y, 'arrow').setOrigin(.5,1);
-        scene.hook.body.setAllowGravity(false);
         //scene.arrow.scaleY = 0;
     }
     execute(scene){
@@ -89,7 +87,7 @@ class CastState extends State{
 class ReelState extends State{
     enter(scene){
         //play appropriate animation
-        scene.player.play('idle');
+        scene.player.play('reel');
         scene.player.body.setAllowGravity(false);
         scene.player.isFlying = false;
     }

@@ -110,7 +110,15 @@ class Play extends Phaser.Scene{
             }],
             frameRate: 5,
         });
-        
+        this.anims.create({
+            key: 'reel',
+            frames: [{
+                key: 'player',
+                frame: 'cast3'
+            }],
+            frameRate: 5,
+        });
+
         //setup hook
         this.hook;
         this.arrow;
@@ -189,9 +197,10 @@ class Play extends Phaser.Scene{
                 let diffX = pointer.x - this.mouseDownX;
                 let diffY = pointer.y - this.mouseDownY;
                 console.log('diffX: '+ diffX + '\ndiffY: ' + diffY);
-                this.hook.launch(-diffX,-diffY);
-                activeHook = 1;
                 this.throw.play();
+                this.hook = new Hook(this, this.throwPosition.x, this.throwPosition.y, 'hook');
+                this.hook.body.setAllowGravity(false);
+                this.hook.launch(-diffX,-diffY);
                 this.playerFSM.transition('cast');
                 this.arrow.destroy();
             }

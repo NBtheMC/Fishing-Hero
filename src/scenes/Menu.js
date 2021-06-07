@@ -124,6 +124,14 @@ class Menu extends Phaser.Scene{
             }],
             frameRate: 5,
         });
+        this.anims.create({
+            key: 'reel',
+            frames: [{
+                key: 'player',
+                frame: 'cast3'
+            }],
+            frameRate: 5,
+        });
 
         //setup hook and arrow
         this.hook;
@@ -186,6 +194,12 @@ class Menu extends Phaser.Scene{
         this.input.on('pointermove', function (pointer) {
             if(this.playerFSM.state == 'aim'){
                 this.mouseUpX = pointer.x;
+                if(this.mouseUpX < this.player.x && this.player.flipX){
+                    this.player.setFlipX(true);
+                }
+                else if(this.mouseUpX >= this.player.x && !this.player.flipX){
+                    this.player.setFlipX(false);
+                }
                 this.mouseUpY = pointer.y;
                 this.mouseUpPosition.set(this.mouseUpX,this.mouseUpY);
                 this.arrowAngle = Phaser.Math.Angle.BetweenPoints(this.mouseDownPosition, this.mouseUpPosition);
@@ -199,8 +213,10 @@ class Menu extends Phaser.Scene{
                 let diffX = pointer.x - this.mouseDownX;
                 let diffY = pointer.y - this.mouseDownY;
                 console.log('diffX: '+ diffX + '\ndiffY: ' + diffY);
-                this.hook.launch(-diffX,-diffY);
                 this.throw.play();
+                this.hook = new Hook(this, this.throwPosition.x, this.throwPosition.y, 'hook');
+                this.hook.body.setAllowGravity(false);
+                this.hook.launch(-diffX,-diffY);
                 this.playerFSM.transition('cast');
                 this.arrow.destroy();
             }
@@ -234,7 +250,7 @@ class Menu extends Phaser.Scene{
             },
             fixedWidth: 0
         }
-        this.tutorialText = this.add.text(playerSpawn.x, playerSpawn.y - 50, 'Click and drag to throw the hook\nClick again to retract it', tutorialConfig).setOrigin(0.5);
+        this.tutorialText = this.add.text(playerSpawn.x, playerSpawn.y - 50, 'Click and drag to throw the hook\nClick again to retract it\nTry catching all fish', tutorialConfig).setOrigin(0.5);
         keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.cameras.main.startFollow(this.player);
         this.cameras.main.setZoom(1.5,1.5);
