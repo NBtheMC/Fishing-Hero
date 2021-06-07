@@ -20,6 +20,8 @@ class Menu extends Phaser.Scene{
 
         this.load.audio('click', 'assets/click2.wav');
         this.load.audio('throw', 'assets/throw.wav');
+        this.load.audio('calm', 'assets/FishingHero_Calm.mp3');
+        this.load.audio('anotherStep', 'assets/FishingHero_AnotherStep.mp3');
 
         this.load.image('base_tiles', 'assets/tilemap/tilemap.png');
         this.load.tilemapTiledJSON('tilemap_menu', 'assets/tilemap/FishingHero_TileMap_OpeningScene.json');
@@ -258,6 +260,13 @@ class Menu extends Phaser.Scene{
         this.cameras.main.setZoom(1.5,1.5);
         this.introArt;
         this.introText;
+
+        this.calm = this.sound.add('calm')
+        this.calm.setVolume(0.4);
+        this.calm.play();
+
+        this.anotherStep = this.sound.add('anotherStep');
+        this.anotherStep.setVolume(0.4);
         this.intro();
         this.cutsceneStarted = false;
     }
@@ -312,7 +321,8 @@ class Menu extends Phaser.Scene{
         }
         this.playerFSM.step();
         if(Phaser.Input.Keyboard.JustDown(keySpace)){
-            this.scene.start('playScene');
+            this.calm.stop();
+            this.changeScene();
         }
         if(this.player.x > 1391.5 && this.player.y < 2033) {
             this.titleScreen();
@@ -363,7 +373,7 @@ class Menu extends Phaser.Scene{
         }
         this.introText = this.add.text(50, 1938, 'Past the castle, through the hills,\na small cliffside with an abandoned port lives in silence.\nOur knight, Cassian, spends his day off there\nas usual after a hard day’s work protecting the castle.\nHis routine starts as always…', introConfig).setOrigin(0.5);
         this.timer = this.time.addEvent({ 
-            delay: 12000,
+            delay: 8000,
             callback: this.fadeIntro,
             callbackScope: this
         });
@@ -383,6 +393,8 @@ class Menu extends Phaser.Scene{
             duration: 1000,
             ease: 'cubic'
         });
+        this.anotherStep.setLoop(true);
+        this.anotherStep.play();
         keyA.enabled = true;
         keyD.enabled = true;
     }
@@ -453,6 +465,7 @@ class Menu extends Phaser.Scene{
     }
 
     changeScene(){
+        this.anotherStep.stop();
         this.scene.start('playScene')
     }
 }
