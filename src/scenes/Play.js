@@ -458,7 +458,7 @@ class Play extends Phaser.Scene{
             },
             fixedWidth: 0
         }
-        this.creditsText = this.add.text(1050,-6000, 'A game by\nEmil Saechao\nMiriam Perez\nNaman Bhushan\nPaul Lee', creditsConfig).setOrigin(0.5);
+        this.creditsText = this.add.text(1050,-6000, 'A game by\nEmil Saechao\nMiriam Perez\nNaman Bhushan\nPaul Lee\n\nRestart by pressing (R)', creditsConfig).setOrigin(0.5);
     }
 
     credits2Image(){
