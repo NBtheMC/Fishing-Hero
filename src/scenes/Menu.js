@@ -3,9 +3,7 @@ class Menu extends Phaser.Scene{
         super("menuScene");
     }
     preload(){
-        //this.load.atlas('player', 'assets/outsideCassianSprites.png','assets/outsideCassianSprites.json');
-        this.load.image('player', 'assets/knight_idle_out.png');
-        this.load.image('player_reel', 'assets/knight_reel_out.png');
+        this.load.atlas('player', 'assets/outsideCassianSprites.png','assets/outsideCassianSprites.json');
         this.load.image('hook', 'assets/tempHook.png');
         this.load.image('arrow', 'assets/arrow.png');
         this.load.image('enemy', 'assets/slime_enemy.png');
@@ -93,7 +91,20 @@ class Menu extends Phaser.Scene{
                 key: 'player',
                 frame: 'idle'
             }],
-            frameRate: 10,
+            frameRate: 5,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'aim',
+            frames: [{
+                key: 'player',
+                frame: 'cast1'
+            },{
+                key: 'player',
+                frame: 'cast2'
+            }],
+            frameRate: 1,
+            yoyo: true,
             repeat: -1
         });
         this.anims.create({
@@ -111,8 +122,7 @@ class Menu extends Phaser.Scene{
                 key: 'player',
                 frame: 'cast4'
             }],
-            frameRate: 10,
-            yoyo: true
+            frameRate: 5,
         });
 
         //setup hook and arrow

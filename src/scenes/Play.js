@@ -71,7 +71,46 @@ class Play extends Phaser.Scene{
         }, [this]);
         this.player.body.collideWorldBounds=false;
         this.bounces = 0;
-
+        this.anims.create({
+            key: 'idle',
+            frames: [{
+                key: 'player',
+                frame: 'idle'
+            }],
+            frameRate: 5,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'aim',
+            frames: [{
+                key: 'player',
+                frame: 'cast1'
+            },{
+                key: 'player',
+                frame: 'cast2'
+            }],
+            frameRate: 1,
+            yoyo: true,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'cast',
+            frames: [{
+                key: 'player',
+                frame: 'cast1'
+            },{
+                key: 'player',
+                frame: 'cast2'
+            },{
+                key: 'player',
+                frame: 'cast3'
+            },{
+                key: 'player',
+                frame: 'cast4'
+            }],
+            frameRate: 5,
+        });
+        
         //setup hook
         this.hook;
         this.arrow;
