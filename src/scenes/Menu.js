@@ -257,7 +257,6 @@ class Menu extends Phaser.Scene{
             fixedWidth: 0
         }
         this.tutorialText = this.add.text(playerSpawn.x, playerSpawn.y - 100, 'Click and drag to throw the hook\nClick again to retract it\nTry catching all fish', tutorialConfig).setOrigin(0.5);
-        keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.cameras.main.startFollow(this.player);
         this.cameras.main.setZoom(1.5,1.5);
         this.introArt;
@@ -322,10 +321,6 @@ class Menu extends Phaser.Scene{
             this.drawRope();
         }
         this.playerFSM.step();
-        if(Phaser.Input.Keyboard.JustDown(keySpace)){
-            this.calm.stop();
-            this.changeScene();
-        }
         if(this.player.x > 1391.5 && this.player.y < 2033 && this.titleFlag == 0) {
             this.titleFlag = 1;
             this.titleScreen();
