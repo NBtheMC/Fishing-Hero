@@ -17,6 +17,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 class IdleState extends State{
     enter(scene){
         //play appropriate animation
+        scene.player.play('idle');
         let p = scene.player;
         p.body.setAcceleration(0,0);
         p.setVelocityX(0);
@@ -33,7 +34,7 @@ class IdleState extends State{
 class MoveState extends State{
     enter(scene){
         //play appropriate animation
-
+        scene.player.play('idle');
     }
     execute(scene){
         let p = scene.player;
@@ -58,6 +59,7 @@ class MoveState extends State{
 class AimState extends State{
     enter(scene){
         //setup hook and arrow
+        scene.player.play('cast');
         scene.hook = new Hook(scene, scene.throwPosition.x, scene.throwPosition.y, 'hook');
         scene.arrow = scene.add.image(scene.throwPosition.x, scene.throwPosition.y, 'arrow').setOrigin(.5,1);
         scene.hook.body.setAllowGravity(false);
@@ -74,6 +76,7 @@ class AimState extends State{
 
 class CastState extends State{
     enter(scene){
+        scene.player.play('cast');
         scene.hook.body.setAllowGravity(true);
         //setup arrow
     }
@@ -86,6 +89,7 @@ class CastState extends State{
 class ReelState extends State{
     enter(scene){
         //play appropriate animation
+        scene.player.play('cast');
         scene.player.body.setAllowGravity(false);
         scene.player.isFlying = false;
     }
@@ -100,6 +104,7 @@ class ReelState extends State{
 
 class FreefallState extends State{
     enter(scene){
+        scene.player.play('idle');
         //play appropriate animation
         scene.hook.destroy();
         activeHook = 0;
@@ -115,6 +120,7 @@ class FreefallState extends State{
 
 class HurtState extends State{
     enter(scene){
+        scene.player.play('idle');
         if(activeHook == 1) {
             scene.hook.destroy();
             activeHook = 0;

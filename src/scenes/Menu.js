@@ -3,6 +3,7 @@ class Menu extends Phaser.Scene{
         super("menuScene");
     }
     preload(){
+        //this.load.atlas('player', 'assets/outsideCassianSprites.png','assets/outsideCassianSprites.json');
         this.load.image('player', 'assets/knight_idle_out.png');
         this.load.image('player_reel', 'assets/knight_reel_out.png');
         this.load.image('hook', 'assets/tempHook.png');
@@ -86,7 +87,34 @@ class Menu extends Phaser.Scene{
             freefall: new FreefallState(),
             hurt: new HurtState(),
         }, [this]);
-        
+        this.anims.create({
+            key: 'idle',
+            frames: [{
+                key: 'player',
+                frame: 'idle'
+            }],
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'cast',
+            frames: [{
+                key: 'player',
+                frame: 'cast1'
+            },{
+                key: 'player',
+                frame: 'cast2'
+            },{
+                key: 'player',
+                frame: 'cast3'
+            },{
+                key: 'player',
+                frame: 'cast4'
+            }],
+            frameRate: 10,
+            yoyo: true
+        });
+
         //setup hook and arrow
         this.hook;
         this.arrow;
