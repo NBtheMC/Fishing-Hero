@@ -8,8 +8,12 @@ class Play extends Phaser.Scene{
         this.load.image('player_reel', 'assets/knight_reel_in.png');
         this.load.image('background', 'assets/skyWide.png');
         this.load.image('credits1', 'assets/ScreenArt_backsideBridge.png');
-        this.load.image('credits2', 'assets/ScreenArt_backsideBridge.png');
+        this.load.image('credits2', 'assets/ScreenArt_CloseUpFace.png');
         this.load.image('viola', 'assets/viola_idle_in.png');
+
+        this.load.audio('song1','assets/FishingHero_DauntingClimb.mp3');
+        this.load.audio('song2','assets/FishingHero_SlowProgress.mp3');
+        this.load.audio('song3','assets/FishingHero_UhOh.mp3');
 
         this.load.image('base_tiles', 'assets/tilemap/tilemap.png');
         this.load.tilemapTiledJSON('tilemap_full', 'assets/tilemap/FishingHero_TileMap_FullLevel.json');
@@ -273,7 +277,6 @@ class Play extends Phaser.Scene{
     }
 
     update(){
-        // Move Viola at the end of every conversation
         if(convoCounter == 0 && violaFlag == 1) {
             this.viola.x = 530;
             this.viola.y = -3563;
@@ -282,30 +285,30 @@ class Play extends Phaser.Scene{
             this.viola.x = 1281;
             this.viola.y = -5953
             violaFlag = 3;
+        } 
+        if(creditFlag == 1){
+            this.credits();
+            creditFlag = 0;
         }
-
-        // Redraw the rope
         graphics.clear();
+        //redraw the rope
         if(this.playerFSM.state == 'cast' || this.playerFSM.state == 'reel'){
             this.drawRope();
         }
         this.playerFSM.step();
         
-        // Cheat for graders/debugging
-        if(keySpace.isDown){
+        if(keyF.isDown){
             this.player.body.setVelocityY(-2000);
         }
-
-        // Prevent player's falling velocity from becoming too high
         if(this.player.body.velocity.y > 1000) {
             this.player.body.setVelocityY(1000);
         }
-        // If player falls out of map, reset the player back to the start
         if(this.player.y > 1950) {
             this.player.body.setVelocityY(0);
-            this.player.x = this.resetX;
-            this.player.y = this.resetY;
+            this.player.y = this.resetPos - 50;
         }
+        //console.log(this.player.body.width, this.player.body.height);
+        console.log(this.player.x, this.player.y);
     }
 
     drawRope(){
@@ -342,39 +345,6 @@ class Play extends Phaser.Scene{
             this.innerRope = new Phaser.Curves.CubicBezier(this.startPoint, this.startPoint, this.endPoint, this.endPoint);
             this.innerRope.draw(graphics);
         }
-    }
-
-    update(){
-        if(convoCounter == 0 && violaFlag == 1) {
-            this.viola.x = 530;
-            this.viola.y = -3563;
-            violaFlag = 2;
-        } else if (convoCounter == 1 && violaFlag == 2) {
-            this.viola.x = 1281;
-            this.viola.y = -5953
-            violaFlag = 3;
-        } else if (convoCounter == 1 && violaFlag == 3){
-            this.credits();
-        }
-        graphics.clear();
-        //redraw the rope
-        if(this.playerFSM.state == 'cast' || this.playerFSM.state == 'reel'){
-            this.drawRope();
-        }
-        this.playerFSM.step();
-        
-        if(keyF.isDown){
-            this.player.body.setVelocityY(-2000);
-        }
-        if(this.player.body.velocity.y > 1000) {
-            this.player.body.setVelocityY(1000);
-        }
-        if(this.player.y > 1950) {
-            this.player.body.setVelocityY(0);
-            this.player.y = this.resetPos - 50;
-        }
-        //console.log(this.player.body.width, this.player.body.height);
-        console.log(this.player.x, this.player.y);
     }
 
     titleScreen(){
@@ -414,8 +384,8 @@ class Play extends Phaser.Scene{
         this.creditsStarted = true;
         keyA.enabled = false;
         keyD.enabled = false;
-        this.credits1 = this.add.image(1050,-6200, 'credits1').setAlpha(0);
-        this.credits2 = this.add.image(1050,-6200, 'credits2').setAlpha(0);
+        this.credits1 = this.add.image(950,-6000,'credits1').setScale(1/.75,1/.75).setAlpha(0);
+        this.credits2 = this.add.image(950,-6000, 'credits2').setScale(1/.75,1/.75).setAlpha(0);
         this.tweens.add({
             targets: this.credits1,
             alpha: 1,
@@ -428,7 +398,7 @@ class Play extends Phaser.Scene{
             callbackScope: this
         });
         this.timer = this.time.addEvent({ 
-            delay: 10000,
+            delay: 15000,
             callback: this.credits2Image,
             callbackScope: this
         });
@@ -436,9 +406,11 @@ class Play extends Phaser.Scene{
 
     creditsText(){
         let creditsConfig = {
-            fontFamily: 'Verdana',
-            fontSize: '45px',
-            color: 'black',
+            fontFamily: 'gem_font',
+            fontSize: '30px',
+            color: 'white',
+            stroke: 'black',
+            strokeThickness: 8,
             align: 'center',
             padding: {
             top: 5,
@@ -448,7 +420,7 @@ class Play extends Phaser.Scene{
             },
             fixedWidth: 0
         }
-        this.creditsText = this.add.text(1050,-6200, 'A game by\nEmil Saechao\nMiriam Perez\nNaman Bhushan\nPaul Lee', creditsConfig).setOrigin(0.5);
+        this.creditsText = this.add.text(1050,-6000, 'A game by\nEmil Saechao\nMiriam Perez\nNaman Bhushan\nPaul Lee', creditsConfig).setOrigin(0.5);
     }
 
     credits2Image(){

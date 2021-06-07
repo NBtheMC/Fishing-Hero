@@ -129,7 +129,8 @@ class Dialogue extends Phaser.Scene {
                 this.dialogText.y = 275;
                 this.NEXT_X = 1050;
                 this.NEXT_Y = 400;
-                violaFlag = 2;
+                violaFlag = 3;
+                creditFlag = 1;
             }
 
             // build dialog (concatenate speaker + line of text)
