@@ -119,15 +119,18 @@ class Play extends Phaser.Scene{
                 frame: 'cast3'
             },{
                 key: 'player',
+                frame: 'cast2'
+            },{
+                key: 'player',
                 frame: 'cast4'
             }],
-            frameRate: 5,
+            frameRate: 10,
         });
         this.anims.create({
             key: 'reel',
             frames: [{
                 key: 'player',
-                frame: 'cast3'
+                frame: 'cast4'
             }],
             frameRate: 5,
         });
@@ -350,7 +353,7 @@ class Play extends Phaser.Scene{
         // Curved rope when throwing
         if(this.playerFSM.state == 'cast'){
             graphics.lineStyle(5, 0xffffff, 1);
-            if(!this.player.flipX){
+            if(this.player.flipX){
                 this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
                 this.controlPoint = new Phaser.Math.Vector2(this.player.x, this.hook.y);
             }
@@ -367,7 +370,7 @@ class Play extends Phaser.Scene{
         }
         else if(this.playerFSM.state == 'reel'){
             graphics.lineStyle(5, 0xffffff, 1);
-            if(!this.player.flipX){
+            if(this.player.flipX){
                 this.startPoint = new Phaser.Math.Vector2(this.player.x, this.player.y);
             }
             else{

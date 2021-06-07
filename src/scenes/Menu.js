@@ -124,15 +124,18 @@ class Menu extends Phaser.Scene{
                 frame: 'cast3'
             },{
                 key: 'player',
+                frame: 'cast2'
+            },{
+                key: 'player',
                 frame: 'cast4'
             }],
-            frameRate: 5,
+            frameRate: 10,
         });
         this.anims.create({
             key: 'reel',
             frames: [{
                 key: 'player',
-                frame: 'cast3'
+                frame: 'cast4'
             }],
             frameRate: 5,
         });
