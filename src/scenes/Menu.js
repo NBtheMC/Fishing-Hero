@@ -156,7 +156,7 @@ class Menu extends Phaser.Scene{
 
         //gear
         const gearSpawn = this.map.findObject("Points", obj => obj.name === "gear");
-        this.gear = this.add.image(gearSpawn.x, gearSpawn.y, 'gear');
+        this.gear = this.add.image(gearSpawn.x, gearSpawn.y - 10, 'gear');
 
         //mouse stuff
         this.mouseDownX;
@@ -239,9 +239,11 @@ class Menu extends Phaser.Scene{
         this.physics.add.collider(this.player, this.waterLayer);
 
         let tutorialConfig = {
-            fontFamily: 'Verdana',
+            fontFamily: 'gem_font',
             fontSize: '45px',
-            color: 'black',
+            color: 'white',
+            stroke: 'black',
+            strokeThickness: 10,
             align: 'center',
             padding: {
             top: 5,
@@ -251,7 +253,7 @@ class Menu extends Phaser.Scene{
             },
             fixedWidth: 0
         }
-        this.tutorialText = this.add.text(playerSpawn.x, playerSpawn.y - 50, 'Click and drag to throw the hook\nClick again to retract it\nTry catching all fish', tutorialConfig).setOrigin(0.5);
+        this.tutorialText = this.add.text(playerSpawn.x, playerSpawn.y - 100, 'Click and drag to throw the hook\nClick again to retract it\nTry catching all fish', tutorialConfig).setOrigin(0.5);
         keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.cameras.main.startFollow(this.player);
         this.cameras.main.setZoom(1.5,1.5);
@@ -310,7 +312,6 @@ class Menu extends Phaser.Scene{
         //caught all fish so enable character movement
         if(this.fishCaught == 3 && !this.cutsceneStarted){
             this.cutscene();
-            this.tutorialText.setText('Move left and right with A and D');
         }
         graphics.clear();
         //redraw the rope
@@ -343,15 +344,6 @@ class Menu extends Phaser.Scene{
             callback: this.introScene,
             callbackScope: this
         });
-    }
-
-    //start of fishing
-    start(){
-        this.gear.destroy();
-        this.bandit.destroy();
-        this.canMove = true;
-        keyA.enabled = true;
-        keyD.enabled = true;
     }
 
     //place text
@@ -402,41 +394,76 @@ class Menu extends Phaser.Scene{
 
     //bandit goes in and out of frame to take gear
     cutscene(){
+        this.tutorialText.alpha = 0;
         this.cutsceneStarted = true;
-        this.bandit = this.add.image(700 , 2000, 'bandit');
-        this.tweens.add({
+        this.bandit = this.add.image(700 , 1990, 'bandit');
+        this.bandit.flipX = true;               // Bandit faces left
+        this.bandit.setScale(.75, .75);         // Bandit resized
+        this.tweens.add({                       // Bandit moves in
             targets: this.bandit,
-            x: 300,
-            duration: 3000,
-            yoyo: true,
-            ease: 'cubic'
+            x: 200,
+            duration: 2000,
+            ease: 'linear'
         });
-        this.timer = this.time.addEvent({ 
-            delay: 1500,
+
+        this.timer = this.time.addEvent({       // Bandit takes gear
+            delay: 2000,
             callback: this.stealGear,
             callbackScope: this
         });
-        this.timer = this.time.addEvent({ 
-            delay: 3000,
+        this.timer = this.time.addEvent({       // Bandit and gear are destroyed
+            delay: 4000,
             callback: this.start,
             callbackScope: this
         });
     }
 
-    stealGear(){
-        this.tweens.add({
-            targets: this.gear,
-            x: 700,
-            duration: 1500,
-            ease: 'cubic'
-        });
-        keyA.enabled = false;
-        keyD.enabled = false;
-    }
-
-    moveTime(){
+    //start of fishing
+    start(){
+        this.exclamText.alpha = 0;
         this.gear.destroy();
         this.bandit.destroy();
+        this.canMove = true;
+        keyA.enabled = true;
+        keyD.enabled = true;
+        this.tutorialText.alpha = 1;
+        this.tutorialText.setText('Move left and right with A and D');
+    }
+
+    stealGear(){
+        let exclamConfig = {
+            fontFamily: 'gem_font',
+            fontSize: '50px',
+            color: 'white',
+            stroke: 'black',
+            strokeThickness: 8,
+            align: 'center',
+            padding: {
+            top: 5,
+            bottom: 5,
+            left: 5,
+            right: 5
+            },
+            fixedWidth: 0
+        }
+        this.exclamText = this.introText = this.add.text(90, 1940, '!', exclamConfig).setOrigin(0.5);
+
+        this.bandit.flipX = false;
+        this.tweens.add({
+            targets: this.bandit,
+            x: 700,
+            duration: 2000,
+            ease: 'linear'
+        });
+        this.gear.depth = 1;
+        this.gear.x += 30;
+        this.gear.y -= 20;
+        this.tweens.add({
+            targets: this.gear,
+            x: 710,
+            duration: 2000,
+            ease: 'linear'
+        });
     }
 
     titleScreen(){
