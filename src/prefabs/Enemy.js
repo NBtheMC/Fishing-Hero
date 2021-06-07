@@ -15,15 +15,8 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{
 
         scene.physics.add.collider(this, scene.platformLayer);
         scene.physics.add.collider(this, scene.wallLayer);
-        /*
-        scene.physics.add.collider(this, scene.enemyWallLayer, (e, w) => {
-            this.body.setVelocityX(this.body.velocity.x * -1);
-        });*/
     }
 
-    update() {
-        console.log("hello");
-    }
     setPeaceful(scene, isPeaceful){
         this.setVelocityX(0);
         this.isPeaceful = isPeaceful;

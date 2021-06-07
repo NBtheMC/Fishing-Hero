@@ -17,13 +17,6 @@ class Hook extends Phaser.Physics.Arcade.Sprite{
                 scene.playerFSM.transition('freefall');
             });
         }
-        /*
-        scene.physics.add.overlap(this, scene.player, function(h,p){
-            if(scene.playerFSM.state == 'reel'){
-                h.destroy();
-                scene.playerFSM.transition('freefall');
-            }
-        });*/
         //reeling enemy
         scene.physics.add.overlap(this, scene.fish1, (h, e)=>{
             h.moveToPlayer(scene.player);

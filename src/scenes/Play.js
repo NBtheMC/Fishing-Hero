@@ -57,7 +57,6 @@ class Play extends Phaser.Scene{
         const playerSpawn = this.map.findObject("Points", obj => obj.name === "spawnPoint");
         this.player = new Player(this, playerSpawn.x, playerSpawn.y, 'player').setOrigin(0, 0);
 
-        this.player.body.collideWorldBounds=true;
         this.canMove = true;
         this.playerFSM = new StateMachine('idle', {
             idle: new IdleState(),
@@ -170,7 +169,6 @@ class Play extends Phaser.Scene{
                     this.throwPosition.set(this.player.x + this.player.width/2, this.player.y);
                 }
                 this.playerFSM.transition('aim');
-                console.log('down');
                 this.mouseDownX = pointer.x;
                 this.mouseDownY = pointer.y;
                 this.mouseDownPosition.set(this.mouseDownX,this.mouseDownY);
@@ -202,11 +200,9 @@ class Play extends Phaser.Scene{
 
         this.input.on('pointerup', function (pointer) {
             if(this.playerFSM.state == 'aim'){
-                console.log('up');
                 //calculate vector
                 let diffX = pointer.x - this.mouseDownX;
                 let diffY = pointer.y - this.mouseDownY;
-                console.log('diffX: '+ diffX + '\ndiffY: ' + diffY);
                 this.throw.play();
                 this.hook = new Hook(this, this.throwPosition.x, this.throwPosition.y, 'hook');
                 this.hook.body.setAllowGravity(false);
@@ -307,8 +303,6 @@ class Play extends Phaser.Scene{
             this.player.body.setVelocityY(0);
             this.player.y = this.resetPos - 50;
         }
-        //console.log(this.player.body.width, this.player.body.height);
-        console.log(this.player.x, this.player.y);
     }
 
     drawRope(){
@@ -351,7 +345,6 @@ class Play extends Phaser.Scene{
         keyA.enabled = false;
         keyD.enabled = false;
         this.cameras.main.stopFollow(this.player);
-        //this.cameras.main.pan(1390, 1033, 2000);
         this.backgroundImage = this.add.image(1050,0,'titleBackground').setScale(1/.75,1/.75);
         this.image = this.add.image(1050,0,'title').setScale(1/.75,1/.75);
         this.timer2 = this.time.addEvent({

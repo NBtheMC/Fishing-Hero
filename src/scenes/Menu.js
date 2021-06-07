@@ -180,7 +180,6 @@ class Menu extends Phaser.Scene{
                     this.throwPosition.set(this.player.x + this.player.width/2, this.player.y);
                 }
                 this.playerFSM.transition('aim');
-                console.log('down');
                 this.mouseDownX = pointer.x;
                 this.mouseDownY = pointer.y;
                 this.mouseDownPosition.set(this.mouseDownX,this.mouseDownY);
@@ -212,11 +211,9 @@ class Menu extends Phaser.Scene{
 
         this.input.on('pointerup', function (pointer) {
             if(this.playerFSM.state == 'aim'){
-                console.log('up');
                 //calculate vector
                 let diffX = pointer.x - this.mouseDownX;
                 let diffY = pointer.y - this.mouseDownY;
-                console.log('diffX: '+ diffX + '\ndiffY: ' + diffY);
                 this.throw.play();
                 this.hook = new Hook(this, this.throwPosition.x, this.throwPosition.y, 'hook');
                 this.hook.body.setAllowGravity(false);
@@ -260,6 +257,8 @@ class Menu extends Phaser.Scene{
         this.cameras.main.setZoom(1.5,1.5);
         this.introArt;
         this.introText;
+
+        this.titleFlag = 0;
 
         this.calm = this.sound.add('calm')
         this.calm.setVolume(0.4);
@@ -309,9 +308,8 @@ class Menu extends Phaser.Scene{
 
     update(){
         //caught all fish so enable character movement
-        if(this.fishCaught ==3 && !this.cutsceneStarted){
+        if(this.fishCaught == 3 && !this.cutsceneStarted){
             this.cutscene();
-            this.canMove = true;
             this.tutorialText.setText('Move left and right with A and D');
         }
         graphics.clear();
@@ -324,7 +322,8 @@ class Menu extends Phaser.Scene{
             this.calm.stop();
             this.changeScene();
         }
-        if(this.player.x > 1391.5 && this.player.y < 2033) {
+        if(this.player.x > 1391.5 && this.player.y < 2033 && this.titleFlag == 0) {
+            this.titleFlag = 1;
             this.titleScreen();
         }
         //falls in water
@@ -348,10 +347,11 @@ class Menu extends Phaser.Scene{
 
     //start of fishing
     start(){
-        keyA.enabled = true;
-        keyD.enabled = true;
         this.gear.destroy();
         this.bandit.destroy();
+        this.canMove = true;
+        keyA.enabled = true;
+        keyD.enabled = true;
     }
 
     //place text
@@ -393,6 +393,7 @@ class Menu extends Phaser.Scene{
             duration: 1000,
             ease: 'cubic'
         });
+        this.calm.stop();
         this.anotherStep.setLoop(true);
         this.anotherStep.play();
         keyA.enabled = true;
@@ -402,8 +403,6 @@ class Menu extends Phaser.Scene{
     //bandit goes in and out of frame to take gear
     cutscene(){
         this.cutsceneStarted = true;
-        keyA.enabled = false;
-        keyD.enabled = false;
         this.bandit = this.add.image(700 , 2000, 'bandit');
         this.tweens.add({
             targets: this.bandit,
@@ -441,8 +440,6 @@ class Menu extends Phaser.Scene{
     }
 
     titleScreen(){
-        // this.player.x = 1390;
-        // this.player.y = 2033;
         keyA.enabled = false;
         keyD.enabled = false;
         this.cameras.main.stopFollow(this.player);
@@ -466,6 +463,7 @@ class Menu extends Phaser.Scene{
 
     changeScene(){
         this.anotherStep.stop();
+        this.scene.stop();
         this.scene.start('playScene')
     }
 }
