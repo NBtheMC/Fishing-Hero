@@ -349,7 +349,9 @@ class Menu extends Phaser.Scene{
         let introConfig = {
             fontFamily: 'gem_font',
             fontSize: '30px',
-            color: 'black',
+            color: 'white',
+            stroke: 'black',
+            strokeThickness: 8,
             align: 'center',
             padding: {
             top: 5,
