@@ -30,6 +30,7 @@ let activeHook;
 let graphics;
 let convoCounter = -1;
 let playerX, playerY, violaFlag = 0;
+let creditFlag = 0;
 
 // Dialogue stuff
 const centerX = game.config.width / 2;

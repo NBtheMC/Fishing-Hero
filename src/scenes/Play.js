@@ -7,6 +7,8 @@ class Play extends Phaser.Scene{
         this.load.image('player', 'assets/knight_idle_in.png');
         this.load.image('player_reel', 'assets/knight_reel_in.png');
         this.load.image('background', 'assets/skyWide.png');
+        this.load.image('credits1', 'assets/ScreenArt_backsideBridge.png');
+        this.load.image('credits2', 'assets/ScreenArt_backsideBridge.png');
         this.load.image('viola', 'assets/viola_idle_in.png');
 
         this.load.image('base_tiles', 'assets/tilemap/tilemap.png');
@@ -265,7 +267,6 @@ class Play extends Phaser.Scene{
         //this.cameras.main.startFollow(this.player, false, .5, .5, 0, 50);
         this.cameras.main.setBounds(275, -10000, 1280, 20000, true);
         this.cameras.main.setZoom(.9,.9);
-        keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.player.body.setMaxSpeed(2000);
         this.titleScreen();
         //this.dialoguePoint = this.map.findObject("Storypoints", obj => obj.name === "storypoint");
@@ -316,6 +317,8 @@ class Play extends Phaser.Scene{
             this.viola.x = 1281;
             this.viola.y = -5953
             violaFlag = 3;
+        } else if (convoCounter == 1 && violaFlag == 3){
+            this.credits();
         }
         graphics.clear();
         //redraw the rope
@@ -324,7 +327,7 @@ class Play extends Phaser.Scene{
         }
         this.playerFSM.step();
         
-        if(keySpace.isDown){
+        if(keyF.isDown){
             this.player.body.setVelocityY(-2000);
         }
         if(this.player.body.velocity.y > 1000) {
@@ -368,5 +371,61 @@ class Play extends Phaser.Scene{
         this.cameras.main.startFollow(this.player);
         this.cameras.main.startFollow(this.player, false, .5, .5, 0, 50);
         this.cameras.main.setBounds(275, -10000, 1280, 20000, true);
+    }
+
+    credits(){
+        this.creditsStarted = true;
+        keyA.enabled = false;
+        keyD.enabled = false;
+        this.credits1 = this.add.image(1050,-6200, 'credits1').setAlpha(0);
+        this.credits2 = this.add.image(1050,-6200, 'credits2').setAlpha(0);
+        this.tweens.add({
+            targets: this.credits1,
+            alpha: 1,
+            duration: 2000,
+            ease: 'cubic'
+        });
+        this.timer = this.time.addEvent({ 
+            delay: 2000,
+            callback: this.creditsText,
+            callbackScope: this
+        });
+        this.timer = this.time.addEvent({ 
+            delay: 10000,
+            callback: this.credits2Image,
+            callbackScope: this
+        });
+    }
+
+    creditsText(){
+        let creditsConfig = {
+            fontFamily: 'Verdana',
+            fontSize: '45px',
+            color: 'black',
+            align: 'center',
+            padding: {
+            top: 5,
+            bottom: 5,
+            left: 5,
+            right: 5
+            },
+            fixedWidth: 0
+        }
+        this.creditsText = this.add.text(1050,-6200, 'A game by\nEmil Saechao\nMiriam Perez\nNaman Bhushan\nPaul Lee', creditsConfig).setOrigin(0.5);
+    }
+
+    credits2Image(){
+        this.tweens.add({
+            targets: this.credits1,
+            alpha: 0,
+            duration: 2000,
+            ease: 'cubic'
+        });
+        this.tweens.add({
+            targets: this.credits2,
+            alpha: 1,
+            duration: 2000,
+            ease: 'cubic'
+        });
     }
 }
