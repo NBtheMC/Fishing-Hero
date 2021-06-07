@@ -25,7 +25,7 @@ let config = {
 let game = new Phaser.Game(config);
 
 // Global Variables
-let keyA, keyD, keySpace, keyF;
+let keyA, keyD, keySpace, keyF, keyR;
 let activeHook;
 let graphics;
 let convoCounter = -1;

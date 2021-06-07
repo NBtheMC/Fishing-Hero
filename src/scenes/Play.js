@@ -14,6 +14,7 @@ class Play extends Phaser.Scene{
         this.load.audio('song1','assets/FishingHero_DauntingClimb.mp3');
         this.load.audio('song2','assets/FishingHero_SlowProgress.mp3');
         this.load.audio('song3','assets/FishingHero_UhOh.mp3');
+        this.load.audio('song4', 'assets/FishingHero_ShiftingWinds.mp3');
 
         this.load.image('base_tiles', 'assets/tilemap/tilemap.png');
         this.load.tilemapTiledJSON('tilemap_full', 'assets/tilemap/FishingHero_TileMap_FullLevel.json');
@@ -27,11 +28,25 @@ class Play extends Phaser.Scene{
         this.background = this.add.image(625, -2500, 'background');
         this.background.setScale(3, 5);
 
-        // Sounds
+        // Sounds/Music
         this.click = this.sound.add('click');
         this.click.setLoop(true);
         this.throw = this.sound.add('throw');
-        
+        this.song1 = this.sound.add('song1');
+        this.song1.setLoop(true);
+        this.song1.setVolume(.4);
+        this.song2 = this.sound.add('song2');
+        this.song2.setLoop(true);
+        this.song2.setVolume(.4);
+        this.song3 = this.sound.add('song3');
+        this.song3.setLoop(true);
+        this.song3.setVolume(.4);
+        this.song4 = this.sound.add('song4');
+        this.song4.setLoop(true);
+        this.song4.setVolume(.4);
+
+        this.song1.play();
+
         // Create the Tilemap
         this.mapConfig = {
             key: 'tilemap_full',
@@ -158,6 +173,7 @@ class Play extends Phaser.Scene{
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         // Hook mechanics
         this.input.on('pointerdown', function (pointer) {
@@ -273,6 +289,22 @@ class Play extends Phaser.Scene{
     }
 
     update(){
+        console.log(this.player.y);
+        if(!this.song1.isPlaying && this.player.y > -3000){
+            this.song1.play();
+            this.song2.stop();
+            this.song3.stop();
+        }
+        else if(!this.song2.isPlaying && (this.player.y < -3000 && this.player.y > -5750)){
+            this.song1.stop();
+            this.song2.play();
+            this.song3.stop();
+        }
+        else if(!this.song3.isPlaying && this.player.y > -5750){
+            this.song1.stop();
+            this.song2.stop();
+            this.song3.play();
+        }
         if(convoCounter == 0 && violaFlag == 1) {
             this.viola.x = 530;
             this.viola.y = -3563;
@@ -302,6 +334,13 @@ class Play extends Phaser.Scene{
         if(this.player.y > 1950) {
             this.player.body.setVelocityY(0);
             this.player.y = this.resetPos - 50;
+        }
+        if(Phaser.Input.Keyboard.JustDown(keyR)){
+            this.song1.stop();
+            this.song2.stop();
+            this.song3.stop();
+            this.song4.stop();
+            this.scene.start('menuScene');
         }
     }
 
@@ -375,6 +414,10 @@ class Play extends Phaser.Scene{
 
     credits(){
         this.creditsStarted = true;
+        this.song1.stop();
+        this.song2.stop();
+        this.song3.stop();
+        this.song4.play();
         keyA.enabled = false;
         keyD.enabled = false;
         this.credits1 = this.add.image(950,-6000,'credits1').setScale(1/.75,1/.75).setAlpha(0);
