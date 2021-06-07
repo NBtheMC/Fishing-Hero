@@ -154,57 +154,61 @@ class Play extends Phaser.Scene{
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 
-        // hook shenanigans
-        this.input.on('pointerdown', function (pointer) {
-            if(this.playerFSM.state == 'idle'){
-                if(!this.player.flipX){
-                    this.throwPosition.set(this.player.x, this.player.y);
-                }
-                else{
-                    this.throwPosition.set(this.player.x + this.player.width, this.player.y);
-                }
-                this.playerFSM.transition('aim');
-                console.log('down');
-                this.mouseDownX = pointer.x;
-                this.mouseDownY = pointer.y;
-                this.mouseDownPosition.set(this.mouseDownX,this.mouseDownY);
+       // Hook shenanigans
+       this.input.on('pointerdown', function (pointer) {
+        if(this.playerFSM.state == 'idle'){
+            if(!this.player.flipX){
+                this.throwPosition.set(this.player.x, this.player.y);
             }
-            else if(this.playerFSM.state == 'cast'){
-                this.playerFSM.transition('idle');
-                this.hook.destroy();
-                activeHook = 0;
+            else{
+                this.throwPosition.set(this.player.x + this.player.width/2, this.player.y);
             }
-            else if(this.playerFSM.state == 'reel'){
-                this.playerFSM.transition('freefall');
-                this.hook.destroy();
-                activeHook = 0;
-            }
-        }, this); 
+            this.playerFSM.transition('aim');
+            console.log('down');
+            this.mouseDownX = pointer.x;
+            this.mouseDownY = pointer.y;
+            this.mouseDownPosition.set(this.mouseDownX,this.mouseDownY);
+        }
+        else if(this.playerFSM.state == 'cast'){
+            this.playerFSM.transition('idle');
+            this.hook.destroy();
+        }
+        else if(this.playerFSM.state == 'reel'){
+            this.playerFSM.transition('freefall');
+            this.hook.destroy();
+        }
+    }, this); 
 
-        this.input.on('pointermove', function (pointer) {
-            if(this.playerFSM.state == 'aim'){
-                this.mouseUpX = pointer.x;
-                this.mouseUpY = pointer.y;
-                this.mouseUpPosition.set(this.mouseUpX,this.mouseUpY);
-                this.arrowAngle = Phaser.Math.Angle.BetweenPoints(this.mouseDownPosition, this.mouseUpPosition);
+    this.input.on('pointermove', function (pointer) {
+        if(this.playerFSM.state == 'aim'){
+            this.mouseUpX = pointer.x;
+            if(this.mouseUpX < this.player.x && this.player.flipX){
+                this.player.setFlipX(true);
             }
-        }, this);
+            else if(this.mouseUpX >= this.player.x && !this.player.flipX){
+                this.player.setFlipX(false);
+            }
+            this.mouseUpY = pointer.y;
+            this.mouseUpPosition.set(this.mouseUpX,this.mouseUpY);
+            this.arrowAngle = Phaser.Math.Angle.BetweenPoints(this.mouseDownPosition, this.mouseUpPosition);
+        }
+    }, this);
 
-        this.input.on('pointerup', function (pointer) {
-            if(this.playerFSM.state == 'aim'){
-                console.log('up');
-                //calculate vector
-                let diffX = pointer.x - this.mouseDownX;
-                let diffY = pointer.y - this.mouseDownY;
-                console.log('diffX: '+ diffX + '\ndiffY: ' + diffY);
-                this.throw.play();
-                this.hook = new Hook(this, this.throwPosition.x, this.throwPosition.y, 'hook');
-                this.hook.body.setAllowGravity(false);
-                this.hook.launch(-diffX,-diffY);
-                this.playerFSM.transition('cast');
-                this.arrow.destroy();
-            }
-        }, this);
+    this.input.on('pointerup', function (pointer) {
+        if(this.playerFSM.state == 'aim'){
+            console.log('up');
+            //calculate vector
+            let diffX = pointer.x - this.mouseDownX;
+            let diffY = pointer.y - this.mouseDownY;
+            console.log('diffX: '+ diffX + '\ndiffY: ' + diffY);
+            this.throw.play();
+            this.hook = new Hook(this, this.throwPosition.x, this.throwPosition.y, 'hook');
+            this.hook.body.setAllowGravity(false);
+            this.hook.launch(-diffX,-diffY);
+            this.playerFSM.transition('cast');
+            this.arrow.destroy();
+        }
+    }, this);
 
         //rope
         graphics = this.add.graphics();
