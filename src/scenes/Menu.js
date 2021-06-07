@@ -7,7 +7,7 @@ class Menu extends Phaser.Scene{
         this.load.image('hook', 'assets/tempHook.png');
         this.load.image('arrow', 'assets/arrow.png');
         this.load.image('enemy', 'assets/slime_enemy.png');
-        this.load.image('background', 'assets/background.png');
+        this.load.image('introArt', 'assets/ScreenArt_closeUpLegs.png');
         this.load.image('menuBackground', 'assets/menuBackground.png');
         this.load.image('title', 'assets/titlescreen.png');
         this.load.image('titleBackground', 'assets/titlescreenBackground.png');
@@ -15,6 +15,7 @@ class Menu extends Phaser.Scene{
         this.load.image('fish1', 'assets/fish_1.png');
         this.load.image('fish2', 'assets/fish_2.png');
         this.load.image('fish3', 'assets/fish_3.png');
+        this.load.image('bandit', 'assets/bandit_zoom.png');
         this.load.image('dustParticle', 'assets/dust.png');
 
         this.load.audio('click', 'assets/click2.wav');
@@ -254,6 +255,10 @@ class Menu extends Phaser.Scene{
         keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.cameras.main.startFollow(this.player);
         this.cameras.main.setZoom(1.5,1.5);
+        this.introArt;
+        this.introText;
+        this.intro();
+        this.cutsceneStarted = false;
     }
 
     drawRope(){
@@ -294,7 +299,8 @@ class Menu extends Phaser.Scene{
 
     update(){
         //caught all fish so enable character movement
-        if(this.fishCaught ==3){
+        if(this.fishCaught ==3 && !this.cutsceneStarted){
+            this.cutscene();
             this.canMove = true;
             this.tutorialText.setText('Move left and right with A and D');
         }
@@ -316,6 +322,109 @@ class Menu extends Phaser.Scene{
             this.player.setPosition(checkpoint.x, checkpoint.y);
         }
     }
+
+    //setup intro art
+    intro(){
+        keyA.enabled = false;
+        keyD.enabled = false;
+        this.introArt = this.add.image(50, 1938, 'introArt').setScale(.75, .75);
+        this.timer = this.time.addEvent({ 
+            delay: 2000,
+            callback: this.introScene,
+            callbackScope: this
+        });
+    }
+
+    //start of fishing
+    start(){
+        keyA.enabled = true;
+        keyD.enabled = true;
+        this.gear.destroy();
+        this.bandit.destroy();
+    }
+
+    //place text
+    introScene(){
+        let introConfig = {
+            fontFamily: 'gem_font',
+            fontSize: '30px',
+            color: 'black',
+            align: 'center',
+            padding: {
+            top: 5,
+            bottom: 5,
+            left: 5,
+            right: 5
+            },
+            fixedWidth: 0
+        }
+        this.introText = this.add.text(50, 1938, 'Past the castle, through the hills,\na small cliffside with an abandoned port lives in silence.\nOur knight, Cassian, spends his day off there\nas usual after a hard day’s work protecting the castle.\nHis routine starts as always…', introConfig).setOrigin(0.5);
+        this.timer = this.time.addEvent({ 
+            delay: 12000,
+            callback: this.fadeIntro,
+            callbackScope: this
+        });
+    }
+
+    //animations woooooooo
+    fadeIntro(){
+        this.tweens.add({
+            targets: this.introText,
+            alpha: 0,
+            duration: 1000,
+            ease: 'cubic'
+        });
+        this.tweens.add({
+            targets: this.introArt,
+            alpha: 0,
+            duration: 1000,
+            ease: 'cubic'
+        });
+        keyA.enabled = true;
+        keyD.enabled = true;
+    }
+
+    //bandit goes in and out of frame to take gear
+    cutscene(){
+        this.cutsceneStarted = true;
+        keyA.enabled = false;
+        keyD.enabled = false;
+        this.bandit = this.add.image(700 , 2000, 'bandit');
+        this.tweens.add({
+            targets: this.bandit,
+            x: 300,
+            duration: 3000,
+            yoyo: true,
+            ease: 'cubic'
+        });
+        this.timer = this.time.addEvent({ 
+            delay: 1500,
+            callback: this.stealGear,
+            callbackScope: this
+        });
+        this.timer = this.time.addEvent({ 
+            delay: 3000,
+            callback: this.start,
+            callbackScope: this
+        });
+    }
+
+    stealGear(){
+        this.tweens.add({
+            targets: this.gear,
+            x: 700,
+            duration: 1500,
+            ease: 'cubic'
+        });
+        keyA.enabled = false;
+        keyD.enabled = false;
+    }
+
+    moveTime(){
+        this.gear.destroy();
+        this.bandit.destroy();
+    }
+
     titleScreen(){
         // this.player.x = 1390;
         // this.player.y = 2033;
@@ -324,7 +433,7 @@ class Menu extends Phaser.Scene{
         this.cameras.main.stopFollow(this.player);
         this.cameras.main.pan(1390, 1033, 2000);
         this.timer = this.time.addEvent({
-            delay: 2000,
+            delay: 1000,
             callback: this.showTitle,
             callbackScope: this
         });
@@ -339,11 +448,6 @@ class Menu extends Phaser.Scene{
         this.backgroundImage = this.add.image(1392,1033,'titleBackground').setScale(.75, .75);
         this.image = this.add.image(1392,1033,'title').setScale(.75, .75);
     }
-
-    // transition(){
-    //     this.cameras.main.pan(1390, 2020, 2000)
-    //     //this.cameras.main.zoomTo(4, 3000);
-    // }
 
     changeScene(){
         this.scene.start('playScene')
