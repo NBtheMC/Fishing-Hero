@@ -289,21 +289,23 @@ class Play extends Phaser.Scene{
     }
 
     update(){
-        console.log(this.player.y);
-        if(!this.song1.isPlaying && this.player.y > -3000){
+        if(songFlag == 0 && this.player.y > -3000){
             this.song1.play();
             this.song2.stop();
             this.song3.stop();
+            songFlag = 1;
         }
-        else if(!this.song2.isPlaying && (this.player.y < -3000 && this.player.y > -5750)){
+        if(songFlag == 1 && (this.player.y < -3000 && this.player.y > -5750)){
             this.song1.stop();
             this.song2.play();
             this.song3.stop();
+            songFlag = 2;
         }
-        else if(!this.song3.isPlaying && this.player.y > -5750){
+        if(songFlag == 2 && this.player.y < -5750){
             this.song1.stop();
             this.song2.stop();
             this.song3.play();
+            songFlag = 3;
         }
         if(convoCounter == 0 && violaFlag == 1) {
             this.viola.x = 530;

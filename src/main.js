@@ -29,7 +29,7 @@ let keyA, keyD, keySpace, keyF, keyR;
 let activeHook;
 let graphics;
 let convoCounter = -1;
-let playerX, playerY, violaFlag = 0;
+let playerX, playerY, violaFlag = 0, songFlag = 0;
 let creditFlag = 0;
 
 // Dialogue stuff
