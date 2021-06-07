@@ -1,3 +1,5 @@
+// Based on Nathan Altice's Dialogging-master
+
 class Dialogue extends Phaser.Scene {
     constructor() {
         super("dialogueScene");
@@ -31,18 +33,16 @@ class Dialogue extends Phaser.Scene {
     create() {
         // parse dialog from JSON file
         this.dialog = this.cache.json.get('dialog');
-        //console.log(this.dialog);
 
-        this.DBOX_X = playerX - 200;			    // dialog box x-position
-        this.TEXT_X = this.DBOX_X - 140;			// text w/in dialog box x-position
+        this.DBOX_X = playerX - 200;			// dialog box x-position
+        this.TEXT_X = this.DBOX_X - 140;	    // text w/in dialog box x-position
         this.TEXT_Y = this.DBOX_Y - 75;			// text w/in dialog box y-position
 
-        this.NEXT_X = this.DBOX_X + 150;			// next text prompt x-position
+        this.NEXT_X = this.DBOX_X + 150;	    // next text prompt x-position
         this.NEXT_Y = this.DBOX_Y + 50;			// next text prompt y-position
 
         // add dialog box sprite
         this.dialogbox = this.add.sprite(this.DBOX_X, this.DBOX_Y, 'dialogbox');
-        //this.dialogbox = this.add.sprite(playerX, playerY, 'dialogbox');
 
         // initialize dialog text objects (with no text)
         this.dialogText = this.add.bitmapText(this.TEXT_X, this.TEXT_Y, this.DBOX_FONT, '', this.TEXT_SIZE);
@@ -72,19 +72,10 @@ class Dialogue extends Phaser.Scene {
         this.dialogText.text = '';
         this.nextText.text = '';
 
-        /* Note: In my conversation data structure:  
-                - each array within the main JSON array is a "conversation"
-                - each object within a "conversation" is a "line"
-                - each "line" can have 3 properties: 
-                    1. a speaker (required)
-                    2. the dialog text (required)
-                    3. an (optional) flag indicating if this speaker is new
-        */
-
         // make sure there are lines left to read in this convo, otherwise jump to next convo
         if(this.dialogLine > this.dialog[this.dialogConvo].length - 1) {
             this.dialogLine = 0;
-            // I increment conversations here, but you could create logic to exit the dialog here
+            // Increments counters and sets flag indicating conversation is over.
             this.dialogConvo++;
             convoCounter++;
             this.flag = 1;
@@ -93,50 +84,54 @@ class Dialogue extends Phaser.Scene {
         // make sure we haven't run out of conversations...
         if(this.dialogConvo >= this.dialog.length || this.flag == 1) {
             this.flag = 0;
-            // here I'm simply "exiting" the last speaker and removing the dialog box,
-            // but you could build other logic to change game states here
-            // make text box invisible
             this.dialogbox.visible = false;
             this.scene.stop()
             this.scene.resume('playScene');
         } else {
             // if not, set current speaker
             this.dialogSpeaker = this.dialog[this.dialogConvo][this.dialogLine]['speaker'];
+            // Config for Cassian speaking
             if(this.dialogSpeaker == "Cassian") {
-                this.dialogbox.x = playerX-200;
-                this.dialogbox.y = 350;
+                this.dialogbox.setTexture('dialogbox');         // Cassian uses same dialogbox sprite everytime
+                this.dialogbox.x = playerX - 200;               // dialog box x-position
+                this.dialogbox.y = 350;                         // dialog box y-position
                 this.dialogText.x = this.DBOX_X - 140;			// text w/in dialog box x-position
                 this.dialogText.y = this.DBOX_Y - 75;			// text w/in dialog box y-position
-                this.NEXT_X = this.DBOX_X + 150;			// next text prompt x-position
-                this.NEXT_Y = this.DBOX_Y + 50;			// next text prompt y-position
+                this.NEXT_X = this.DBOX_X + 150;			    // next text prompt x-position
+                this.NEXT_Y = this.DBOX_Y + 50;			        // next text prompt y-position
             }
+            // Config for 1st Viola dialogue
             if((this.dialogSpeaker == "Viola" || this.dialogSpeaker == "???") && convoCounter == -1) {
                 this.dialogbox.x = 900;
                 this.dialogbox.y = 120;
-                this.dialogText.x = 900-140;
-                this.dialogText.y = 120-75;
-                this.NEXT_X = 900+150;
-                this.NEXT_Y = 120+50;
-                violaFlag = 1;
+                this.dialogText.x = 760;
+                this.dialogText.y = 45;
+                this.NEXT_X = 1050;
+                this.NEXT_Y = 170;
+                violaFlag = 1;                                  // Flag tells Viola to move after convo
             }
+            // Config for 2nd Viola dialogue
             if((this.dialogSpeaker == "Viola" || this.dialogSpeaker == "???")  && convoCounter == 0) {
-                this.dialogbox.x = 530;
-                this.dialogbox.y = 120;
-                this.dialogText.x = 530-140;
-                this.dialogText.y = 120-75;
-                this.NEXT_X = 530+150;
-                this.NEXT_Y = 120+50;
+                this.dialogbox.setTexture('dialogbox2');
+                this.dialogbox.x = 230;
+                this.dialogbox.y = 220;
+                this.dialogText.x = 90;
+                this.dialogText.y = 175;
+                this.NEXT_X = 380;
+                this.NEXT_Y = 300;
                 violaFlag = 2;
             }
+            // Config for 3rd Viola dialogue
             if((this.dialogSpeaker == "Viola" || this.dialogSpeaker == "???")  && convoCounter == 1) {
                 this.dialogbox.x = 900;
                 this.dialogbox.y = 350;
-                this.dialogText.x = 900-140;
-                this.dialogText.y = 350-75;
-                this.NEXT_X = 900+150;
-                this.NEXT_Y = 350+50;
+                this.dialogText.x = 760;
+                this.dialogText.y = 275;
+                this.NEXT_X = 1050;
+                this.NEXT_Y = 400;
                 violaFlag = 2;
             }
+
             // build dialog (concatenate speaker + line of text)
             this.dialogLines = this.dialog[this.dialogConvo][this.dialogLine]['speaker'].toUpperCase() + ': ' + this.dialog[this.dialogConvo][this.dialogLine]['dialog'];
             // create a timer to iterate through each letter in the dialog text
